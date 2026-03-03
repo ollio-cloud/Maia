@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Request: Azure VM Extension Updates</title>
+    <style>
+        body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.4; max-width: 800px; margin: 20px auto; padding: 20px; color: #333; }
+        h1 { color: #0078d4; border-bottom: 2px solid #0078d4; padding-bottom: 10px; font-size: 16pt; }
+        h2 { color: #0078d4; margin-top: 20px; font-size: 12pt; }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+        th { background-color: #f5f5f5; }
+        .header-table td:first-child { font-weight: bold; width: 180px; background-color: #f5f5f5; }
+        pre { background-color: #f4f4f4; padding: 10px; font-family: Consolas, monospace; font-size: 9pt; border: 1px solid #ddd; }
+        .priority-high { background-color: #fff4ce; padding: 2px 6px; font-weight: bold; }
+        .update { color: #0078d4; font-weight: bold; }
+        ul { margin: 5px 0; padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Change Request: Azure VM Extension Updates</h1>
+
+<table class="header-table">
+    <tr><td>Change ID</td><td>CR-XXXX</td></tr>
+    <tr><td>Change Title</td><td>Azure VM Extension Updates</td></tr>
+    <tr><td>Requested By</td><td>Olli Ojala</td></tr>
+    <tr><td>Target Date</td><td>[Date]</td></tr>
+    <tr><td>Priority</td><td><span class="priority-high">High</span></td></tr>
+    <tr><td>Risk Level</td><td>Medium</td></tr>
+</table>
+
+<h2>1. Description</h2>
+<p>Update three Azure VM extensions to resolve potential backup failures and maintain security compliance.</p>
+
+<p><strong>Business Justification:</strong> Recent backup failures may be caused by outdated VM extensions. Updates include security patches for Defender agent.</p>
+
+<h2>2. Extensions to Update</h2>
+<table>
+    <tr><th>Extension</th><th>Current</th><th>Target</th></tr>
+    <tr><td>AzurePerformanceDiagnostics</td><td>1.0.19</td><td><span class="update">1.0.39.0</span></td></tr>
+    <tr><td>MDE.Windows (Defender)</td><td>1.0.15.0</td><td><span class="update">1.0.17.0</span></td></tr>
+    <tr><td>MicrosoftMonitoringAgent</td><td>1.0.18053.0</td><td><span class="update">1.0.18076.0</span></td></tr>
+</table>
+
+<h2>3. Implementation Steps</h2>
+<ol>
+    <li>Verify current backup is successful</li>
+    <li>Navigate to Azure Portal &gt; VM &gt; Extensions + applications</li>
+    <li>Update each extension one at a time, waiting for "Provisioning succeeded"</li>
+    <li>Trigger on-demand backup to validate</li>
+    <li>Verify Defender and Monitoring agents are healthy</li>
+</ol>
+<p><strong>Estimated Time:</strong> 45-60 minutes</p>
+
+<h2>4. Rollback Plan</h2>
+<p><strong>Triggers:</strong> Extension fails to provision, VM unresponsive, backup still fails, agents unhealthy &gt;30 min</p>
+
+<p><strong>Steps:</strong></p>
+<ol>
+    <li>Uninstall failed extension from Azure Portal</li>
+    <li>Reinstall previous version using CLI:</li>
+</ol>
+<pre>
+az vm extension delete --resource-group $RG --vm-name $VM --name [ExtensionName]
+az vm extension set --resource-group $RG --vm-name $VM \
+  --name [ExtensionName] --publisher [Publisher] --version [PreviousVersion]
+</pre>
+
+<p><strong>Previous Versions:</strong> AzurePerformanceDiagnostics: 1.0.19 | MDE.Windows: 1.0.15 | MMA: 1.0.18053</p>
+
+<p><strong>Rollback Time:</strong> 15-20 min per extension</p>
+
+<h2>5. Verification</h2>
+<table>
+    <tr><th>Check</th><th>Expected Result</th><th>Pass</th></tr>
+    <tr><td>All extensions show "Provisioning succeeded"</td><td>Status: Succeeded</td><td>&#9744;</td></tr>
+    <tr><td>Extension versions match target</td><td>Updated versions</td><td>&#9744;</td></tr>
+    <tr><td>On-demand backup completes</td><td>Status: Completed</td><td>&#9744;</td></tr>
+    <tr><td>Defender for Cloud shows healthy</td><td>Agent: Healthy</td><td>&#9744;</td></tr>
+    <tr><td>Log Analytics receiving data</td><td>Heartbeat &lt;5 min</td><td>&#9744;</td></tr>
+</table>
+
+<h2>6. Risk Assessment</h2>
+<table>
+    <tr><th>Risk</th><th>Likelihood</th><th>Mitigation</th></tr>
+    <tr><td>Extension fails to update</td><td>Low</td><td>Rollback scripts prepared</td></tr>
+    <tr><td>Backup still fails after update</td><td>Medium</td><td>Escalate to Microsoft support</td></tr>
+    <tr><td>Agent connectivity issues</td><td>Low</td><td>Re-onboard via portal</td></tr>
+</table>
+
+<h2>7. Approvals</h2>
+<table>
+    <tr><th>Role</th><th>Name</th><th>Date</th></tr>
+    <tr><td>Change Requester</td><td>Olli Ojala</td><td></td></tr>
+    <tr><td>Technical Reviewer</td><td></td><td></td></tr>
+    <tr><td>Change Manager</td><td></td><td></td></tr>
+</table>
+
+</body>
+</html>

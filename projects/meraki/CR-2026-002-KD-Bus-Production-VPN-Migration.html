@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[CR-2026-002] KD Bus Sites Production VPN Migration Runbook</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a365d;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c5282;
+            margin-top: 30px;
+            border-left: 4px solid #3182ce;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #2d3748;
+            margin-top: 20px;
+        }
+        h4 {
+            color: #4a5568;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        .header-table {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .header-table th {
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .header-table td {
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+        .risk-medium {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .risk-low {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .status-pilot {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .status-batch2 {
+            background-color: #bee3f8;
+            color: #2c5282;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .status-batch3 {
+            background-color: #e9d8fd;
+            color: #553c9a;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .code-block {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .checklist {
+            background-color: #f7fafc;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #3182ce;
+        }
+        .checklist-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #a0aec0;
+            border-radius: 3px;
+            margin-right: 10px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .section-note {
+            background-color: #ebf8ff;
+            border: 1px solid #90cdf4;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #2c5282;
+        }
+        .warning-note {
+            background-color: #fffbeb;
+            border: 1px solid #f6e05e;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #744210;
+        }
+        .danger-note {
+            background-color: #fed7d7;
+            border: 1px solid #fc8181;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #822727;
+        }
+        .success-note {
+            background-color: #c6f6d5;
+            border: 1px solid #68d391;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #22543d;
+        }
+        .approval-box {
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        .signature-line {
+            border-bottom: 1px solid #a0aec0;
+            min-width: 200px;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .tag {
+            background-color: #805ad5;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .tag-prod {
+            background-color: #38a169;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .location-path {
+            background-color: #edf2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85em;
+            color: #4a5568;
+            margin: 10px 0;
+        }
+        .phase-header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .phase-header-pilot {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        .phase-header-batch2 {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        }
+        .phase-header-batch3 {
+            background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
+        }
+        .architecture-box {
+            background-color: #faf5ff;
+            border: 1px solid #d6bcfa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .toc {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .toc ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 5px 0;
+        }
+        .toc a {
+            color: #3182ce;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .subnet-table td {
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        .site-count {
+            background-color: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .phase-header, .phase-header-pilot, .phase-header-batch2, .phase-header-batch3 {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>&#128274; [CR-2026-002] KD Bus Sites Production VPN Migration Runbook</h1>
+        <p><strong>Combined Change Request &amp; Implementation Runbook - Production Rollout</strong></p>
+
+        <div class="header-table">
+            <table>
+                <tr>
+                    <th>CR Number</th>
+                    <td>CR-2026-002</td>
+                    <th>Request Date</th>
+                    <td>2026-02-02</td>
+                </tr>
+                <tr>
+                    <th>Requested By</th>
+                    <td>Olli Ojala</td>
+                    <th>Environment</th>
+                    <td>Meraki Dashboard - KD BUS Organization</td>
+                </tr>
+                <tr>
+                    <th>Total Sites</th>
+                    <td>24 sites (1 Pilot + 23 Production)</td>
+                    <th>Change Type</th>
+                    <td>Production / Phased Rollout</td>
+                </tr>
+                <tr>
+                    <th>Risk Level</th>
+                    <td><span class="risk-medium">MEDIUM</span></td>
+                    <th>Rollback Time</th>
+                    <td>&lt; 5 minutes per site</td>
+                </tr>
+                <tr>
+                    <th>Change Window</th>
+                    <td>TBD (Outside business hours recommended)</td>
+                    <th>Expected Downtime</th>
+                    <td>&lt; 5 minutes per site during route switch</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <strong>&#128203; Table of Contents</strong>
+            <ul>
+                <li><a href="#overview">1. Overview &amp; Objective</a></li>
+                <li><a href="#architecture">2. Architecture Summary</a></li>
+                <li><a href="#site-inventory">3. Site Inventory &amp; Subnet Mapping</a></li>
+                <li><a href="#rollout-phases">4. Rollout Phases</a></li>
+                <li><a href="#prerequisites">5. Prerequisites Checklist</a></li>
+                <li><a href="#meraki-config">6. Meraki Configuration</a></li>
+                <li><a href="#fortigate-config">7. Fortigate Configuration</a></li>
+                <li><a href="#azure-config">8. Azure Configuration</a></li>
+                <li><a href="#implementation">9. Implementation Steps</a></li>
+                <li><a href="#test-checkpoints">10. Test Checkpoints</a></li>
+                <li><a href="#rollback">11. Rollback Procedure</a></li>
+                <li><a href="#approvals">12. Approvals</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Overview -->
+        <h2 id="overview">1. Overview &amp; Objective</h2>
+        <p>This change request covers the <strong>production migration</strong> of 24 KD Bus sites from existing SonicWall VPN connectivity to Azure-hosted Fortigate firewalls via IPsec VPN. The migration follows successful pilot testing (CR-4342297).</p>
+
+        <h3>1.1 Migration Strategy</h3>
+        <table>
+            <tr>
+                <th>Phase</th>
+                <th>Sites</th>
+                <th>Subnets</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td><strong>Phase 1 - Pilot</strong></td>
+                <td>1 site</td>
+                <td>2</td>
+                <td>Malaga-Morley (WA) - Pilot validation</td>
+                <td><span class="status-pilot">This CR</span></td>
+            </tr>
+            <tr>
+                <td><strong>Phase 2 - Batch 1</strong></td>
+                <td>7 sites</td>
+                <td>34</td>
+                <td>NSW sites</td>
+                <td><span class="status-batch2">9/2/2026 7:30 PM AEDT</span></td>
+            </tr>
+            <tr>
+                <td><strong>Phase 3 - Batch 2</strong></td>
+                <td>16 sites</td>
+                <td>35</td>
+                <td>SA, QLD &amp; WA sites</td>
+                <td><span class="status-batch3">10/2/2026 7:30 PM local</span></td>
+            </tr>
+        </table>
+
+        <div class="section-note">
+            &#8505;&#65039; <strong>Dependency:</strong> This CR depends on successful completion of CR-4342297 (Pilot Test) which validated IPsec connectivity, DNS, and certificate deployment.
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <h2 id="architecture">2. Architecture Summary</h2>
+
+        <div class="architecture-box">
+            <h4>&#127959;&#65039; Infrastructure Components</h4>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Azure East (Primary)</th>
+                    <th>Azure South East (DR)</th>
+                </tr>
+                <tr>
+                    <td><strong>Fortigate DNS Hostname</strong></td>
+                    <td>VPN1.KeolisDowner.com.au</td>
+                    <td>VPN2.KeolisDowner.com.au</td>
+                </tr>
+                <tr>
+                    <td><strong>Fortigate Public IP</strong></td>
+                    <td>68.218.113.249</td>
+                    <td>4.200.139.87</td>
+                </tr>
+                <tr>
+                    <td><strong>Fortigate Inside IP</strong></td>
+                    <td>10.200.1.68</td>
+                    <td>10.201.1.68</td>
+                </tr>
+                <tr>
+                    <td><strong>Azure Subnet</strong></td>
+                    <td>10.200.10.0/24</td>
+                    <td>10.201.10.0/24</td>
+                </tr>
+                <tr>
+                    <td><strong>Route Table</strong></td>
+                    <td>KD-Prod-RouteTable</td>
+                    <td>KD-Mel-RouteTable</td>
+                </tr>
+                <tr>
+                    <td><strong>WAN Interface</strong></td>
+                    <td>port1</td>
+                    <td>port1</td>
+                </tr>
+                <tr>
+                    <td><strong>Test VM IP</strong></td>
+                    <td>10.200.10.10, 10.200.10.122</td>
+                    <td>10.201.10.61</td>
+                </tr>
+                <tr>
+                    <td><strong>Route Table Association</strong></td>
+                    <td>East workload subnets (10.200.x.x)</td>
+                    <td>SEast workload subnets (10.201.x.x)</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>2.1 Design / Traffic Flow</h3>
+        <div class="section-note">
+            <strong>&#128736;&#65039; Primary/DR Architecture:</strong><br>
+            Azure East is the <strong>primary region</strong> for KD Bus site connectivity. Azure South East is the <strong>DR region</strong>. IPsec VPN configuration and UDRs are pre-staged in both regions so that, in a DR event, workloads in the DR region retain connectivity to all site subnets via the South East FortiGate.
+        </div>
+
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><strong>Route Table Isolation</strong></td>
+                <td>KD-Prod-RouteTable is associated only with East workload subnets; KD-Mel-RouteTable only with SEast workload subnets. Each region routes to sites via its local FortiGate. This prevents asymmetric routing during normal operation.</td>
+            </tr>
+            <tr>
+                <td><strong>Why Routes in Both Regions</strong></td>
+                <td>Site subnets are pre-staged in both route tables so that, during a DR event, workloads failed over to SEast retain connectivity to all site subnets via the SEast FortiGate.</td>
+            </tr>
+            <tr>
+                <td><strong>DR Failover Method</strong></td>
+                <td>Manual failover (not automatic). DR is invoked by Azure workload failover (ASR/manual), not by this VPN configuration.</td>
+            </tr>
+            <tr>
+                <td><strong>DR Scope</strong></td>
+                <td><em>DR failover testing is not in scope for this CR; DR readiness is achieved by pre-staging configuration only.</em></td>
+            </tr>
+        </table>
+
+        <h4>IPsec VPN Parameters (All Sites)</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>IKE Version</td>
+                <td>IKEv2</td>
+            </tr>
+            <tr>
+                <td>Encryption</td>
+                <td>AES-256</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>SHA256</td>
+            </tr>
+            <tr>
+                <td>DH Group</td>
+                <td>14 (2048-bit)</td>
+            </tr>
+            <tr>
+                <td>PFS (Perfect Forward Secrecy)</td>
+                <td>Enabled, Group 14</td>
+            </tr>
+            <tr>
+                <td>Phase 1 Lifetime</td>
+                <td>1800 seconds</td>
+            </tr>
+            <tr>
+                <td>Phase 2 Lifetime</td>
+                <td>3600 seconds</td>
+            </tr>
+            <tr>
+                <td>DPD (Dead Peer Detection)</td>
+                <td>Enabled (on-demand)</td>
+            </tr>
+            <tr>
+                <td>NAT-T</td>
+                <td>Enabled (auto-detect)</td>
+            </tr>
+            <tr>
+                <td>Pre-shared Key</td>
+                <td><em>Shared securely outside of CR (&gt;32 characters)</em></td>
+            </tr>
+        </table>
+        <div class="section-note">
+            &#8505;&#65039; <strong>Firewall Policies:</strong> FortiGate firewall policies permitting tunnel traffic to/from Azure backend subnets are confirmed in place as a prerequisite.
+        </div>
+
+        <!-- Section 3: Site Inventory -->
+        <h2 id="site-inventory">3. Site Inventory &amp; Subnet Mapping</h2>
+
+        <div class="warning-note">
+            &#9888;&#65039; <strong>Important:</strong> All subnets are /24. Each site requires route entries for ALL its listed subnets in BOTH Azure route tables. Routes are added <strong>per site as migrated</strong>, not all 71 subnets at once.
+        </div>
+
+        <h3>3.1 Phase 1 - Pilot Site (WA)</h3>
+        <div class="phase-header phase-header-pilot">Phase 1: Pilot Site - WA (1 site, 2 subnets)</div>
+        <table class="subnet-table">
+            <tr>
+                <th>Site</th>
+                <th>State</th>
+                <th>Network 1</th>
+                <th>Network 2</th>
+                <th>Total Subnets</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td><strong>Malaga-Morley (Pilot)</strong></td>
+                <td>WA</td>
+                <td>10.9.52.0/24</td>
+                <td>10.91.52.0/24</td>
+                <td><span class="site-count">2</span></td>
+                <td><span class="status-pilot">Pilot</span></td>
+            </tr>
+        </table>
+
+        <h3>3.2 Phase 2 - Batch 1 (NSW) - 9/2/2026 7:30 PM AEDT (6:30 PM QLD)</h3>
+        <div class="phase-header phase-header-batch2">Phase 2: Batch 1 - NSW Sites (7 sites, 34 subnets)</div>
+        <table class="subnet-table">
+            <tr>
+                <th>Site</th>
+                <th>State</th>
+                <th>Network 1</th>
+                <th>Network 2</th>
+                <th>Network 3</th>
+                <th>Network 4</th>
+                <th>Network 5</th>
+                <th>Network 6</th>
+                <th>Network 7</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td><strong>Belmont North</strong></td>
+                <td>NSW</td>
+                <td>10.21.52.0/24</td>
+                <td>10.2.52.0/24</td>
+                <td>10.24.52.0/24</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="site-count">3</span></td>
+            </tr>
+            <tr>
+                <td><strong>Brookvale</strong></td>
+                <td>NSW</td>
+                <td>10.2.64.0/24</td>
+                <td>10.21.64.0/24</td>
+                <td>10.28.64.0/24</td>
+                <td>10.25.64.0/24</td>
+                <td>10.26.64.0/24</td>
+                <td>10.30.64.0/24</td>
+                <td>10.31.64.0/24</td>
+                <td><span class="site-count">7</span></td>
+            </tr>
+            <tr>
+                <td><strong>North Sydney</strong></td>
+                <td>NSW</td>
+                <td>10.2.68.0/24</td>
+                <td>10.21.68.0/24</td>
+                <td>10.28.68.0/24</td>
+                <td>10.25.68.0/24</td>
+                <td>10.26.68.0/24</td>
+                <td>10.30.68.0/24</td>
+                <td>10.31.68.0/24</td>
+                <td><span class="site-count">7</span></td>
+            </tr>
+            <tr>
+                <td><strong>Mona Vale</strong></td>
+                <td>NSW</td>
+                <td>10.2.66.0/24</td>
+                <td>10.21.66.0/24</td>
+                <td>10.28.66.0/24</td>
+                <td>10.25.66.0/24</td>
+                <td>10.26.66.0/24</td>
+                <td>10.30.66.0/24</td>
+                <td>10.31.66.0/24</td>
+                <td><span class="site-count">7</span></td>
+            </tr>
+            <tr>
+                <td><strong>Wickham</strong></td>
+                <td>NSW</td>
+                <td>10.2.60.0/24</td>
+                <td>10.26.60.0/24</td>
+                <td>10.21.60.0/24</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="site-count">3</span></td>
+            </tr>
+            <tr>
+                <td><strong>Queens Wharf</strong></td>
+                <td>NSW</td>
+                <td>10.21.54.0/24</td>
+                <td>10.2.54.0/24</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Hamilton</strong></td>
+                <td>NSW</td>
+                <td>10.21.50.0/24</td>
+                <td>10.24.50.0/24</td>
+                <td>10.2.50.0/24</td>
+                <td>10.27.50.0/24</td>
+                <td>172.20.120.0/24</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="site-count">5</span></td>
+            </tr>
+        </table>
+        <p><strong>Batch 1 Total:</strong> 7 sites (NSW), 34 subnets</p>
+
+        <h3>3.3 Phase 3 - Batch 2 (SA, QLD &amp; WA) - 10/2/2026 7:30 PM local per state</h3>
+        <div class="phase-header phase-header-batch3">Phase 3: Batch 2 - SA/QLD/WA Sites (16 sites, 35 subnets)</div>
+        <table class="subnet-table">
+            <tr>
+                <th>Site</th>
+                <th>State</th>
+                <th>Network 1</th>
+                <th>Network 2</th>
+                <th>Network 3</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td><strong>Goolwa</strong></td>
+                <td>SA</td>
+                <td>10.81.72.0/24</td>
+                <td>10.8.72.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Murray Bridge</strong></td>
+                <td>SA</td>
+                <td>10.81.58.0/24</td>
+                <td>10.8.58.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Mt Barker</strong></td>
+                <td>SA</td>
+                <td>10.81.62.0/24</td>
+                <td>10.8.62.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Aldgate</strong></td>
+                <td>SA</td>
+                <td>10.81.64.0/24</td>
+                <td>10.8.64.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Pooraka</strong></td>
+                <td>SA</td>
+                <td>10.81.54.0/24</td>
+                <td>10.8.54.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Willaston</strong></td>
+                <td>SA</td>
+                <td>10.81.68.0/24</td>
+                <td>10.8.68.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Nuriootpa</strong></td>
+                <td>SA</td>
+                <td>10.81.60.0/24</td>
+                <td>10.8.60.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Clontarf</strong></td>
+                <td>QLD</td>
+                <td>10.71.52.0/24</td>
+                <td>10.7.52.0/24</td>
+                <td>10.75.52.0/24</td>
+                <td><span class="site-count">3</span></td>
+            </tr>
+            <tr>
+                <td><strong>North Lakes</strong></td>
+                <td>QLD</td>
+                <td>10.71.56.0/24</td>
+                <td>10.7.56.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Welshpool</strong></td>
+                <td>WA</td>
+                <td>10.91.64.0/24</td>
+                <td>10.9.64.0/24</td>
+                <td>10.95.64.0/24</td>
+                <td><span class="site-count">3</span></td>
+            </tr>
+            <tr>
+                <td><strong>Walliston-Kalamunda</strong></td>
+                <td>WA</td>
+                <td>10.91.66.0/24</td>
+                <td>10.9.66.0/24</td>
+                <td>10.9.67.0/24</td>
+                <td><span class="site-count">3</span></td>
+            </tr>
+            <tr>
+                <td><strong>Bayswater</strong></td>
+                <td>WA</td>
+                <td>10.91.58.0/24</td>
+                <td>10.9.58.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Forrestfield</strong></td>
+                <td>WA</td>
+                <td>10.41.1.0/24</td>
+                <td>10.91.41.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Redcliffe</strong></td>
+                <td>WA</td>
+                <td>10.9.68.0/24</td>
+                <td>10.91.68.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Geraldton</strong></td>
+                <td>WA</td>
+                <td>10.91.70.0/24</td>
+                <td>10.9.70.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+            <tr>
+                <td><strong>Henley Brook</strong></td>
+                <td>WA</td>
+                <td>10.91.54.0/24</td>
+                <td>10.9.54.0/24</td>
+                <td>-</td>
+                <td><span class="site-count">2</span></td>
+            </tr>
+        </table>
+        <p><strong>Batch 2 Total:</strong> 16 sites (7 SA, 2 QLD, 7 WA), 35 subnets</p>
+
+        <h3>3.4 Summary</h3>
+        <table>
+            <tr>
+                <th>Phase</th>
+                <th>Region</th>
+                <th>Sites</th>
+                <th>Subnets</th>
+                <th>Route Entries (x2 Route Tables)</th>
+            </tr>
+            <tr>
+                <td>Phase 1 - Pilot</td>
+                <td>WA</td>
+                <td>1</td>
+                <td>2</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>Phase 2 - Batch 1</td>
+                <td>NSW</td>
+                <td>7</td>
+                <td>34</td>
+                <td>68</td>
+            </tr>
+            <tr>
+                <td>Phase 3 - Batch 2</td>
+                <td>SA/QLD/WA</td>
+                <td>16</td>
+                <td>35</td>
+                <td>70</td>
+            </tr>
+            <tr style="font-weight: bold; background-color: #edf2f7;">
+                <td>TOTAL</td>
+                <td>All</td>
+                <td>24</td>
+                <td>71</td>
+                <td>142</td>
+            </tr>
+        </table>
+
+        <!-- Section 4: Rollout Phases -->
+        <h2 id="rollout-phases">4. Rollout Phases</h2>
+
+        <h3>4.1 Phase 1 - Pilot (Malaga-Morley)</h3>
+        <div class="success-note">
+            &#9989; <strong>Purpose:</strong> Validate production migration process before full rollout
+        </div>
+        <table>
+            <tr>
+                <th>Site</th>
+                <th>Subnets</th>
+                <th>Scheduled Date</th>
+                <th>Duration</th>
+            </tr>
+            <tr>
+                <td>Malaga-Morley</td>
+                <td>10.9.52.0/24, 10.91.52.0/24</td>
+                <td>TBD</td>
+                <td>~30 minutes</td>
+            </tr>
+        </table>
+
+        <h3>4.2 Phase 2 - Batch 1 (NSW) - 9/2/2026 7:30 PM AEDT (6:30 PM QLD)</h3>
+        <div class="section-note">
+            &#8505;&#65039; <strong>Scope:</strong> All NSW sites (7 sites, 34 subnets)
+        </div>
+        <p><strong>Estimated Duration:</strong> 2-3 hours (outside business hours)</p>
+
+        <h3>4.3 Phase 3 - Batch 2 (SA/QLD/WA) - 10/2/2026 7:30 PM local time per state</h3>
+        <div class="section-note">
+            &#8505;&#65039; <strong>Scope:</strong> All SA, QLD and WA sites (16 sites, 35 subnets). Order: SA first (7:00 PM QLD), then QLD (7:30 PM QLD), then WA (9:30 PM QLD).
+        </div>
+        <p><strong>Estimated Duration:</strong> 3-4 hours (outside business hours)</p>
+
+        <!-- Section 5: Prerequisites -->
+        <h2 id="prerequisites">5. Prerequisites Checklist</h2>
+
+        <div class="warning-note">
+            &#9888;&#65039; <strong>All prerequisites must be verified before each phase begins.</strong>
+        </div>
+
+        <h4>5.1 Pilot Validation (Must be complete)</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> CR-4342297 (Pilot Test) completed successfully</div>
+            <div class="checklist-item"><span class="checkbox"></span> IPsec tunnels to both FortiGates validated</div>
+            <div class="checklist-item"><span class="checkbox"></span> SSL certificates deployed and working</div>
+            <div class="checklist-item"><span class="checkbox"></span> DNS records (VPN1, VPN2, EMS1) resolving correctly</div>
+        </div>
+
+        <h4>5.2 FortiGate Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> FortiGate East (68.218.113.249) accessible and healthy</div>
+            <div class="checklist-item"><span class="checkbox"></span> FortiGate South East (4.200.139.87) accessible and healthy</div>
+            <div class="checklist-item"><span class="checkbox"></span> Address objects created for all site subnets (Section 7.3)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Firewall policies allow tunnel traffic to/from Azure backend</div>
+            <div class="checklist-item"><span class="checkbox"></span> PSK shared securely (&gt;32 characters)</div>
+        </div>
+
+        <h4>5.3 Azure Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> NSG permits FortiGate East inside IP: 10.200.1.68</div>
+            <div class="checklist-item"><span class="checkbox"></span> NSG permits FortiGate South East inside IP: 10.201.1.68</div>
+            <div class="checklist-item"><span class="checkbox"></span> KD-Prod-RouteTable accessible and editable</div>
+            <div class="checklist-item"><span class="checkbox"></span> KD-Mel-RouteTable accessible and editable</div>
+            <div class="checklist-item"><span class="checkbox"></span> Route table capacity verified (100+ routes available)</div>
+        </div>
+
+        <h4>5.4 Meraki Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Dashboard access with Organization write permissions</div>
+            <div class="checklist-item"><span class="checkbox"></span> All target networks accessible</div>
+            <div class="checklist-item"><span class="checkbox"></span> Existing SonicWall VPN still operational (fallback)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Rollback procedure reviewed and tested</div>
+        </div>
+
+        <!-- Section 6: Meraki Configuration -->
+        <h2 id="meraki-config">6. Meraki Configuration</h2>
+
+        <h3>6.1 Production Network Tags</h3>
+        <div class="location-path">&#128205; Organization &gt; Configure &gt; Networks &gt; [Site] &gt; Edit</div>
+
+        <div class="section-note">
+            &#8505;&#65039; <strong>Strategy:</strong> Remove <span class="tag">fortigate-test</span> restriction from IPsec peers. Tag changes are <strong>staged per batch</strong> - non-migrated sites/peers are unaffected until their scheduled batch.
+        </div>
+
+        <div class="warning-note">
+            &#9888;&#65039; <strong>Isolation:</strong> Meraki tag changes apply only to networks in the current migration batch. Existing non-Fortigate IPsec peers (e.g., SonicWall) remain operational and unaffected.
+        </div>
+
+        <h3>6.2 IPsec VPN Peers (Organization-wide)</h3>
+        <div class="location-path">&#128205; Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN &gt; Organization-wide settings &gt; IPsec VPN Peers</div>
+
+        <p>Update existing peers (from pilot) to remove tag restriction:</p>
+
+        <h4>Peer 1: Fortigate-Azure-East</h4>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><strong>Fortigate-Azure-East</strong></td>
+            </tr>
+            <tr>
+                <td>Public IP</td>
+                <td>68.218.113.249</td>
+            </tr>
+            <tr>
+                <td>Private Subnets (Remote)</td>
+                <td>10.200.10.0/24</td>
+            </tr>
+            <tr>
+                <td>Network Tags</td>
+                <td><em>Remove tag restriction (apply to all networks)</em></td>
+            </tr>
+        </table>
+
+        <h4>Peer 2: Fortigate-Azure-SouthEast</h4>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><strong>Fortigate-Azure-SouthEast</strong></td>
+            </tr>
+            <tr>
+                <td>Public IP</td>
+                <td>4.200.139.87</td>
+            </tr>
+            <tr>
+                <td>Private Subnets (Remote)</td>
+                <td>10.201.10.0/24</td>
+            </tr>
+            <tr>
+                <td>Network Tags</td>
+                <td><em>Remove tag restriction (apply to all networks)</em></td>
+            </tr>
+        </table>
+
+        <h3>6.3 Per-Site VPN Configuration</h3>
+        <p>For each site, verify Site-to-site VPN settings:</p>
+        <div class="location-path">&#128205; [Network] &gt; Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN</div>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> VPN Mode: Hub (Mesh) or Spoke</div>
+            <div class="checklist-item"><span class="checkbox"></span> Local subnets advertised (all VLANs for site)</div>
+            <div class="checklist-item"><span class="checkbox"></span> IPsec peers visible (Fortigate-Azure-East, Fortigate-Azure-SouthEast)</div>
+        </div>
+
+        <!-- Section 7: Fortigate Configuration -->
+        <h2 id="fortigate-config">7. Fortigate Configuration</h2>
+
+        <h3>7.1 Phase 1 - Pilot Site (Malaga-Morley)</h3>
+
+        <h4>Phase 1 Configuration - FortiGate East (68.218.113.249)</h4>
+        <div class="code-block">config vpn ipsec phase1-interface
+    edit "Malaga-Morley"
+        set interface "port1"
+        set ike-version 2
+        set keylife 1800
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set remote-gw [MERAKI-MALAGA-PUBLIC-IP]
+        set psksecret "[PSK > 32 Characters]"
+    next
+end
+
+config vpn ipsec phase2-interface
+    edit "Malaga-Morley"
+        set phase1name "Malaga-Morley"
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set keylifeseconds 3600
+        set src-addr-type name
+        set dst-addr-type name
+        set src-name "KD-Azure-SYD-Subnet"
+        set dst-name "Malaga-Morley-Subnets"
+    next
+end</div>
+
+        <h4>Phase 1 Configuration - FortiGate South East (4.200.139.87)</h4>
+        <div class="code-block">config vpn ipsec phase1-interface
+    edit "Malaga-Morley"
+        set interface "port1"
+        set ike-version 2
+        set keylife 1800
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set remote-gw [MERAKI-MALAGA-PUBLIC-IP]
+        set psksecret "[PSK > 32 Characters]"
+    next
+end
+
+config vpn ipsec phase2-interface
+    edit "Malaga-Morley"
+        set phase1name "Malaga-Morley"
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set keylifeseconds 3600
+        set src-addr-type name
+        set dst-addr-type name
+        set src-name "KD-Azure-MEL-Subnet"
+        set dst-name "Malaga-Morley-Subnets"
+    next
+end</div>
+
+        <h3>7.2 Address Objects - Pilot Site</h3>
+        <div class="code-block">config firewall address
+    edit "Malaga-Morley-Net1"
+        set subnet 10.9.52.0 255.255.255.0
+        set comment "Malaga-Morley Network 1"
+    next
+    edit "Malaga-Morley-Net2"
+        set subnet 10.91.52.0 255.255.255.0
+        set comment "Malaga-Morley Network 2"
+    next
+end
+
+config firewall addrgrp
+    edit "Malaga-Morley-Subnets"
+        set member "Malaga-Morley-Net1" "Malaga-Morley-Net2"
+    next
+end</div>
+
+        <h3>7.3 Address Objects - All Sites (Batch Creation)</h3>
+        <div class="section-note">
+            &#8505;&#65039; <strong>Note:</strong> Full address object configuration for all 71 subnets available in supplementary script file.
+        </div>
+
+        <h3>7.4 Firewall Policies</h3>
+        <div class="code-block">config firewall policy
+    edit 0
+        set name "KD-Sites-to-Azure"
+        set srcintf "Malaga-Morley"
+        set dstintf "port2"
+        set srcaddr "Malaga-Morley-Subnets"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+    edit 0
+        set name "Azure-to-KD-Sites"
+        set srcintf "port2"
+        set dstintf "Malaga-Morley"
+        set srcaddr "all"
+        set dstaddr "Malaga-Morley-Subnets"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+end</div>
+
+        <!-- Section 8: Azure Configuration -->
+        <h2 id="azure-config">8. Azure Configuration</h2>
+
+        <div class="section-note">
+            &#8505;&#65039; <strong>Route Staging:</strong> Routes are added <strong>per site as each site is migrated</strong>, not all 71 subnets at once. This allows incremental validation and easy per-site rollback. Total routes at project completion: 71 per route table (142 total).
+        </div>
+
+        <h3>8.1 Route Table Updates - Phase 1 (Pilot)</h3>
+
+        <h4>Azure East - KD-Prod-RouteTable</h4>
+        <div class="location-path">&#128205; Azure Portal &gt; Route Tables &gt; KD-Prod-RouteTable &gt; Routes &gt; + Add</div>
+        <table>
+            <tr>
+                <th>Route Name</th>
+                <th>Destination</th>
+                <th>Next Hop Type</th>
+                <th>Next Hop Address</th>
+            </tr>
+            <tr>
+                <td>Malaga-Morley-Net1</td>
+                <td>10.9.52.0/24</td>
+                <td>Virtual appliance</td>
+                <td>10.200.1.68</td>
+            </tr>
+            <tr>
+                <td>Malaga-Morley-Net2</td>
+                <td>10.91.52.0/24</td>
+                <td>Virtual appliance</td>
+                <td>10.200.1.68</td>
+            </tr>
+        </table>
+
+        <h4>Azure South East - KD-Mel-RouteTable</h4>
+        <div class="location-path">&#128205; Azure Portal &gt; Route Tables &gt; KD-Mel-RouteTable &gt; Routes &gt; + Add</div>
+        <table>
+            <tr>
+                <th>Route Name</th>
+                <th>Destination</th>
+                <th>Next Hop Type</th>
+                <th>Next Hop Address</th>
+            </tr>
+            <tr>
+                <td>Malaga-Morley-Net1</td>
+                <td>10.9.52.0/24</td>
+                <td>Virtual appliance</td>
+                <td>10.201.1.68</td>
+            </tr>
+            <tr>
+                <td>Malaga-Morley-Net2</td>
+                <td>10.91.52.0/24</td>
+                <td>Virtual appliance</td>
+                <td>10.201.1.68</td>
+            </tr>
+        </table>
+
+        <h3>8.2 Azure CLI Commands (For Automation)</h3>
+        <div class="code-block"># Phase 1 - Pilot Routes (Azure East)
+az network route-table route create \
+    --resource-group KD-Prod-RG \
+    --route-table-name KD-Prod-RouteTable \
+    --name Malaga-Morley-Net1 \
+    --address-prefix 10.9.52.0/24 \
+    --next-hop-type VirtualAppliance \
+    --next-hop-ip-address 10.200.1.68
+
+az network route-table route create \
+    --resource-group KD-Prod-RG \
+    --route-table-name KD-Prod-RouteTable \
+    --name Malaga-Morley-Net2 \
+    --address-prefix 10.91.52.0/24 \
+    --next-hop-type VirtualAppliance \
+    --next-hop-ip-address 10.200.1.68
+
+# Phase 1 - Pilot Routes (Azure South East)
+az network route-table route create \
+    --resource-group KD-Prod-RG-asr \
+    --route-table-name KD-Mel-RouteTable \
+    --name Malaga-Morley-Net1 \
+    --address-prefix 10.9.52.0/24 \
+    --next-hop-type VirtualAppliance \
+    --next-hop-ip-address 10.201.1.68
+
+az network route-table route create \
+    --resource-group KD-Prod-RG-asr \
+    --route-table-name KD-Mel-RouteTable \
+    --name Malaga-Morley-Net2 \
+    --address-prefix 10.91.52.0/24 \
+    --next-hop-type VirtualAppliance \
+    --next-hop-ip-address 10.201.1.68</div>
+
+        <!-- Section 9: Implementation Steps -->
+        <h2 id="implementation">9. Implementation Steps</h2>
+
+        <div class="phase-header phase-header-pilot">Phase 1: Pilot - Malaga-Morley</div>
+
+        <h4>Pre-Implementation</h4>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>1.1</td>
+                <td>Verify pilot prerequisites (CR-4342297 completed)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.2</td>
+                <td>Screenshot current Malaga-Morley VPN configuration</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.3</td>
+                <td>Document current Azure route tables</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.4</td>
+                <td>Notify site contact of upcoming change window</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <h4>FortiGate Configuration</h4>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>1.5</td>
+                <td>Create address objects for Malaga-Morley (both FortiGates)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.6</td>
+                <td>Configure Phase 1 &amp; Phase 2 on FortiGate East</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.7</td>
+                <td>Configure Phase 1 &amp; Phase 2 on FortiGate South East</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.8</td>
+                <td>Create/update firewall policies for Malaga-Morley</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.9</td>
+                <td>Verify VPN tunnels established (both FortiGates)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <h4>Azure Route Configuration</h4>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>1.10</td>
+                <td>Add route 10.9.52.0/24 &#8594; 10.200.1.68 (KD-Prod-RouteTable)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.11</td>
+                <td>Add route 10.91.52.0/24 &#8594; 10.200.1.68 (KD-Prod-RouteTable)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.12</td>
+                <td>Add route 10.9.52.0/24 &#8594; 10.201.1.68 (KD-Mel-RouteTable)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.13</td>
+                <td>Add route 10.91.52.0/24 &#8594; 10.201.1.68 (KD-Mel-RouteTable)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <h4>Validation</h4>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>1.14</td>
+                <td><strong>TEST CHECKPOINT</strong> - Execute connectivity tests (Section 10)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.15</td>
+                <td>Confirm bidirectional traffic flow</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.16</td>
+                <td>Monitor for 30 minutes, verify stability</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>1.17</td>
+                <td>Disable SonicWall tunnel for Malaga-Morley (if applicable)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <div class="success-note">
+            &#9989; <strong>Phase 1 Complete:</strong> Proceed to Phase 2 after 24-48 hours of stable operation.
+        </div>
+
+        <div class="phase-header phase-header-batch2">Phase 2: Batch 1 - NSW Sites (7 sites, 34 subnets) - 9/2/2026 7:30 PM AEDT (6:30 PM QLD)</div>
+        <p><strong>Repeat steps 1.5 - 1.17 for each site in Batch 1:</strong></p>
+        <table>
+            <tr><th>#</th><th>Site</th><th>State</th><th>Subnets</th></tr>
+            <tr><td>1</td><td>Belmont North</td><td>NSW</td><td>3</td></tr>
+            <tr><td>2</td><td>Brookvale</td><td>NSW</td><td>7</td></tr>
+            <tr><td>3</td><td>North Sydney</td><td>NSW</td><td>7</td></tr>
+            <tr><td>4</td><td>Mona Vale</td><td>NSW</td><td>7</td></tr>
+            <tr><td>5</td><td>Wickham</td><td>NSW</td><td>3</td></tr>
+            <tr><td>6</td><td>Queens Wharf</td><td>NSW</td><td>2</td></tr>
+            <tr><td>7</td><td>Hamilton</td><td>NSW</td><td>5</td></tr>
+        </table>
+
+        <div class="phase-header phase-header-batch3">Phase 3: Batch 2 - SA/QLD/WA Sites (16 sites, 35 subnets) - 10/2/2026 7:30 PM local time per state</div>
+        <p><strong>Repeat steps 1.5 - 1.17 for each site in Batch 2 (order: SA → QLD → WA):</strong></p>
+        <table>
+            <tr><th>#</th><th>Site</th><th>State</th><th>Subnets</th><th>Local Time</th><th>QLD Time</th></tr>
+            <tr><td>1</td><td>Goolwa</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>2</td><td>Murray Bridge</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>3</td><td>Mt Barker</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>4</td><td>Aldgate</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>5</td><td>Pooraka</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>6</td><td>Willaston</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>7</td><td>Nuriootpa</td><td>SA</td><td>2</td><td>7:30 PM ACDT</td><td>7:00 PM</td></tr>
+            <tr><td>8</td><td>Clontarf</td><td>QLD</td><td>3</td><td>7:30 PM AEST</td><td>7:30 PM</td></tr>
+            <tr><td>9</td><td>North Lakes</td><td>QLD</td><td>2</td><td>7:30 PM AEST</td><td>7:30 PM</td></tr>
+            <tr><td>10</td><td>Welshpool</td><td>WA</td><td>3</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+            <tr><td>11</td><td>Walliston-Kalamunda</td><td>WA</td><td>3</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+            <tr><td>12</td><td>Bayswater</td><td>WA</td><td>2</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+            <tr><td>13</td><td>Forrestfield</td><td>WA</td><td>2</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+            <tr><td>14</td><td>Redcliffe</td><td>WA</td><td>2</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+            <tr><td>15</td><td>Geraldton</td><td>WA</td><td>2</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+            <tr><td>16</td><td>Henley Brook</td><td>WA</td><td>2</td><td>7:30 PM AWST</td><td>9:30 PM</td></tr>
+        </table>
+
+        <!-- Section 10: Test Checkpoints -->
+        <h2 id="test-checkpoints">10. Test Checkpoints</h2>
+
+        <div class="section-note">
+            &#8505;&#65039; <strong>Test Strategy:</strong> Validate both primary (East) and DR (SEast) connectivity. East should carry production traffic; SEast tunnel should be up but idle/standby.
+        </div>
+
+        <h3>10.1 Per-Site Connectivity Test Template</h3>
+
+        <h4>Normal State Acceptance - Site to Azure East (Primary):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Site &rarr; Azure East (Primary)</td>
+                <td>10.200.10.10</td>
+                <td>Reply (production path)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>RDP to Azure East VM</td>
+                <td>10.200.10.122</td>
+                <td>Login prompt (confirms bidirectional)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>East FortiGate Tunnel Stats</td>
+                <td><code>get vpn ipsec tunnel summary</code></td>
+                <td>Packets incrementing</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <h4>From Azure East to Site (Reverse Path):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Azure East &rarr; Site</td>
+                <td>[Site IP in subnet]</td>
+                <td>Reply</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>RDP/SSH to Site Resource</td>
+                <td>[Site Resource]</td>
+                <td>Connection successful</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <h4>DR Pre-staging Validation - Site to Azure SEast (DR):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Site &rarr; Azure SEast (DR)</td>
+                <td>10.201.10.61</td>
+                <td>Reply (tunnel up, standby)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>SEast FortiGate Tunnel Status</td>
+                <td><code>get vpn ipsec tunnel summary</code></td>
+                <td>Tunnel established (idle/low traffic)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <div class="warning-note">
+            &#9888;&#65039; <strong>DR Failover Testing:</strong> Forced East tunnel down to validate SEast failover is <strong>not in scope</strong> for this CR. DR readiness is achieved by validating SEast tunnel can pass traffic in isolation.
+        </div>
+
+        <h4>FortiGate Verification:</h4>
+        <div class="code-block"># Check tunnel status
+get vpn ipsec tunnel summary
+
+# Check tunnel statistics (packets should increment)
+diagnose vpn tunnel list name [SITE-NAME]
+
+# Check routing
+get router info routing-table all | grep [SITE-SUBNET]</div>
+
+        <h3>10.2 Phase 1 Pilot Specific Tests</h3>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Method</th>
+                <th>Expected Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Malaga-Morley to Azure East</td>
+                <td>Ping 10.200.10.10 from 10.9.52.x or 10.91.52.x</td>
+                <td>Reply</td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>Malaga-Morley to Azure South East</td>
+                <td>Ping 10.201.10.61 from 10.9.52.x or 10.91.52.x</td>
+                <td>Reply</td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>Azure to Malaga-Morley Net1</td>
+                <td>Ping 10.9.52.x from Azure VM</td>
+                <td>Reply</td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>Azure to Malaga-Morley Net2</td>
+                <td>Ping 10.91.52.x from Azure VM</td>
+                <td>Reply</td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>Other sites unaffected</td>
+                <td>Check VPN status on other networks</td>
+                <td>Existing tunnels operational</td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <!-- Section 11: Rollback -->
+        <h2 id="rollback">11. Rollback Procedure</h2>
+
+        <div class="danger-note">
+            &#128680; <strong>Trigger:</strong> Execute rollback if tests fail and issue cannot be resolved within change window.
+        </div>
+
+        <div class="section-note">
+            &#8505;&#65039; <strong>Why Both Regions:</strong> Rollback removes both primary (East) and DR (SEast) paths to force reversion to SonicWall and prevent partial failover or asymmetric routing scenarios.<br><br>
+            <strong>SonicWall Fallback:</strong> SonicWall VPN configuration remains unchanged until completion of all batches + 14 days soak period.
+        </div>
+
+        <h3>11.1 Per-Site Rollback (Estimated: &lt; 5 minutes)</h3>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>R1</td>
+                <td>Remove site routes from KD-Prod-RouteTable (Azure East)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>R2</td>
+                <td>Remove site routes from KD-Mel-RouteTable (Azure South East)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>R3</td>
+                <td>On FortiGate East: Disable site VPN tunnel</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>R4</td>
+                <td>On FortiGate South East: Disable site VPN tunnel</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+            <tr>
+                <td>R5</td>
+                <td>Verify site connectivity restored via SonicWall (if still active)</td>
+                <td></td>
+                <td>&#9744;</td>
+            </tr>
+        </table>
+
+        <h3>11.2 Azure CLI Rollback Commands</h3>
+        <div class="code-block"># Remove routes (example for Malaga-Morley)
+az network route-table route delete \
+    --resource-group KD-Prod-RG \
+    --route-table-name KD-Prod-RouteTable \
+    --name Malaga-Morley-Net1
+
+az network route-table route delete \
+    --resource-group KD-Prod-RG \
+    --route-table-name KD-Prod-RouteTable \
+    --name Malaga-Morley-Net2
+
+az network route-table route delete \
+    --resource-group KD-Prod-RG-asr \
+    --route-table-name KD-Mel-RouteTable \
+    --name Malaga-Morley-Net1
+
+az network route-table route delete \
+    --resource-group KD-Prod-RG-asr \
+    --route-table-name KD-Mel-RouteTable \
+    --name Malaga-Morley-Net2</div>
+
+        <!-- Section 12: Approvals -->
+        <h2 id="approvals">12. Approvals</h2>
+        <div class="approval-box">
+            <table>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Signature</th>
+                    <th>Date</th>
+                </tr>
+                <tr>
+                    <td>Requestor</td>
+                    <td>Olli Ojala</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Network Engineer</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Azure Admin</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Change Manager</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>Site Migration Tracking</h3>
+        <table>
+            <tr>
+                <th>Phase</th>
+                <th>Site</th>
+                <th>State</th>
+                <th>Subnets</th>
+                <th>Scheduled</th>
+                <th>Completed</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <td><span class="status-pilot">Pilot</span></td>
+                <td>Malaga-Morley</td>
+                <td>WA</td>
+                <td>2</td>
+                <td>4/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td>Pilot site</td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>Belmont North</td>
+                <td>NSW</td>
+                <td>3</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>Brookvale</td>
+                <td>NSW</td>
+                <td>7</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>North Sydney</td>
+                <td>NSW</td>
+                <td>7</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>Mona Vale</td>
+                <td>NSW</td>
+                <td>7</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>Wickham</td>
+                <td>NSW</td>
+                <td>3</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>Queens Wharf</td>
+                <td>NSW</td>
+                <td>2</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch2">Batch 1</span></td>
+                <td>Hamilton</td>
+                <td>NSW</td>
+                <td>5</td>
+                <td>9/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Goolwa</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Murray Bridge</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Mt Barker</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Aldgate</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Pooraka</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Willaston</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Nuriootpa</td>
+                <td>SA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Clontarf</td>
+                <td>QLD</td>
+                <td>3</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>North Lakes</td>
+                <td>QLD</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Welshpool</td>
+                <td>WA</td>
+                <td>3</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Walliston-Kalamunda</td>
+                <td>WA</td>
+                <td>3</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Bayswater</td>
+                <td>WA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Forrestfield</td>
+                <td>WA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Redcliffe</td>
+                <td>WA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Geraldton</td>
+                <td>WA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="status-batch3">Batch 2</span></td>
+                <td>Henley Brook</td>
+                <td>WA</td>
+                <td>2</td>
+                <td>10/2/2026 7:30 PM</td>
+                <td>&#9744;</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <h3>Contacts</h3>
+        <table>
+            <tr>
+                <th>Role</th>
+                <th>Name</th>
+                <th>Contact</th>
+            </tr>
+            <tr>
+                <td>Network Engineer</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Azure Admin</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Change Manager</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <hr style="margin-top: 40px; border: none; border-top: 1px solid #e2e8f0;">
+
+        <h3>Revision History</h3>
+        <table>
+            <tr>
+                <th>Version</th>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Changes</th>
+            </tr>
+            <tr>
+                <td>1.0</td>
+                <td>2026-02-02</td>
+                <td>Olli Ojala / Maia</td>
+                <td>Initial production CR - 24 sites in 3 phases (Pilot + 2 batches)</td>
+            </tr>
+        </table>
+
+        <hr style="margin-top: 20px; border: none; border-top: 1px solid #e2e8f0;">
+        <p style="color: #718096; font-size: 0.85em; text-align: center;">
+            Generated by Maia - Meraki Network Agent + Azure Specialist Agent | CR-2026-002 | 2026-02-02<br>
+            Combined Change Request &amp; Implementation Runbook - Production Rollout
+        </p>
+    </div>
+</body>
+</html>

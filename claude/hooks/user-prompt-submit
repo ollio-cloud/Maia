@@ -1,0 +1,130 @@
+#!/bin/bash
+# PHASE 126: Streamlined user-prompt-submit hook - SILENT MODE
+# Prevents context window pollution while maintaining all enforcement
+
+# Dynamic MAIA_ROOT detection (portable across environments)
+MAIA_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+
+# Set to "true" to enable verbose output (for debugging)
+VERBOSE_MODE="${MAIA_HOOK_VERBOSE:-false}"
+
+# PHASE 127: Exempt ALL slash commands from hook validation (consistency fix)
+# Rationale: Any slash command (/compact, /save, /help, etc.) should bypass validation
+# to prevent hook interference with system commands
+if [[ "$CLAUDE_USER_MESSAGE" =~ ^/ ]]; then
+    exit 0  # Skip all validation for slash commands
+fi
+
+# Stage 0: Context Loading Enforcement - Silent unless violations
+CONTEXT_ENFORCER="$(dirname "$0")/context_loading_enforcer.py"
+if [[ -f "$CONTEXT_ENFORCER" ]]; then
+    ENFORCEMENT_RESULT=$(python3 "$CONTEXT_ENFORCER" check 2>&1)
+    if [[ $? -ne 0 ]]; then
+        echo "🚨 CONTEXT LOADING VIOLATION"
+        echo "$ENFORCEMENT_RESULT"
+        exit 1
+    fi
+fi
+
+# Stage 0.5: LLM Router Cost Protection - Silent
+ROUTER_HEALTH_MONITOR="$MAIA_ROOT/claude/tools/🛠️_general/llm_router_health_monitor.py"
+if [[ -f "$ROUTER_HEALTH_MONITOR" ]]; then
+    python3 "$ROUTER_HEALTH_MONITOR" protect 2>/dev/null || true
+fi
+
+# Stage 0.7: Capability Check - Silent unless duplicates found
+CAPABILITY_ENFORCER="$(dirname "$0")/capability_check_enforcer.py"
+if [[ -f "$CAPABILITY_ENFORCER" && -n "$CLAUDE_USER_MESSAGE" ]]; then
+    CAPABILITY_CHECK=$(python3 "$CAPABILITY_ENFORCER" "$CLAUDE_USER_MESSAGE" 2>&1)
+    if [[ $? -eq 1 ]]; then
+        echo "🔍 DUPLICATE CAPABILITY DETECTED"
+        echo "$CAPABILITY_CHECK"
+    fi
+fi
+
+# Stage 0.8: Automatic Agent Persistence - Swarm Auto-Loader (Phase 134)
+# Invokes SwarmOrchestrator when routing confidence >70% and complexity >3
+# Creates session state file for Maia agent context loading
+# Performance SLA: <200ms, Reliability SLA: 100% graceful degradation
+# Phase 135.6: Disown background job to prevent blocking (198ms → <60ms)
+SWARM_AUTO_LOADER="$(dirname "$0")/swarm_auto_loader.py"
+if [[ -f "$SWARM_AUTO_LOADER" && -n "$CLAUDE_USER_MESSAGE" ]]; then
+    # Run in background with disown (truly non-blocking, graceful degradation)
+    (python3 "$SWARM_AUTO_LOADER" "$CLAUDE_USER_MESSAGE" 2>/dev/null || true) & disown
+fi
+
+# Verbose mode output (only if explicitly enabled)
+if [[ "$VERBOSE_MODE" == "true" ]]; then
+    echo ""
+    echo "═══════════════════════════════════════════"
+    echo "🤖 Maia Hook System: ACTIVE (Verbose Mode)"
+    echo "═══════════════════════════════════════════"
+    echo "✅ Context enforcement: Running"
+    echo "✅ Capability check: Running"
+    echo "✅ Agent routing: Silent logging"
+    echo "💡 Set MAIA_HOOK_VERBOSE=false to disable this output"
+    echo "═══════════════════════════════════════════"
+    echo ""
+fi
+
+# Stage 1: Critical UFC validation only
+UFC_FILE="$MAIA_ROOT/claude/context/ufc_system.md"
+if [[ ! -f "$UFC_FILE" ]]; then
+    echo "🚨 CRITICAL: UFC system file not found"
+    echo "   Expected: $UFC_FILE"
+    exit 1
+fi
+
+# Stage 2: Validation checkpoint - Silent unless failures
+CONTEXT_FILES=(
+    "$MAIA_ROOT/claude/context/core/identity.md"
+    "$MAIA_ROOT/claude/context/core/systematic_thinking_protocol.md"
+    "$MAIA_ROOT/claude/context/tools/available.md"
+    "$MAIA_ROOT/claude/context/core/agents.md"
+)
+
+VALIDATION_FAILED=false
+for file in "${CONTEXT_FILES[@]}"; do
+    if [[ ! -f "$file" ]]; then
+        if [[ "$VALIDATION_FAILED" == false ]]; then
+            echo "⚠️  Context files missing:"
+        fi
+        echo "  ❌ $(basename "$file")"
+        VALIDATION_FAILED=true
+    fi
+done
+
+if [[ "$VALIDATION_FAILED" == true ]]; then
+    echo "⚠️  Operating in degraded mode"
+fi
+
+# Token usage tracking - Silent
+USAGE_LOG="$MAIA_ROOT/claude/data/model_usage_log.txt"
+if [[ ! -f "$USAGE_LOG" ]]; then
+    mkdir -p "$(dirname "$USAGE_LOG")"
+    echo "# Maia Model Usage Tracking Log" > "$USAGE_LOG"
+fi
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+CURRENT_MODEL="${CLAUDE_MODEL:-${MODEL:-Unknown}}"
+echo "$TIMESTAMP,$CURRENT_MODEL,session_start" >> "$USAGE_LOG" 2>/dev/null || true
+
+# Stage 3: Model enforcement - Silent unless issues
+if [[ -n "$CLAUDE_USER_MESSAGE" ]]; then
+    # Convert to lowercase for matching (bash 3.x compatible)
+    LOWER_MESSAGE=$(echo "$CLAUDE_USER_MESSAGE" | tr '[:upper:]' '[:lower:]')
+    if [[ "$LOWER_MESSAGE" =~ ^(continue|cont|more|keep\ going|finish|complete) ]]; then
+        # Continue commands - enforce Sonnet silently
+        true  # Enforcement happens via continue-command-protection.sh if present
+    fi
+fi
+
+# Stage 4: Systematic thinking enforcement - Minimal reminder
+if [[ "$VERBOSE_MODE" == "true" ]]; then
+    echo "🧠 Systematic Thinking: Phase 0→1→2→3 required"
+fi
+
+# Conversation persistence monitoring - Silent
+# Detection happens passively via conversation_detector.py
+
+# End of hook - all enforcement running silently
+exit 0

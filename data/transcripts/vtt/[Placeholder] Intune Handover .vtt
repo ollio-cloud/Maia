@@ -1,0 +1,2675 @@
+WEBVTT
+
+025baa47-284c-40b8-ac31-11f998d581d7/7-0
+00:00:03.366 --> 00:00:03.486
+<v @1>Of a.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/9-0
+00:00:05.646 --> 00:00:07.126
+<v @1>Just give me one SEC. I I'm needed.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/8-0
+00:00:06.286 --> 00:00:06.446
+<v Andreas Gani>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/14-0
+00:00:28.206 --> 00:00:32.729
+<v @1>OK, sorry about that. Yeah. So I guess,
+yeah, let's kick it off, Andreas,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/14-1
+00:00:32.729 --> 00:00:37.803
+<v @1>you're gonna share your screen and we've
+prepared a confluence page and what we're</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/14-2
+00:00:37.803 --> 00:00:40.859
+<v @1>gonna do,
+we're gonna walk through the items that</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/14-3
+00:00:40.859 --> 00:00:44.282
+<v @1>we've prepared.
+And I think about 8 items or so in that</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/14-4
+00:00:44.282 --> 00:00:47.155
+<v @1>list.
+So we'll just take a quick look and then</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/14-5
+00:00:47.155 --> 00:00:47.766
+<v @1>we'll run.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/16-0
+00:00:47.886 --> 00:00:49.526
+<v @1>Based on that, Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/13-0
+00:00:48.006 --> 00:00:48.126
+<v Andreas Gani>Sure.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/15-0
+00:00:49.566 --> 00:00:49.766
+<v Olli Ojala | Orro>Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/17-0
+00:00:49.726 --> 00:00:51.206
+<v Andreas Gani>Can you guys see your screen?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/18-0
+00:00:51.966 --> 00:00:52.246
+<v Olli Ojala | Orro>Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/20-0
+00:00:53.246 --> 00:00:57.631
+<v Andreas Gani>So since we have like only half an hour,
+I guess we just start now.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/20-1
+00:00:57.631 --> 00:01:00.533
+<v Andreas Gani>Let me know if you have any questions,
+Olli,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/20-2
+00:01:00.533 --> 00:01:04.919
+<v Andreas Gani>but I just otherwise I'll just go through
+this list pretty quickly.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/20-3
+00:01:04.919 --> 00:01:09.046
+<v Andreas Gani>So the first one on the list is the
+current Intune environment.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/20-4
+00:01:09.046 --> 00:01:12.206
+<v Andreas Gani>So basically as a bit of history,
+we originally.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/21-0
+00:01:13.286 --> 00:01:20.882
+<v Andreas Gani>Have the hybrid join set up where we have
+the yeah the the user device is still</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/21-1
+00:01:20.882 --> 00:01:27.149
+<v Andreas Gani>hybrid joined previously,
+but now since we upgraded to Windows 10</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/21-2
+00:01:27.149 --> 00:01:32.086
+<v Andreas Gani>and now Windows 11 we have been on on the
+AAD join.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/22-0
+00:01:32.486 --> 00:01:36.331
+<v Andreas Gani>Enter ID joint.
+Basically set up and then some user.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/22-1
+00:01:36.331 --> 00:01:42.136
+<v Andreas Gani>Sorry users actually have the licence
+assigned to them as E3 licence for us few</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/22-2
+00:01:42.136 --> 00:01:48.230
+<v Andreas Gani>admin user actually have the Intune stand
+alone licence licence to to to manage the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/22-3
+00:01:48.230 --> 00:01:49.246
+<v Andreas Gani>Intune itself.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/23-0
+00:01:50.206 --> 00:01:56.135
+<v Andreas Gani>The Arabic setup we have admin and also
+help desk role define the help desk role</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/23-1
+00:01:56.135 --> 00:02:01.772
+<v Andreas Gani>is for the IT support team where they
+they they can perform limited function</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/23-2
+00:02:01.772 --> 00:02:07.408
+<v Andreas Gani>that that can help with their role.
+Basically any question on that or we can</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/23-3
+00:02:07.408 --> 00:02:08.726
+<v Andreas Gani>we can move along.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/24-0
+00:02:09.366 --> 00:02:09.966
+<v Olli Ojala | Orro>No, no that.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/25-0
+00:02:10.766 --> 00:02:14.079
+<v Andreas Gani>Yeah, OK, cool.
+But the device management bit,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/25-1
+00:02:14.079 --> 00:02:17.744
+<v Andreas Gani>we have multiple devices that we managed
+to Intune.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/25-2
+00:02:17.744 --> 00:02:22.960
+<v Andreas Gani>So first one is windows and then the
+windows itself we purchased from the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/25-3
+00:02:22.960 --> 00:02:28.457
+<v Andreas Gani>Microsoft partner where we have the
+serial number registered in the autopilot</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/25-4
+00:02:28.457 --> 00:02:29.726
+<v Andreas Gani>for our autopilot.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/26-0
+00:02:30.686 --> 00:02:36.122
+<v Andreas Gani>Enrollment. Yeah, there are multiple ESP.
+You probably have seen that and I think</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/26-1
+00:02:36.122 --> 00:02:39.105
+<v Andreas Gani>we already discussed it in the past as
+well.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/26-2
+00:02:39.105 --> 00:02:44.144
+<v Andreas Gani>We have sort of the machine actually
+enrolled and refreshed through the USB</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/26-3
+00:02:44.144 --> 00:02:47.724
+<v Andreas Gani>stick method.
+So they put through the USB stick stick</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/26-4
+00:02:47.724 --> 00:02:49.646
+<v Andreas Gani>and then that USB stick will.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/27-0
+00:02:49.726 --> 00:02:54.683
+<v Andreas Gani>Also ask for the main that sorry,
+not the main the prefix that they will</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/27-1
+00:02:54.683 --> 00:03:00.115
+<v Andreas Gani>use whether they are actually a Melbourne
+based device or Sydney based or other</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/27-2
+00:03:00.115 --> 00:03:05.412
+<v Andreas Gani>than the two states, which is regional.
+That's what we call and from that the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/27-3
+00:03:05.412 --> 00:03:09.486
+<v Andreas Gani>naming convention will be formatted
+basically and deployed.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/28-0
+00:03:09.526 --> 00:03:16.409
+<v Andreas Gani>And then the rest of the applications is
+deployed through the Intune plus kasaya</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/28-1
+00:03:16.409 --> 00:03:22.358
+<v Andreas Gani>and then also of course in the future
+will be data the Mac OS itself.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/28-2
+00:03:22.358 --> 00:03:27.202
+<v Andreas Gani>We have two devices at the moment.
+One is for marketing,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/28-3
+00:03:27.202 --> 00:03:29.326
+<v Andreas Gani>the other one is for one.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/29-0
+00:03:29.406 --> 00:03:31.166
+<v Andreas Gani>Of our developer.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/30-0
+00:03:33.486 --> 00:03:37.490
+<v Andreas Gani>The the iOS and iPad OS we manage this
+through. Sorry,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/30-1
+00:03:37.490 --> 00:03:42.004
+<v Andreas Gani>the devices are actually registered to
+ABM where we enrolled.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/30-2
+00:03:42.004 --> 00:03:47.902
+<v Andreas Gani>If the the enrollment programme tokens we
+need to renew that every every year as</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/30-3
+00:03:47.902 --> 00:03:50.086
+<v Andreas Gani>annual annual basis basically.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/31-0
+00:03:51.086 --> 00:03:58.889
+<v Andreas Gani>VPP is where we we deployed our app that
+we purchased through that that yeah VPP</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/31-1
+00:03:58.889 --> 00:04:06.692
+<v Andreas Gani>programme basically the Android there is
+no set corporate setup that we deployed</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/31-2
+00:04:06.692 --> 00:04:07.366
+<v Andreas Gani>so far.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/32-0
+00:04:08.726 --> 00:04:16.009
+<v Andreas Gani>The AOSB however,
+is configured and we have this aosb</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/32-1
+00:04:16.009 --> 00:04:23.966
+<v Andreas Gani>mainly for for our teams phone that we
+have in in the mid.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/33-0
+00:04:24.686 --> 00:04:30.042
+<v Andreas Gani>Rooms and also phone booth,
+the device administrator as you are aware</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/33-1
+00:04:30.042 --> 00:04:34.785
+<v Andreas Gani>is is already retired and so that
+approach has been disabled.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/33-2
+00:04:34.785 --> 00:04:41.135
+<v Andreas Gani>So at the present time there are good mix
+of aosb and device administrator managed</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/33-3
+00:04:41.135 --> 00:04:43.966
+<v Andreas Gani>devices. So the device administrator.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/34-0
+00:04:44.326 --> 00:04:48.276
+<v Andreas Gani>Here is the one that's in the legacy
+approach,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/34-1
+00:04:48.276 --> 00:04:54.242
+<v Andreas Gani>but moving forward that's no longer. Yeah,
+it's not committed anymore.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/34-2
+00:04:54.242 --> 00:04:59.789
+<v Andreas Gani>We have not gone through converting those
+devices. Unfortunately,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/34-3
+00:04:59.789 --> 00:05:03.486
+<v Andreas Gani>we did the tests and migration of level
+to.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/35-0
+00:05:03.606 --> 00:05:12.206
+<v Andreas Gani>The IT users only back in the past,
+but we stopped that the compliance policy</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/35-1
+00:05:12.206 --> 00:05:20.806
+<v Andreas Gani>we have that configured per device type,
+configuration profiles and baseline.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/36-0
+00:05:22.126 --> 00:05:28.271
+<v Andreas Gani>We do have that configured.
+I believe you are the syndrome as well.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/36-1
+00:05:28.271 --> 00:05:32.879
+<v Andreas Gani>The first category scope dynamic groups,
+yeah, OK,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/36-2
+00:05:32.879 --> 00:05:37.126
+<v Andreas Gani>so category we do have few categories
+that we.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/38-0
+00:05:38.326 --> 00:05:43.315
+<v Andreas Gani>Use in the past.
+I'm I'm not quite sure whether we're</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/37-0
+00:05:41.646 --> 00:05:41.766
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/38-1
+00:05:43.315 --> 00:05:49.228
+<v Andreas Gani>still using that or not.
+Nowadays with we do have like zoom and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/38-2
+00:05:49.228 --> 00:05:52.646
+<v Andreas Gani>corporate devices that that the well.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/39-0
+00:05:53.206 --> 00:05:57.086
+<v Andreas Gani>That we can we can we can set up
+basically.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/40-0
+00:05:57.086 --> 00:05:59.851
+<v @1>Yeah, there are.
+There are few more categories and I guess</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/40-1
+00:05:59.851 --> 00:06:02.945
+<v @1>the list is not exhaustive,
+but I guess at the point of preparing</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/40-2
+00:06:02.945 --> 00:06:05.289
+<v @1>this we that's the thing that came under
+my mind.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/40-3
+00:06:05.289 --> 00:06:07.913
+<v @1>The compliance policies and the
+configuration profiles,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/40-4
+00:06:07.913 --> 00:06:11.804
+<v @1>I think we've kept it really high level.
+We have not gone down to list every item,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/40-5
+00:06:11.804 --> 00:06:12.366
+<v @1>but I think.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/43-0
+00:06:13.046 --> 00:06:17.930
+<v @1>Please take a look and see if we need
+unpacking. We'll do that kind of thing.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/43-1
+00:06:17.930 --> 00:06:18.806
+<v @1>Yeah, Andreas.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/42-0
+00:06:18.166 --> 00:06:18.406
+<v Andreas Gani>Hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/44-0
+00:06:19.606 --> 00:06:23.547
+<v Andreas Gani>Yes, scope.
+We are not using scopes at the States</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/44-1
+00:06:23.547 --> 00:06:27.093
+<v Andreas Gani>only,
+so that's not applicable to us the and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/44-2
+00:06:27.093 --> 00:06:30.955
+<v Andreas Gani>what. Sorry,
+what's the context on this relay on</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/44-3
+00:06:30.955 --> 00:06:32.846
+<v Andreas Gani>Dynamic group enter IDs?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/47-0
+00:06:32.126 --> 00:06:35.185
+<v @1>Yeah.
+So I guess we do in terms of classifying</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/47-1
+00:06:35.185 --> 00:06:38.700
+<v @1>the devices,
+we do use dynamic and based on variables</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/45-0
+00:06:37.526 --> 00:06:38.286
+<v Andreas Gani>We do, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/47-2
+00:06:38.700 --> 00:06:42.281
+<v @1>we, yeah, we do,
+we do use that fabric where possible,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/46-0
+00:06:42.006 --> 00:06:42.246
+<v Andreas Gani>Hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/47-3
+00:06:42.281 --> 00:06:42.606
+<v @1>yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/48-0
+00:06:43.446 --> 00:06:47.803
+<v Andreas Gani>Yeah, OK. That's correct.
+I think we already mentioned that in the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/48-1
+00:06:47.803 --> 00:06:51.510
+<v Andreas Gani>our previous meeting.
+So we do have for instance the all</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/48-2
+00:06:51.510 --> 00:06:56.713
+<v Andreas Gani>Devices Static group is the static group,
+but in the members of that particular</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/48-3
+00:06:56.713 --> 00:07:01.590
+<v Andreas Gani>group especially Dynamic Group with
+relies on the sorry yeah dynamic group</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/48-4
+00:07:01.590 --> 00:07:03.086
+<v Andreas Gani>based on the rule that.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/49-0
+00:07:03.166 --> 00:07:08.735
+<v Andreas Gani>Reset up Autopilot,
+set up with clothing profile. All right,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/49-1
+00:07:08.735 --> 00:07:15.581
+<v Andreas Gani>device registration, user assignment.
+This is part of the autopilot setup,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/49-2
+00:07:15.581 --> 00:07:18.046
+<v Andreas Gani>so when when they have the.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/50-0
+00:07:19.726 --> 00:07:22.392
+<v Andreas Gani>The serial number assigned to particular
+user.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/50-1
+00:07:22.392 --> 00:07:25.228
+<v Andreas Gani>They they configured that in the
+autopilot setup.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/50-2
+00:07:25.228 --> 00:07:28.972
+<v Andreas Gani>The white clothing itself,
+we don't really have like a full white</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/50-3
+00:07:28.972 --> 00:07:33.340
+<v Andreas Gani>clothing white clothing process because
+the IT support team usually login on</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/50-4
+00:07:33.340 --> 00:07:36.006
+<v Andreas Gani>behalf of user just to complete all the
+setup.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/51-0
+00:07:37.126 --> 00:07:43.136
+<v Andreas Gani>End to end the first clean up routines
+and last second management as per setting.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/51-1
+00:07:43.136 --> 00:07:47.314
+<v Andreas Gani>Yeah we don't really.
+I think we leave it to the default</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/51-2
+00:07:47.314 --> 00:07:48.926
+<v Andreas Gani>process at the moment.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/54-0
+00:07:49.126 --> 00:07:53.875
+<v @1>We yeah, we do have some clean up.
+I think it's like 90 days or something or</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/54-1
+00:07:53.875 --> 00:07:56.835
+<v @1>rather,
+but over time what we have noticed that</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/52-0
+00:07:56.486 --> 00:07:57.086
+<v Andreas Gani>Mm-hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/54-2
+00:07:56.835 --> 00:08:01.769
+<v @1>90 days enforcement is not great and I
+see at times we need to manually perform</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/54-3
+00:08:01.769 --> 00:08:06.086
+<v @1>some level of clean up. But by default,
+yes we do have that in place.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/53-0
+00:08:06.886 --> 00:08:07.126
+<v Andreas Gani>Hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/55-0
+00:08:07.206 --> 00:08:07.446
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/56-0
+00:08:09.006 --> 00:08:09.406
+<v Andreas Gani>OK.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/57-0
+00:08:09.446 --> 00:08:11.126
+<v @1>Any questions right up to here, Olli?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/58-0
+00:08:15.766 --> 00:08:16.886
+<v Olli Ojala | Orro>No, no.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/66-0
+00:08:18.966 --> 00:08:23.472
+<v Olli Ojala | Orro>Should be all right. All good.
+I I have some. Yeah. Yeah,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/60-0
+00:08:20.646 --> 00:08:21.566
+<v @1>Pretty stock standard, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/59-0
+00:08:20.806 --> 00:08:21.246
+<v Andreas Gani>No good.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/66-1
+00:08:23.472 --> 00:08:28.444
+<v Olli Ojala | Orro>it's it's it's the setup itself.
+I I might have some questions.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/62-0
+00:08:26.766 --> 00:08:26.886
+<v Andreas Gani>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/66-2
+00:08:28.444 --> 00:08:34.193
+<v Olli Ojala | Orro>Not really for the setup itself,
+but just kind of like a background. Why?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/63-0
+00:08:30.566 --> 00:08:30.806
+<v Andreas Gani>OK.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/64-0
+00:08:30.686 --> 00:08:34.646
+<v @1>Yeah, OK, easy, easy.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/66-3
+00:08:34.193 --> 00:08:36.446
+<v Olli Ojala | Orro>Why why you do something. Oh.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/68-0
+00:08:36.446 --> 00:08:40.453
+<v @1>OK. Yeah. So,
+so I think only with the background side</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/65-0
+00:08:36.486 --> 00:08:36.806
+<v Andreas Gani>Sure.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/67-0
+00:08:37.166 --> 00:08:39.606
+<v Olli Ojala | Orro>Main mainly one couple not with you.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/68-1
+00:08:40.453 --> 00:08:44.095
+<v @1>of things,
+we were previously assisted by another</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/68-2
+00:08:44.095 --> 00:08:48.175
+<v @1>organisation.
+I think you know who that is based on the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/68-3
+00:08:48.175 --> 00:08:51.526
+<v @1>stuff that you see in Intune based in
+Sydney.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/69-0
+00:08:52.006 --> 00:08:56.510
+<v @1>And I guess when we were refreshing our
+computers to the new surface or the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/69-1
+00:08:56.510 --> 00:09:00.896
+<v @1>surface that we have right now,
+we engaged them and and obviously part of</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/69-2
+00:09:00.896 --> 00:09:04.985
+<v @1>the engagement was to convert our hybrid
+setup to enter ID. So yeah,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/69-3
+00:09:04.985 --> 00:09:09.548
+<v @1>you you will see a mixed bag of ideas for
+methodology and and whatnot. Yeah,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/69-4
+00:09:09.548 --> 00:09:11.326
+<v @1>let's challenge those and and.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/70-0
+00:09:11.406 --> 00:09:14.071
+<v @1>If I've got a question please.
+I know this is half an hour,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/70-1
+00:09:14.071 --> 00:09:17.046
+<v @1>but this is not the end of this piece of
+work. You can definitely.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/72-0
+00:09:15.566 --> 00:09:20.930
+<v Olli Ojala | Orro>Yeah, yeah, no, this is just a. Yeah,
+I think what I had a quick look like also,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/72-1
+00:09:20.930 --> 00:09:26.095
+<v Olli Ojala | Orro>like some cleanup definitely would be
+good because there is a lot of apps and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/71-0
+00:09:24.966 --> 00:09:25.366
+<v @1>Easy.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/72-2
+00:09:26.095 --> 00:09:29.406
+<v Olli Ojala | Orro>configuration policies that doesn't have
+any any.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/75-0
+00:09:29.366 --> 00:09:33.326
+<v Andreas Gani>So in that, sorry in that case,
+do we need to go through this list or we</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/73-0
+00:09:29.566 --> 00:09:30.566
+<v @1>Assignment, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/74-0
+00:09:30.446 --> 00:09:32.326
+<v Olli Ojala | Orro>Assignments or targets or anything.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/75-1
+00:09:33.326 --> 00:09:37.286
+<v Andreas Gani>actually want to just listen to your
+question and we go from there only?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/79-0
+00:09:36.726 --> 00:09:40.271
+<v Olli Ojala | Orro>No, no, that's all.
+I think that's that's good.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/77-0
+00:09:38.766 --> 00:09:39.326
+<v Andreas Gani>That's OK.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/76-0
+00:09:39.286 --> 00:09:39.406
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/79-1
+00:09:40.271 --> 00:09:44.406
+<v Olli Ojala | Orro>Like my my like application management of
+those that's.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/78-0
+00:09:40.326 --> 00:09:40.886
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/82-0
+00:09:46.006 --> 00:09:52.879
+<v Olli Ojala | Orro>Really self exploring. Kind of. Yeah.
+So probably my main thing would be the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/80-0
+00:09:48.446 --> 00:09:49.086
+<v Andreas Gani>Explain the three.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/81-0
+00:09:50.606 --> 00:09:50.926
+<v Andreas Gani>OK.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/82-1
+00:09:52.879 --> 00:09:59.127
+<v Olli Ojala | Orro>security stuff and updates.
+It's one big thing like because there was</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/82-2
+00:09:59.127 --> 00:10:04.126
+<v Olli Ojala | Orro>some item on the onboarding list for the
+mobile device.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/84-0
+00:10:05.486 --> 00:10:08.470
+<v Olli Ojala | Orro>Patch management.
+And So what do you do there and is there</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/84-1
+00:10:08.470 --> 00:10:11.050
+<v Olli Ojala | Orro>any like,
+do we need to change anything or are you</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/83-0
+00:10:08.486 --> 00:10:08.726
+<v @1>Hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/84-2
+00:10:11.050 --> 00:10:14.237
+<v Olli Ojala | Orro>happy to just keep going,
+but probably at the security and the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/84-3
+00:10:14.237 --> 00:10:15.046
+<v Olli Ojala | Orro>patching is the?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/85-0
+00:10:16.286 --> 00:10:17.926
+<v Olli Ojala | Orro>Main things probably.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/86-0
+00:10:17.286 --> 00:10:18.846
+<v @1>Management, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/88-0
+00:10:19.846 --> 00:10:25.463
+<v Olli Ojala | Orro>And then there is probably some questions
+of what's whose responsibility 'cause we</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/88-1
+00:10:25.463 --> 00:10:29.726
+<v Olli Ojala | Orro>don't have access to that ABM,
+for example. And so forth. Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/89-0
+00:10:32.606 --> 00:10:35.488
+<v @1>Alright,
+let's carry on with the maybe we'll skip</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/89-1
+00:10:35.488 --> 00:10:38.370
+<v @1>the application management.
+I think you're right.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/89-2
+00:10:38.370 --> 00:10:39.926
+<v @1>It is stock standard and I.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/90-0
+00:10:39.126 --> 00:10:41.447
+<v Andreas Gani>Sorry Prakash,
+can you go ahead with with number four,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/90-1
+00:10:41.447 --> 00:10:43.304
+<v Andreas Gani>please?
+I I guess I pick you through at the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/90-2
+00:10:43.304 --> 00:10:44.486
+<v Andreas Gani>moment. I'll continue after.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/93-0
+00:10:43.886 --> 00:10:47.524
+<v @1>That's OK. Yeah, that's OK.
+So what I'll do? I'll.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/93-1
+00:10:47.524 --> 00:10:51.876
+<v @1>I'll share my screen.
+Let me know if you can see them. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/92-0
+00:10:50.886 --> 00:10:51.326
+<v Olli Ojala | Orro>Yep, Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/93-2
+00:10:51.876 --> 00:10:55.728
+<v @1>Cool. Cool.
+So coming back to item number three here.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/93-3
+00:10:55.728 --> 00:10:59.366
+<v @1>I think we've got a fair share of
+different types.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/94-0
+00:10:59.686 --> 00:11:02.589
+<v @1>We've got Windows Store,
+we've got lob store,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/94-1
+00:11:02.589 --> 00:11:06.250
+<v @1>app build and so on and we've got
+application assignment.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/94-2
+00:11:06.250 --> 00:11:10.352
+<v @1>So So what we do when we need to set up
+an application specific,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/94-3
+00:11:10.352 --> 00:11:15.086
+<v @1>we have a convention where we would set
+up a ADAG being application group.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/96-0
+00:11:15.446 --> 00:11:20.230
+<v @1>Key Pass Key Pass notepad++ or or or the
+name of the application so that we we add</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/96-1
+00:11:20.230 --> 00:11:24.784
+<v @1>the user into those application security
+groups and then we'll that the device</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/96-2
+00:11:24.784 --> 00:11:28.472
+<v @1>targeting will happen.
+If we need to do testing we'll we'll use</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/95-0
+00:11:26.526 --> 00:11:26.646
+<v Andreas Gani>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/96-3
+00:11:28.472 --> 00:11:32.046
+<v @1>this particular convention where this
+would be the host name.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/97-0
+00:11:32.366 --> 00:11:36.007
+<v @1>And we'll do what we need to do and I
+think based on the Datto,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/97-1
+00:11:36.007 --> 00:11:40.728
+<v @1>you know that we've got couple of groups
+that we commonly use in terms of in terms</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/97-2
+00:11:40.728 --> 00:11:44.767
+<v @1>of assignment. So that's that, right,
+moving on to security and access</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/97-3
+00:11:44.767 --> 00:11:47.498
+<v @1>management,
+we have got a couple of conditional</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/97-4
+00:11:47.498 --> 00:11:48.806
+<v @1>access policies in use.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/98-0
+00:11:49.126 --> 00:11:54.220
+<v @1>But I think this was around evaluating
+and trying to put Mam in place which</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/98-1
+00:11:54.220 --> 00:11:58.376
+<v @1>which obviously obviously had or ran into
+a bit of a problem.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/98-2
+00:11:58.376 --> 00:12:02.867
+<v @1>So we kind of put that on hold and then
+if you look at compliance,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/98-3
+00:12:02.867 --> 00:12:07.961
+<v @1>you'll notice that a couple of basic
+policies, we do have Microsoft's best,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/98-4
+00:12:07.961 --> 00:12:08.966
+<v @1>best practises.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-0
+00:12:10.166 --> 00:12:13.123
+<v @1>Plan one and plan two.
+I think it's compliance phase one,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-1
+00:12:13.123 --> 00:12:15.825
+<v @1>phase two.
+That is something that we are planning to</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-2
+00:12:15.825 --> 00:12:18.425
+<v @1>put forth,
+but obviously we need a buy in from the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-3
+00:12:18.425 --> 00:12:21.076
+<v @1>business.
+I think in principle business is OK to do</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-4
+00:12:21.076 --> 00:12:23.217
+<v @1>it,
+but we haven't really worked out that</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-5
+00:12:23.217 --> 00:12:26.735
+<v @1>particular bit. BitLocker,
+yeah if we need to find out the BitLocker</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/99-6
+00:12:26.735 --> 00:12:28.366
+<v @1>key, we can just go to the same.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/100-0
+00:12:29.286 --> 00:12:33.908
+<v @1>Local administrator rights? Yeah,
+we don't use labs today.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/100-1
+00:12:33.908 --> 00:12:38.609
+<v @1>We rely on entry IDs,
+local administrator role to go in and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/100-2
+00:12:38.609 --> 00:12:44.406
+<v @1>make changes or what have you user
+firewall. So we rely on defender here.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/101-0
+00:12:46.006 --> 00:12:49.206
+<v @1>Let me just click. I don't know.
+I can't click no.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/102-0
+00:12:49.486 --> 00:12:50.086
+<v Andreas Gani>Mm-hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/103-0
+00:12:50.726 --> 00:12:52.086
+<v @1>This would be Ms defender.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/104-0
+00:12:53.846 --> 00:12:56.762
+<v @1>Yeah.
+So basically we have a base set firewall</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/104-1
+00:12:56.762 --> 00:12:59.491
+<v @1>and then depending on the role of the
+user,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/104-2
+00:12:59.491 --> 00:13:02.531
+<v @1>it will cumulatively apply the policy
+basically.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/104-3
+00:13:02.531 --> 00:13:06.129
+<v @1>So any any normal users who would fall
+under this bucket,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/104-4
+00:13:06.129 --> 00:13:10.781
+<v @1>ICT team would use this one and the
+development will use this one based on</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/104-5
+00:13:10.781 --> 00:13:12.766
+<v @1>this particular base set policy.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/105-0
+00:13:13.326 --> 00:13:18.055
+<v @1>So that's user firewall and on top of
+that we have security baselines that we</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/105-1
+00:13:18.055 --> 00:13:21.571
+<v @1>have configured and that is as per Sox
+review and advice.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/105-2
+00:13:21.571 --> 00:13:26.421
+<v @1>You will find that I think we've got one
+or two that we update over time. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/105-3
+00:13:26.421 --> 00:13:31.392
+<v @1>And I guess when it comes to antivirus,
+we don't use defender Ms Defender at this</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/105-4
+00:13:31.392 --> 00:13:32.726
+<v @1>point in time we rely.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/106-0
+00:13:32.806 --> 00:13:36.751
+<v @1>On vision one, apex one,
+I think apex one is the older name and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/106-1
+00:13:36.751 --> 00:13:40.574
+<v @1>it's now rebranded as Vision one under
+the vision on product.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/106-2
+00:13:40.574 --> 00:13:45.567
+<v @1>You've got apex one. What am I saying? OK,
+so we've got that being the antivirus</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/106-3
+00:13:45.567 --> 00:13:48.526
+<v @1>protection or endpoint tool that we have
+today.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/107-0
+00:13:48.926 --> 00:13:54.463
+<v @1>Windows hello not in place just yet,
+and obviously this is just a reiteration</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/107-1
+00:13:54.463 --> 00:13:58.366
+<v @1>that Ms Defender is not enabled at this
+point in time.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/107-2
+00:13:58.366 --> 00:14:03.406
+<v @1>Any question based on what you see for
+security and access management?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/108-0
+00:14:06.246 --> 00:14:08.766
+<v Olli Ojala | Orro>No, no, that that's alright.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/109-0
+00:14:09.766 --> 00:14:10.326
+<v @1>All right, cool.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/110-0
+00:14:10.606 --> 00:14:15.479
+<v Andreas Gani>Probably just an additional thing on on
+BitLocker only.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/110-1
+00:14:15.479 --> 00:14:22.440
+<v Andreas Gani>We do have the BitLocker pin enabled as
+well for user to enter the PIN and then</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/110-2
+00:14:22.440 --> 00:14:24.006
+<v Andreas Gani>from time to time.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/112-0
+00:14:24.406 --> 00:14:28.735
+<v Andreas Gani>Not from time,
+but it has happened that whenever the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/112-1
+00:14:28.735 --> 00:14:33.718
+<v Andreas Gani>firmware been upgraded,
+if TPM somehow got erase or refresh,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/112-2
+00:14:33.718 --> 00:14:37.883
+<v Andreas Gani>it will prompt the user to re enter the
+pin again.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/112-3
+00:14:37.883 --> 00:14:43.846
+<v Andreas Gani>So we have a script that runs in the
+background that will check whether.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/113-0
+00:14:43.966 --> 00:14:50.943
+<v Andreas Gani>The TPM pin has been configured or not,
+so if that status bit is says that it has</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/113-1
+00:14:50.943 --> 00:14:56.304
+<v Andreas Gani>not been configured,
+it will prompt with a window for the user</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/113-2
+00:14:56.304 --> 00:14:58.686
+<v Andreas Gani>to actually enter their pin.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/114-0
+00:15:00.206 --> 00:15:05.454
+<v Andreas Gani>Other than that, once once it's entered,
+it will not prompt the user again until</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/114-1
+00:15:05.454 --> 00:15:10.507
+<v Andreas Gani>usually when that when that happens is is
+if if the firmware and the hardware</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/114-2
+00:15:10.507 --> 00:15:14.006
+<v Andreas Gani>firmware somehow get get refresh or or or
+or updated.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/116-0
+00:15:14.846 --> 00:15:17.678
+<v @1>Yeah. OK, cool. Yeah,
+that that's a that's a good point.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/115-0
+00:15:15.006 --> 00:15:15.886
+<v Andreas Gani>And it's yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/116-1
+00:15:17.678 --> 00:15:20.262
+<v @1>You do have BitLocker pin.
+That's a good one. Olli.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/116-2
+00:15:20.262 --> 00:15:24.238
+<v @1>Anything else with the security access
+management before we move on to the next</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/116-3
+00:15:24.238 --> 00:15:24.486
+<v @1>item.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/117-0
+00:15:26.326 --> 00:15:26.926
+<v Andreas Gani>Mm-hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/118-0
+00:15:27.526 --> 00:15:27.646
+<v Olli Ojala | Orro>None.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/119-0
+00:15:29.966 --> 00:15:34.606
+<v Olli Ojala | Orro>No, I might. Well,
+I I was going to ask the BitLocker pin.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/121-0
+00:15:35.966 --> 00:15:40.399
+<v Olli Ojala | Orro>Do you do you use the USB to configure
+that or is that part of Intune</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/120-0
+00:15:36.006 --> 00:15:36.606
+<v Andreas Gani>Mm-hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/121-1
+00:15:40.399 --> 00:15:41.286
+<v Olli Ojala | Orro>configuration?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/122-0
+00:15:42.366 --> 00:15:43.806
+<v Andreas Gani>It's it's, it's part of the.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/123-0
+00:15:43.006 --> 00:15:46.284
+<v Olli Ojala | Orro>Or is it?
+Is is that that is that the data script</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/123-1
+00:15:46.284 --> 00:15:49.366
+<v Olli Ojala | Orro>that or Cassia script previously but or
+is it?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/125-0
+00:15:49.326 --> 00:15:53.513
+<v Andreas Gani>There's an engine script that actually
+deploys that and check as part of the app</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/125-1
+00:15:53.513 --> 00:15:56.305
+<v Andreas Gani>deployment. Yeah,
+it's not part of the configuration,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/124-0
+00:15:53.566 --> 00:15:55.806
+<v Olli Ojala | Orro>In TuneIn tune. Yep. Yep, Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/125-2
+00:15:56.305 --> 00:15:58.166
+<v Andreas Gani>but it's part of the app deployment.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/127-0
+00:15:59.606 --> 00:16:05.870
+<v @1>App deployment it just saying not not
+configuration. Just give me one SEC. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/126-0
+00:16:03.486 --> 00:16:04.966
+<v Andreas Gani>I'm pretty sure it's a deployment, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/127-1
+00:16:05.870 --> 00:16:06.566
+<v @1>OK, cool.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/128-0
+00:16:09.686 --> 00:16:09.726
+<v Andreas Gani>Uh.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/130-0
+00:16:09.846 --> 00:16:14.126
+<v @1>Sorry, what am I doing? Protection.
+Configuration. Windows. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/129-0
+00:16:11.246 --> 00:16:12.886
+<v Andreas Gani>Go go to Windows, go to windows.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/132-0
+00:16:16.006 --> 00:16:21.219
+<v @1>BitLocker. Yeah. Bingo. That's it.
+So this is the one that does the reset</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/132-1
+00:16:21.219 --> 00:16:25.728
+<v @1>set the first one. Yeah.
+So that's that script that does prompt</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/131-0
+00:16:22.006 --> 00:16:23.086
+<v Andreas Gani>The top the first one.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/132-2
+00:16:25.728 --> 00:16:30.519
+<v @1>and see if BitLocker when you boot up
+that pin or it's not defined,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/132-3
+00:16:30.519 --> 00:16:31.646
+<v @1>it'll have that.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/133-0
+00:16:32.166 --> 00:16:35.701
+<v @1>So it does a couple of cheques that gets
+evaluated every so often. You're right.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/133-1
+00:16:35.701 --> 00:16:38.406
+<v @1>If let's say something is not right,
+it will prompt the user.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/134-0
+00:16:40.646 --> 00:16:41.326
+<v @1>OK, cool.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/135-0
+00:16:42.966 --> 00:16:44.446
+<v Olli Ojala | Orro>Is it just a PowerShell script?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/136-0
+00:16:45.086 --> 00:16:47.486
+<v Andreas Gani>It is a partial script, yes.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/137-0
+00:16:46.886 --> 00:16:50.593
+<v @1>Yeah. Yeah, it does.
+It's a PowerShell script that we probably</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/137-1
+00:16:50.593 --> 00:16:53.300
+<v @1>need to check and see if if we've got
+access,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/137-2
+00:16:53.300 --> 00:16:57.714
+<v @1>but I guess that is packaged into a
+Intune win type solution and then gets</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/137-3
+00:16:57.714 --> 00:16:59.126
+<v @1>ruled out kind of thing.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/138-0
+00:17:01.406 --> 00:17:07.387
+<v @1>There you go. All right, cool. Moving on.
+We've got patch management,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/138-1
+00:17:07.387 --> 00:17:14.564
+<v @1>patch management. We rely on casaya now.
+Datto. And this one here. The update ring.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/138-2
+00:17:14.564 --> 00:17:20.886
+<v @1>We used to be on Intune to roll out
+feature updates and on an OS version.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/140-0
+00:17:21.366 --> 00:17:25.147
+<v @1>Or even OS upgrades.
+But these are all not in use today</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/140-1
+00:17:25.147 --> 00:17:30.819
+<v @1>because we find that some gap with Intune
+the way Intune does it and we've moved to</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/140-2
+00:17:30.819 --> 00:17:36.356
+<v @1>to kasaiya even the the last Windows 10
+to 11 upgrade was pretty much handled end</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/140-3
+00:17:36.356 --> 00:17:37.166
+<v @1>to end with.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/139-0
+00:17:37.326 --> 00:17:37.446
+<v Andreas Gani>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/141-0
+00:17:38.046 --> 00:17:41.464
+<v @1>With Kasaya,
+but believe there was some issue with</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/141-1
+00:17:41.464 --> 00:17:46.022
+<v @1>Kasaya where we had to go back to Intune.
+But having said all that,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/141-2
+00:17:46.022 --> 00:17:50.713
+<v @1>we are now all on Windows 11,
+so I think we don't really use these at</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/141-3
+00:17:50.713 --> 00:17:55.606
+<v @1>this point in time when it comes to iOS,
+we do have two update policies.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/142-0
+00:17:57.646 --> 00:18:01.606
+<v @1>Let me just I ***.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/143-0
+00:18:03.166 --> 00:18:06.880
+<v @1>So this this part here.
+I know this is deprecated but the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/143-1
+00:18:06.880 --> 00:18:10.849
+<v @1>succession to that is not something
+available to us just yet.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/143-2
+00:18:10.849 --> 00:18:16.099
+<v @1>And when that is available we it will be
+then put forth or I guess will be put in</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/143-3
+00:18:16.099 --> 00:18:18.724
+<v @1>place.
+So this one here depending on the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/143-4
+00:18:18.724 --> 00:18:22.566
+<v @1>scenario whether it's a critical issue
+like a zero day 100.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/144-0
+00:18:22.646 --> 00:18:26.290
+<v @1>Ability we'll do update in the next check
+in. If it's not,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/144-1
+00:18:26.290 --> 00:18:30.737
+<v @1>we'll just use the first one,
+but half the time we end up updating both</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/144-2
+00:18:30.737 --> 00:18:35.493
+<v @1>because all the time we've got security
+issues to to address and we do that.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/144-3
+00:18:35.493 --> 00:18:39.446
+<v @1>So in in terms of updating it to the
+latest version IT support.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/145-0
+00:18:40.606 --> 00:18:43.677
+<v @1>IT support will sense check the the
+updates,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/145-1
+00:18:43.677 --> 00:18:48.318
+<v @1>so basically it'll just run update,
+upgrade and just make sure that</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/145-2
+00:18:48.318 --> 00:18:53.505
+<v @1>everything is working as expected.
+There's no show stoppers of any kind and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/145-3
+00:18:53.505 --> 00:18:55.006
+<v @1>then they will advise.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/146-0
+00:18:56.366 --> 00:19:01.364
+<v @1>Then advise the team to update. Yeah.
+So I think that's what happens today.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/146-1
+00:19:01.364 --> 00:19:05.902
+<v @1>Yeah. So. And at the same bucket,
+we have got iPads as well and iPad</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/146-2
+00:19:05.902 --> 00:19:11.032
+<v @1>follows the same regimen in the sense
+they will do a better check and then we</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/146-3
+00:19:11.032 --> 00:19:14.846
+<v @1>will update it accordingly to the next
+available version.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/147-0
+00:19:15.206 --> 00:19:18.286
+<v @1>And I think for this one here,
+we have not gone with the clear.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/148-0
+00:19:20.046 --> 00:19:23.618
+<v @1>Not with the version 2625. Sorry, no,
+I think it's 26,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/148-1
+00:19:23.618 --> 00:19:28.684
+<v @1>but we're still with the version 18.
+But if the user so choose one to upgrade</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/148-2
+00:19:28.684 --> 00:19:32.256
+<v @1>to the latest version 26,
+they can go ahead and do it.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/148-3
+00:19:32.256 --> 00:19:36.218
+<v @1>But as far as we are concerned we we are
+just pushing to 18,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/148-4
+00:19:36.218 --> 00:19:39.206
+<v @1>but I think there is a call behind the
+scene.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/149-0
+00:19:39.486 --> 00:19:44.546
+<v @1>To actually push this to the latest clear
+operating, is it called clear?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/149-1
+00:19:44.546 --> 00:19:49.397
+<v @1>I'm not sure what the glass glass
+operating are. You know what? Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/149-2
+00:19:49.397 --> 00:19:53.002
+<v @1>So that's the version 26.
+And this is that for iOS?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/149-3
+00:19:53.002 --> 00:19:55.566
+<v @1>Any question with this piece of work?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/150-0
+00:19:58.326 --> 00:19:58.446
+<v Olli Ojala | Orro>None.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/151-0
+00:19:59.286 --> 00:20:00.086
+<v @1>Batch management.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/152-0
+00:20:00.646 --> 00:20:05.126
+<v Olli Ojala | Orro>No, no, no, that's alright.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/153-0
+00:20:06.166 --> 00:20:09.974
+<v @1>Cool. Yeah.
+And I guess moving on to the next item,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/153-1
+00:20:09.974 --> 00:20:15.833
+<v @1>we've got policy naming convention and
+and typically what we do is we we try to</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/153-2
+00:20:15.833 --> 00:20:20.520
+<v @1>maintain GS 1 AU and then the item,
+this is what we do default.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/153-3
+00:20:20.520 --> 00:20:26.086
+<v @1>But of time often more than not we have
+different approach where we've got.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/155-0
+00:20:26.206 --> 00:20:32.061
+<v @1>Vendor like oral.
+Then you've got the product name item</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/155-1
+00:20:32.061 --> 00:20:35.406
+<v @1>here is product my product name.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/156-0
+00:20:38.846 --> 00:20:42.592
+<v @1>Yeah, so long. The item,
+the labelling is clear.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/156-1
+00:20:42.592 --> 00:20:47.255
+<v @1>I think that's fine.
+So that's what we are looking to strike</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/156-2
+00:20:47.255 --> 00:20:52.912
+<v @1>and I guess the next item here is the
+RBAC and I think the RBAC is pretty</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/156-3
+00:20:52.912 --> 00:20:56.046
+<v @1>standard in the sense that we've got one.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/157-0
+00:20:56.766 --> 00:21:00.380
+<v @1>Helpdesk role and that helpdesk can do a
+thing or two,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/157-1
+00:21:00.380 --> 00:21:05.440
+<v @1>and the definition of that would be
+pretty much under what you see on screen</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/157-2
+00:21:05.440 --> 00:21:09.646
+<v @1>on the right, yeah, so that's that.
+But I think moving forward,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/157-3
+00:21:09.646 --> 00:21:14.706
+<v @1>I understand that in oral we'll be
+managing this and I guess in consultation</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/157-4
+00:21:14.706 --> 00:21:16.086
+<v @1>with GS1, so I think.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/159-0
+00:21:16.166 --> 00:21:19.686
+<v @1>This is what we have today kind of thing.
+Cool.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/158-0
+00:21:18.926 --> 00:21:19.206
+<v Olli Ojala | Orro>Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/159-1
+00:21:19.686 --> 00:21:25.553
+<v @1>Next item is maintenance and I think this
+is where we have got couple of moving</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/159-2
+00:21:25.553 --> 00:21:31.566
+<v @1>parts that we need to you know make sure
+that it's updated and and upgraded if we</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/159-3
+00:21:31.566 --> 00:21:35.966
+<v @1>have to in terms of ensuring Intune is
+working as expected.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/161-0
+00:21:36.486 --> 00:21:40.041
+<v @1>Now there are two parts to this.
+One is within one. Yeah,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/161-1
+00:21:40.041 --> 00:21:44.209
+<v @1>I guess I'm looking it down by operating
+system. So you've got iOS,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/161-2
+00:21:44.209 --> 00:21:48.560
+<v @1>you've got enrollment token.
+This is something that expires every year</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/161-3
+00:21:48.560 --> 00:21:51.318
+<v @1>and so does the VPP side of things.
+So VPPS,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/161-4
+00:21:51.318 --> 00:21:55.486
+<v @1>we are pretty much under connector token
+and you've got under here.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/160-0
+00:21:54.606 --> 00:21:54.726
+<v Olli Ojala | Orro>Yep.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/162-0
+00:21:55.646 --> 00:21:58.804
+<v @1>Yeah, that's all good.
+So we just need to make sure that these</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/162-1
+00:21:58.804 --> 00:21:59.806
+<v @1>two are safe, Karen.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/163-0
+00:22:01.286 --> 00:22:06.010
+<v @1>And GS1 has got a contract that we we set
+up to monitor the due dates,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/163-1
+00:22:06.010 --> 00:22:11.066
+<v @1>but I guess we'll both of us will monitor
+and eventually oral will carry on</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/163-2
+00:22:11.066 --> 00:22:15.191
+<v @1>monitoring this and we'll sunset our
+tooling to monitor this.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/163-3
+00:22:15.191 --> 00:22:20.846
+<v @1>I've not listed anything down in Android.
+Why? Because there's nothing to to manage.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/164-0
+00:22:20.966 --> 00:22:25.381
+<v @1>Maintain in this space simply because we
+don't have corporate Android setup just</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/164-1
+00:22:25.381 --> 00:22:27.725
+<v @1>yet,
+but I think we are looking to support</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/164-2
+00:22:27.725 --> 00:22:31.105
+<v @1>that in due time. Yeah.
+So I think well we have whole heap of</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/164-3
+00:22:31.105 --> 00:22:35.030
+<v @1>BYOD users, but we BYOD users,
+there's nothing much we can do to manage</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/164-4
+00:22:35.030 --> 00:22:38.246
+<v @1>or maintain because the device are not
+ours to begin with.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/165-0
+00:22:38.726 --> 00:22:41.861
+<v @1>So yeah,
+I guess we don't have any any device</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/165-1
+00:22:41.861 --> 00:22:45.950
+<v @1>configuration that we roll out to BYODS,
+but for corporate,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/165-2
+00:22:45.950 --> 00:22:51.607
+<v @1>we are looking to have an enterprise set
+up for Android users and and a bit of mix</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/165-3
+00:22:51.607 --> 00:22:55.901
+<v @1>MDM AM AM approach.
+But at this stage in terms of maintenance,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/165-4
+00:22:55.901 --> 00:22:58.286
+<v @1>there's nothing much in that space.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/166-0
+00:22:58.966 --> 00:23:02.633
+<v @1>Now these two,
+I think collectively we were thinking</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/166-1
+00:23:02.633 --> 00:23:07.961
+<v @1>about it and this is outside in tune,
+but I think it would require update to</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/166-2
+00:23:07.961 --> 00:23:13.566
+<v @1>the corresponding device configuration.
+So like this one here you've got, sorry.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/167-0
+00:23:15.606 --> 00:23:20.966
+<v @1>So when we update SCAP or something,
+or rather we need to update the the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/167-1
+00:23:20.966 --> 00:23:25.518
+<v @1>certificates accordingly,
+because we do use SCAP fair bit for</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/167-2
+00:23:25.518 --> 00:23:31.392
+<v @1>authenticating and relying on trusting
+the computer and and we do use that when</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/167-3
+00:23:31.392 --> 00:23:32.126
+<v @1>that's up.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/168-0
+00:23:32.646 --> 00:23:35.293
+<v @1>Yeah,
+we'll just have to manage how we get</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/168-1
+00:23:35.293 --> 00:23:38.987
+<v @1>these items refreshed.
+Same thing with Clear Pass and this,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/168-2
+00:23:38.987 --> 00:23:42.742
+<v @1>these are the two that we thought he
+would put this in here,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/168-3
+00:23:42.742 --> 00:23:47.975
+<v @1>but not directly related to Intune itself.
+Any questions before we just briefly talk</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/168-4
+00:23:47.975 --> 00:23:49.206
+<v @1>about the last item.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/170-0
+00:23:50.286 --> 00:23:54.287
+<v Olli Ojala | Orro>No, no. I have a couple,
+but I I cannot ask them at the end at the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/169-0
+00:23:51.886 --> 00:23:52.646
+<v @1>Easy.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/170-1
+00:23:54.287 --> 00:23:54.526
+<v Olli Ojala | Orro>end.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/172-0
+00:23:54.846 --> 00:23:57.961
+<v @1>OK,
+now next item is we've got Intune Phase</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/171-0
+00:23:57.406 --> 00:23:57.446
+<v Olli Ojala | Orro>Oh.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/172-1
+00:23:57.961 --> 00:24:01.571
+<v @1>two work.
+I think this is where we were looking to</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/172-2
+00:24:01.571 --> 00:24:05.111
+<v @1>do this piece of work with oral and I
+think oral,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/172-3
+00:24:05.111 --> 00:24:10.774
+<v @1>let's just say that some decision made
+behind the scene and we'll be doing some</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/172-4
+00:24:10.774 --> 00:24:14.526
+<v @1>activity in that space because we will be
+procuring.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/173-0
+00:24:14.606 --> 00:24:19.991
+<v @1>Doing some devices and we are looking to
+reject some of the items that we have in</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/173-1
+00:24:19.991 --> 00:24:25.180
+<v @1>Intune just to make sure that it is in
+tandem or in alignment with the current</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/173-2
+00:24:25.180 --> 00:24:28.989
+<v @1>best practises.
+So this one here we may be making some of</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/173-3
+00:24:28.989 --> 00:24:32.601
+<v @1>those changes,
+but we will work out and see what needs</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/173-4
+00:24:32.601 --> 00:24:34.046
+<v @1>doing or how we do it.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/174-0
+00:24:34.126 --> 00:24:38.418
+<v @1>Because we don't want to be overlapping
+the activities that we do in this space.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/174-1
+00:24:38.418 --> 00:24:41.067
+<v @1>So it's a bit too early to be talking
+about this,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/174-2
+00:24:41.067 --> 00:24:43.610
+<v @1>but it's just a bit of a bit to be
+transparent.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/174-3
+00:24:43.610 --> 00:24:47.902
+<v @1>We are looking to make some changes to
+support and there's a like we've got some</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/174-4
+00:24:47.902 --> 00:24:50.286
+<v @1>activities that we need to do and
+remediate.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/175-0
+00:24:50.806 --> 00:24:54.074
+<v @1>So yeah,
+so I guess when that time comes and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/175-1
+00:24:54.074 --> 00:24:58.650
+<v @1>hopefully by then Oro would look and
+manage Intune end to end.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/175-2
+00:24:58.650 --> 00:25:04.751
+<v @1>We'll have further conversation and as to
+what that changes might entail and so on.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/175-3
+00:25:04.751 --> 00:25:07.366
+<v @1>That is the last item that I've got.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/176-0
+00:25:07.926 --> 00:25:08.166
+<v @1>Umm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/177-0
+00:25:10.606 --> 00:25:14.566
+<v @1>I guess now we'll open up for questions
+and then what have you?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/178-0
+00:25:15.166 --> 00:25:16.406
+<v Olli Ojala | Orro>No, I don't have too many.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/181-0
+00:25:19.006 --> 00:25:23.744
+<v Olli Ojala | Orro>Couple that just now,
+like we'll probably have more when we go</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/181-1
+00:25:23.744 --> 00:25:29.384
+<v Olli Ojala | Orro>and look the environment and stuff.
+But probably first one without looking</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/180-0
+00:25:25.326 --> 00:25:26.406
+<v @1>That that's fine, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/181-2
+00:25:29.384 --> 00:25:33.144
+<v Olli Ojala | Orro>corporate,
+the personal devices you said you have</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/181-3
+00:25:33.144 --> 00:25:35.926
+<v Olli Ojala | Orro>BYOD's already, but like what's your?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/182-0
+00:25:36.446 --> 00:25:38.086
+<v Olli Ojala | Orro>Just general policies for.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/183-0
+00:25:40.166 --> 00:25:45.246
+<v Olli Ojala | Orro>Do you do you allow BYODS on all
+platforms? Do you book something?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/184-0
+00:25:47.406 --> 00:25:51.006
+<v @1>The BYOD on all platforms we've got iOS
+and BYOD.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/185-0
+00:25:49.126 --> 00:25:54.675
+<v Olli Ojala | Orro>Yeah. Yeah. Like what? What's your policy?
+It's like, yeah, yeah. Like, like,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/185-1
+00:25:54.675 --> 00:25:59.015
+<v Olli Ojala | Orro>do you do you allow users to do it and do
+you, like, use it,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/185-2
+00:25:59.015 --> 00:26:03.782
+<v Olli Ojala | Orro>that you you use Apple Business
+management, Mac OS like iOS stuff.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/185-3
+00:26:03.782 --> 00:26:07.126
+<v Olli Ojala | Orro>Do you have also BYOD iOS policies
+applied or?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/186-0
+00:26:07.606 --> 00:26:10.726
+<v Olli Ojala | Orro>You don't have anything applied to the
+BYOD devices.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/187-0
+00:26:10.366 --> 00:26:12.696
+<v @1>Yeah,
+the I guess the BYOD is a tricky one</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/187-1
+00:26:12.696 --> 00:26:16.598
+<v @1>simply because we don't own the device.
+So we don't really roll out any</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/187-2
+00:26:16.598 --> 00:26:19.958
+<v @1>configuration policy.
+But what instead what we do is we we we</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/187-3
+00:26:19.958 --> 00:26:24.185
+<v @1>roll out conditional sorry compliance
+policies just to make sure that the the</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/187-4
+00:26:24.185 --> 00:26:27.166
+<v @1>device is not jailbroken.
+At least you've got coupler.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/188-0
+00:26:28.366 --> 00:26:33.867
+<v @1>You know, like 4 characters of password.
+I'm just just overly simplifying here.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/188-1
+00:26:33.867 --> 00:26:38.611
+<v @1>So we've got a couple of compliance,
+but not configuration for BYOD,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/188-2
+00:26:38.611 --> 00:26:42.668
+<v @1>but BY by for corporate.
+We do have whole heap of policies</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/188-3
+00:26:42.668 --> 00:26:45.006
+<v @1>starting from wireless to SCAP to.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/190-0
+00:26:45.726 --> 00:26:49.507
+<v @1>Because Skype also is being applied for
+iOS and also windows.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/189-0
+00:26:48.126 --> 00:26:48.406
+<v Olli Ojala | Orro>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/190-1
+00:26:49.507 --> 00:26:53.166
+<v @1>So we've got a whole heap of, you know,
+that type of setup.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/191-0
+00:26:54.646 --> 00:26:56.606
+<v Olli Ojala | Orro>But with BYOD you like.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/193-0
+00:26:59.206 --> 00:27:02.600
+<v Olli Ojala | Orro>You don't restrict,
+you don't restrict users to access</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/192-0
+00:26:59.646 --> 00:27:01.006
+<v @1>We we don't, we don't, we don't.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/193-1
+00:27:02.600 --> 00:27:05.686
+<v Olli Ojala | Orro>company data with anything or anything
+like that.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/194-0
+00:27:06.126 --> 00:27:08.896
+<v @1>Yeah,
+that that is the ideal state that we need</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/194-1
+00:27:08.896 --> 00:27:11.839
+<v @1>to be in,
+but we're just not there considering few</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/194-2
+00:27:11.839 --> 00:27:14.956
+<v @1>other activities that's happening. No,
+we we are not.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/194-3
+00:27:14.956 --> 00:27:18.361
+<v @1>So accessing corporate data is definitely
+allowed on BYOD.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/194-4
+00:27:18.361 --> 00:27:23.035
+<v @1>I'm not sure how auto does it do do you
+need to be on a on a compliant corporate</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/194-5
+00:27:23.035 --> 00:27:25.286
+<v @1>device before you can access your data.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/195-0
+00:27:25.406 --> 00:27:28.926
+<v @1>Or you are able to access on your BYOD
+computers.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/200-0
+00:27:29.286 --> 00:27:32.959
+<v Olli Ojala | Orro>I don't actually, to be honest,
+because I don't manage,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/196-0
+00:27:30.926 --> 00:27:31.406
+<v @1>Tried it.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/200-1
+00:27:32.959 --> 00:27:36.764
+<v Olli Ojala | Orro>manage our internal stuff.
+I don't know how it's managed.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/197-0
+00:27:33.526 --> 00:27:35.046
+<v @1>OK, OK. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/200-2
+00:27:36.764 --> 00:27:40.896
+<v Olli Ojala | Orro>I I think it's a mem.
+I I think we use MEM most of most of it.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/198-0
+00:27:37.406 --> 00:27:38.446
+<v @1>OK, OK.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/199-0
+00:27:40.606 --> 00:27:41.206
+<v @1>Gotcha.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/200-3
+00:27:40.896 --> 00:27:44.766
+<v Olli Ojala | Orro>So you have your work profile that host
+your applications.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/201-0
+00:27:43.406 --> 00:27:46.446
+<v @1>Yeah, easy.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/202-0
+00:27:46.246 --> 00:27:49.766
+<v Olli Ojala | Orro>At least on androids or iOS I don't,
+I don't know, but I would say say ma'am.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/203-0
+00:27:49.246 --> 00:27:52.114
+<v @1>Yeah,
+I I think we had a conversation with your</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/203-1
+00:27:52.114 --> 00:27:54.742
+<v @1>architect.
+I cannot recall what's his name.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/203-2
+00:27:54.742 --> 00:27:58.327
+<v @1>I don't know whether Ian,
+you remember his name and he was.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/203-3
+00:27:58.327 --> 00:28:03.046
+<v @1>He was saying that oral is or is pretty
+much using MEM for their mobile fleet.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/204-0
+00:28:04.406 --> 00:28:08.700
+<v @1>Which was definitely a fresh breath of
+fresh air, I suppose. But yeah,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/204-1
+00:28:08.700 --> 00:28:12.933
+<v @1>'cause we we have been looking at it for
+MDM and a bit of old school,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/204-2
+00:28:12.933 --> 00:28:16.198
+<v @1>I suppose looking at MDM but not looking
+through MEM.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/204-3
+00:28:16.198 --> 00:28:19.766
+<v @1>But to be fair mem is rather recent of,
+you know offering.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/205-0
+00:28:20.766 --> 00:28:24.735
+<v @1>Sorry George, I need to jump off.
+Maybe Olli is it worth it if we ask</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/205-1
+00:28:24.735 --> 00:28:29.384
+<v @1>George to set up another call and then we
+can go through your observation and you</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/205-2
+00:28:29.384 --> 00:28:33.580
+<v @1>run through the document page that you
+have on the on the left hand side.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/205-3
+00:28:33.580 --> 00:28:37.832
+<v @1>If you need us to unpack something,
+let us know and then we'll unpack that</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/205-4
+00:28:37.832 --> 00:28:38.286
+<v @1>further.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/206-0
+00:28:38.446 --> 00:28:42.518
+<v Olli Ojala | Orro>Yeah. Yeah. But I think it was pretty,
+pretty comprehensive and that gives a</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/206-1
+00:28:42.518 --> 00:28:44.686
+<v Olli Ojala | Orro>cool background, at least starting point.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/207-0
+00:28:45.206 --> 00:28:45.446
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/211-0
+00:28:46.686 --> 00:28:50.762
+<v Olli Ojala | Orro>And yeah, like I said,
+when we and when we start managing it and</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/211-1
+00:28:50.762 --> 00:28:55.527
+<v Olli Ojala | Orro>or we manage it already a little bit,
+but like I think yeah we will come up</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/208-0
+00:28:51.726 --> 00:28:51.926
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/211-2
+00:28:55.527 --> 00:29:00.543
+<v Olli Ojala | Orro>with questions then like why why it's
+something done some some way but for what</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/209-0
+00:28:58.526 --> 00:28:59.486
+<v @1>Easy, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/211-3
+00:29:00.543 --> 00:29:02.926
+<v Olli Ojala | Orro>I had a quick look it it looks pretty.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/210-0
+00:29:02.326 --> 00:29:02.566
+<v @1>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/212-0
+00:29:03.446 --> 00:29:06.296
+<v Olli Ojala | Orro>Straightforward.
+I think the updates were the biggest</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/212-1
+00:29:06.296 --> 00:29:08.830
+<v Olli Ojala | Orro>thing because I couldn't see anything in
+there,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/212-2
+00:29:08.830 --> 00:29:12.841
+<v Olli Ojala | Orro>but I actually didn't course it checked
+that particular sports because it's</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/212-3
+00:29:12.841 --> 00:29:16.166
+<v Olli Ojala | Orro>should be depreciated. But yeah,
+that's all right. Yeah, yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/213-0
+00:29:14.806 --> 00:29:19.226
+<v @1>This one here. Yeah, yeah. OK, cool.
+Thank you for your very much for your</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/213-1
+00:29:19.226 --> 00:29:21.406
+<v @1>time. I guess I'll talk to you later.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/214-0
+00:29:22.246 --> 00:29:22.646
+<v Olli Ojala | Orro>No worries.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/215-0
+00:29:22.366 --> 00:29:26.966
+<v Ian Lim>Yeah, yeah. Just only for yeah. Prakash,
+we need to go. Yeah. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/216-0
+00:29:25.406 --> 00:29:28.726
+<v @1>OK, I need to drop off. I need to. Yeah.
+Sorry. I need to go. OK. Catch you later.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/217-0
+00:29:28.566 --> 00:29:29.806
+<v Olli Ojala | Orro>Yep. Thank you. Bye.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/216-1
+00:29:28.726 --> 00:29:28.886
+<v @1>Bye.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/219-0
+00:29:30.406 --> 00:29:30.606
+<v Prakash Kunjirama>Bye.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/222-0
+00:29:30.566 --> 00:29:34.947
+<v Ian Lim>So you have the access to that particular
+page, so just feel free to, you know,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/221-0
+00:29:33.886 --> 00:29:35.486
+<v Olli Ojala | Orro>Yeah, yeah, I I I checked.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/222-1
+00:29:34.947 --> 00:29:38.397
+<v Ian Lim>go through it again,
+go through the notes after the transcribe</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/222-2
+00:29:38.397 --> 00:29:42.724
+<v Ian Lim>if you have any more questions or you
+know if you want to put us some comments</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/222-3
+00:29:42.724 --> 00:29:46.886
+<v Ian Lim>in the in that page and then you know let
+us know and we can come back and.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/223-0
+00:29:47.086 --> 00:29:49.006
+<v Ian Lim>Yeah. Bring bring those in for you.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/224-0
+00:29:48.206 --> 00:29:51.794
+<v Olli Ojala | Orro>Yeah. No,
+I think main thing was those corporate</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/224-1
+00:29:51.794 --> 00:29:52.526
+<v Olli Ojala | Orro>personals.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/226-0
+00:29:53.846 --> 00:29:55.326
+<v Olli Ojala | Orro>Just just what your general.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/225-0
+00:29:54.326 --> 00:29:54.446
+<v Ian Lim>Oh.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/228-0
+00:29:57.566 --> 00:30:00.966
+<v Olli Ojala | Orro>Approach to them are do you support
+personal devices?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/227-0
+00:29:57.966 --> 00:29:58.126
+<v Ian Lim>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/229-0
+00:30:02.766 --> 00:30:06.246
+<v Ian Lim>I see your personal call windows or
+personal.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/230-0
+00:30:11.686 --> 00:30:12.286
+<v Ian Lim>Mm-hmm.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/231-0
+00:30:12.606 --> 00:30:13.366
+<v Olli Ojala | Orro>Support them.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/232-0
+00:30:14.846 --> 00:30:15.006
+<v Ian Lim>None.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/234-0
+00:30:14.966 --> 00:30:19.246
+<v Olli Ojala | Orro>As in like if they let's say I don't know
+can't access outlook.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/237-0
+00:30:19.966 --> 00:30:23.456
+<v Ian Lim>Yeah,
+they I think we generally do not have any</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/236-0
+00:30:21.606 --> 00:30:22.326
+<v Olli Ojala | Orro>Or emails.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/237-1
+00:30:23.456 --> 00:30:29.055
+<v Ian Lim>restriction at the moment, but yeah,
+they if they access it they they access</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/237-2
+00:30:29.055 --> 00:30:34.726
+<v Ian Lim>it. But yeah, we're looking, you know,
+in the coming features to lock it out.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/238-0
+00:30:35.726 --> 00:30:40.807
+<v Ian Lim>But yeah, as as it stands, yeah,
+we we don't say like officially</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/238-1
+00:30:40.807 --> 00:30:44.246
+<v Ian Lim>supporting it,
+but yet the access is there.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/241-0
+00:30:44.766 --> 00:30:47.770
+<v Olli Ojala | Orro>Yep, Yep.
+So they can access if they want to or</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/239-0
+00:30:47.726 --> 00:30:49.566
+<v Ian Lim>Yeah, it's alright. Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/241-1
+00:30:47.770 --> 00:30:52.964
+<v Olli Ojala | Orro>need to. Cool. Yeah, that's that's fine.
+I will have a quick look and we will have</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/241-2
+00:30:52.964 --> 00:30:56.782
+<v Olli Ojala | Orro>a look at the configurations. And yeah,
+I think like I said,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/241-3
+00:30:56.782 --> 00:30:59.974
+<v Olli Ojala | Orro>that document is good,
+really good starting point.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/241-4
+00:30:59.974 --> 00:31:01.726
+<v Olli Ojala | Orro>It gives us a background of.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/240-0
+00:31:00.526 --> 00:31:00.846
+<v Ian Lim>That's good.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/243-0
+00:31:02.646 --> 00:31:05.526
+<v Olli Ojala | Orro>Of what you're doing at the moment,
+and yeah, that's good.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/242-0
+00:31:04.806 --> 00:31:04.926
+<v Ian Lim>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/244-0
+00:31:06.206 --> 00:31:10.766
+<v Ian Lim>Good. All right. Thank you very much.
+We'll chat again. Thanks Andreas. Bye bye.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/247-0
+00:31:10.286 --> 00:31:16.295
+<v Olli Ojala | Orro>Wait, can I ask one question?
+If you have time just out of curiosity?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/245-0
+00:31:11.566 --> 00:31:11.686
+<v Andreas Gani>Sir.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/246-0
+00:31:12.966 --> 00:31:13.206
+<v Ian Lim>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/247-1
+00:31:16.295 --> 00:31:22.046
+<v Olli Ojala | Orro>Like why what you're using the USB stick
+for when you deploy a PC?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/250-0
+00:31:24.486 --> 00:31:28.338
+<v Olli Ojala | Orro>Like when when you do a,
+when you do a new machine like. Why?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/248-0
+00:31:24.606 --> 00:31:26.046
+<v Andreas Gani>It's it's a bit of legacy.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/250-1
+00:31:28.338 --> 00:31:32.686
+<v Olli Ojala | Orro>Why do you do ausb deployment rather than
+a Intune or something else?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/249-0
+00:31:29.326 --> 00:31:30.326
+<v Andreas Gani>Yeah, because because.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/253-0
+00:31:32.166 --> 00:31:36.557
+<v Andreas Gani>Yeah, OK,
+that's that's a bit bit of history only.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/251-0
+00:31:35.206 --> 00:31:35.326
+<v Olli Ojala | Orro>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/253-1
+00:31:36.557 --> 00:31:43.618
+<v Andreas Gani>So back in the days when we first onboard
+the journey of of having the AAD device</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/253-2
+00:31:43.618 --> 00:31:47.579
+<v Andreas Gani>joined,
+when we refreshed our our device with</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/253-3
+00:31:47.579 --> 00:31:48.526
+<v Andreas Gani>Windows 10.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/254-0
+00:31:48.966 --> 00:31:54.156
+<v Andreas Gani>So we engage with the external party and
+then back then the Intune renaming.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/254-1
+00:31:54.156 --> 00:31:58.671
+<v Andreas Gani>It's not working as expected because
+Intune is just early release,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/254-2
+00:31:58.671 --> 00:32:04.265
+<v Andreas Gani>so they have a lot of issue with renaming,
+so that's why he created that solution.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/254-3
+00:32:04.265 --> 00:32:08.646
+<v Andreas Gani>The USB stick with the prefix and things
+like that. I know that.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/255-0
+00:32:09.126 --> 00:32:15.249
+<v Andreas Gani>Has the policy to to to enrol and rename
+the the device, but that's.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/255-1
+00:32:15.249 --> 00:32:22.259
+<v Andreas Gani>That's basically the approach that we
+have taken so far and then the USB stick</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/255-2
+00:32:22.259 --> 00:32:24.566
+<v Andreas Gani>itself has the Windows PE.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/256-0
+00:32:25.006 --> 00:32:30.179
+<v Andreas Gani>Built in which will deploy the OS to the
+device,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/256-1
+00:32:30.179 --> 00:32:37.886
+<v Andreas Gani>so his argument is it will be quicker
+instead of the device connected to</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/256-2
+00:32:37.886 --> 00:32:44.326
+<v Andreas Gani>Internet and download the OS installation.
+So that's that's.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/257-0
+00:32:44.486 --> 00:32:46.966
+<v Andreas Gani>Basically, but he started behind it.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/258-0
+00:32:47.286 --> 00:32:50.649
+<v Olli Ojala | Orro>Yep, Yep.
+So mainly like device name is the what's</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/258-1
+00:32:50.649 --> 00:32:54.606
+<v Olli Ojala | Orro>the biggest reason?
+Kind of making it a little bit quicker.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/259-0
+00:32:54.926 --> 00:32:56.446
+<v Andreas Gani>Quicker. Yeah, for deployment.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/261-0
+00:32:57.206 --> 00:32:59.931
+<v Olli Ojala | Orro>Yep, OK, cool. Cool.
+I just wanna just wondering. What?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/260-0
+00:32:58.686 --> 00:32:59.006
+<v Ian Lim>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/261-1
+00:32:59.931 --> 00:33:01.926
+<v Olli Ojala | Orro>Why what? Yeah, what's the history on it?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/262-0
+00:33:01.206 --> 00:33:05.068
+<v Ian Lim>Are you are you thinking like it can be
+fully online without USB stake? Is it?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/262-1
+00:33:05.068 --> 00:33:06.486
+<v Ian Lim>Is that what you're thinking?</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/263-0
+00:33:06.406 --> 00:33:08.526
+<v Olli Ojala | Orro>Oh, it sounds like that possibly.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/264-0
+00:33:10.726 --> 00:33:13.747
+<v Ian Lim>Oh, good. Oh, good. Yeah. Look,
+certainly there.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/264-1
+00:33:13.747 --> 00:33:18.802
+<v Ian Lim>There will be things we can, you know,
+always improve on just like anything else.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/264-2
+00:33:18.802 --> 00:33:22.993
+<v Ian Lim>Yeah. If you go through it,
+if there's any improvement opportunity,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/264-3
+00:33:22.993 --> 00:33:24.966
+<v Ian Lim>feel free to let us know we can.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/265-0
+00:33:25.566 --> 00:33:29.670
+<v Ian Lim>And if there's a, you know,
+a reason not to do it, yeah,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/265-1
+00:33:29.670 --> 00:33:31.326
+<v Ian Lim>we'll take it on board.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/270-0
+00:33:31.846 --> 00:33:35.216
+<v Olli Ojala | Orro>Yep, Yep, definitely cool. No worries.
+I think that's it.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/266-0
+00:33:33.206 --> 00:33:33.326
+<v Andreas Gani>Yeah.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/267-0
+00:33:35.006 --> 00:33:35.206
+<v Andreas Gani>None.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/270-1
+00:33:35.216 --> 00:33:39.631
+<v Olli Ojala | Orro>I will have a look at the go through the
+Intune with the documentation now,</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/270-2
+00:33:39.631 --> 00:33:42.362
+<v Olli Ojala | Orro>and yeah,
+we'll come back if we have anything.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/268-0
+00:33:40.766 --> 00:33:41.686
+<v Ian Lim>Yeah. Nice.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/270-3
+00:33:42.362 --> 00:33:44.686
+<v Olli Ojala | Orro>And I'm sure we have something at least.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/269-0
+00:33:43.806 --> 00:33:44.126
+<v Andreas Gani>Sure.</v>
+
+025baa47-284c-40b8-ac31-11f998d581d7/272-0
+00:33:47.646 --> 00:33:49.326
+<v Olli Ojala | Orro>Alright, thank you. Bye.</v>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NWR Field Device - Test Plan</title>
+    <style>
+        :root {
+            --primary: #0078d4;
+            --success: #107c10;
+            --danger: #d13438;
+            --warning: #ff8c00;
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --text: #323130;
+            --border: #e1e1e1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #106ebe);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        header h1 { font-size: 2rem; margin-bottom: 5px; }
+        header .meta { opacity: 0.9; font-size: 0.9rem; }
+
+        section {
+            background: var(--card);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        h3 {
+            color: #444;
+            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+        }
+
+        tr:nth-child(even) { background: #f8f9fa; }
+        tr:hover { background: #e8f4ff; }
+
+        .pass-fail {
+            width: 80px;
+            text-align: center;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 3px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checkbox.checked::after {
+            content: "✓";
+            color: white;
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            line-height: 16px;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .summary-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .summary-item .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .summary-item .label { font-size: 0.85rem; color: #666; }
+
+        .signature-row td {
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+        }
+
+        @media print {
+            section { box-shadow: none; border: 1px solid #ddd; }
+            .checkbox { border: 1px solid #000; }
+        }
+
+        @media (max-width: 600px) {
+            .summary-grid { grid-template-columns: 1fr; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 6px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NWR Field Device - Test Plan</h1>
+            <div class="meta">Project: NWR Field Device Network Restriction | Version 1.0 | January 2025</div>
+        </header>
+
+        <section>
+            <h2>Overview</h2>
+            <p>This test plan validates all use cases before production deployment:</p>
+            <ul>
+                <li><strong>Phase 1:</strong> Local testing (before Intune)</li>
+                <li><strong>Phase 2:</strong> Intune deployment testing</li>
+            </ul>
+
+            <h3>Test Devices Required</h3>
+            <table>
+                <tr><th>Device</th><th>OS</th><th>Purpose</th></tr>
+                <tr><td>TEST-01</td><td>Windows 11 23H2</td><td>Primary testing</td></tr>
+                <tr><td>TEST-02</td><td>Windows 11 23H2</td><td>Secondary testing</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Phase 1: Local Testing <span class="phase-badge">Pre-Intune</span></h2>
+
+            <h3>UC1 - Wi-Fi Disable</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Wi-Fi adapter status</td><td>Disabled</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Ethernet adapter status</td><td>Enabled</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Scheduled task exists</td><td>Task created</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>4</td><td>Wi-Fi re-enable blocked</td><td>Auto-disables after 15 min</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+
+            <h3>UC2 - Firewall Restrictions</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Default outbound action</td><td>Block</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Dynamic keywords count</td><td>15+ keywords</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Azure Bastion access</td><td>Accessible</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>4</td><td>ShareFile access</td><td>Accessible</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>5</td><td>Microsoft login</td><td>Accessible</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>6</td><td>Google.com</td><td>Blocked</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>7</td><td>Facebook.com</td><td>Blocked</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+
+            <h3>UC3/UC4 - USB Control</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>USB storage blocked</td><td>Access denied</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Approved USB-Serial works</td><td>COM port created</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Serial communication</td><td>Data transfer works</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+
+            <h3>UC5 - Offline Access</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Cached logons configured</td><td>10 logons</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>BitLocker enabled</td><td>Protection On</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Offline login</td><td>Login succeeds</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>4</td><td>Defender active</td><td>Real-time protection enabled</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Phase 2: Intune Testing <span class="phase-badge">Post-Deployment</span></h2>
+
+            <h3>Policy Deployment</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Device enrolled</td><td>Shows in Intune portal</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Policies assigned</td><td>All policies "Succeeded"</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Scripts deployed</td><td>Scripts "Succeeded"</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+
+            <h3>Use Case Validation</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Wi-Fi disabled via Intune</td><td>Adapter disabled</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Wi-Fi UI blocked</td><td>Option hidden/grayed</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Firewall configured</td><td>Outbound blocked</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>4</td><td>Azure Bastion works</td><td>Connection succeeds</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>5</td><td>ShareFile works</td><td>Files accessible</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>6</td><td>Blocked sites</td><td>Cannot access</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>7</td><td>USB storage blocked</td><td>Access denied</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>8</td><td>USB-Serial works</td><td>COM port functional</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>9</td><td>Offline login works</td><td>Cached creds work</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>10</td><td>Compliance status</td><td>Shows "Compliant"</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+
+            <h3>Proactive Remediation</h3>
+            <table>
+                <tr><th>#</th><th>Test</th><th>Expected Result</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Enable Wi-Fi manually</td><td>Auto-disables within 1 hour</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Remediation logged</td><td>Shows in Intune reports</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>End-to-End Scenario: Field Worker Daily Use</h2>
+            <table>
+                <tr><th>Step</th><th>Action</th><th>Expected</th><th class="pass-fail">Pass/Fail</th></tr>
+                <tr><td>1</td><td>Boot device with 5G SIM</td><td>Connects via cellular</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>2</td><td>Login to device</td><td>Login succeeds</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>3</td><td>Access ShareFile</td><td>Can download files</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>4</td><td>Connect USB-Serial adapter</td><td>COM port created</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>5</td><td>Use serial config tool</td><td>Communication works</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>6</td><td>Upload files to ShareFile</td><td>Upload succeeds</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>7</td><td>Go offline</td><td>Device continues working</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>8</td><td>Login offline (next day)</td><td>Cached login works</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+                <tr><td>9</td><td>Return online</td><td>Syncs, stays compliant</td><td class="pass-fail"><div class="checkbox" onclick="this.classList.toggle('checked')"></div></td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Quick Validation Script</h2>
+            <p>Run on test device as Administrator:</p>
+            <pre># Quick validation
+$Tests = @()
+
+# Wi-Fi
+$WiFi = Get-NetAdapter | Where-Object { $_.InterfaceDescription -match 'Wi-Fi' }
+$Tests += @{ Test = "Wi-Fi Disabled"; Pass = ($WiFi.Status -eq 'Disabled') }
+
+# Firewall
+$FW = (Get-NetFirewallProfile | Where-Object { $_.DefaultOutboundAction -eq 'Block' }).Count -eq 3
+$Tests += @{ Test = "Firewall Blocked"; Pass = $FW }
+
+# Connectivity
+$Bastion = Test-NetConnection portal.azure.com -Port 443 -InformationLevel Quiet
+$Tests += @{ Test = "Azure Bastion"; Pass = $Bastion }
+
+$Google = Test-NetConnection www.google.com -Port 443 -InformationLevel Quiet
+$Tests += @{ Test = "Google Blocked"; Pass = (-not $Google) }
+
+# BitLocker
+$BL = (Get-BitLockerVolume -MountPoint C:).ProtectionStatus -eq 'On'
+$Tests += @{ Test = "BitLocker On"; Pass = $BL }
+
+# Results
+$Tests | ForEach-Object {
+    Write-Host "$($_.Test): $(if ($_.Pass) { 'PASS' } else { 'FAIL' })"
+}</pre>
+        </section>
+
+        <section>
+            <h2>Results Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="number" id="phase1-count">15</div>
+                    <div class="label">Phase 1 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="number" id="phase2-count">12</div>
+                    <div class="label">Phase 2 Tests</div>
+                </div>
+                <div class="summary-item">
+                    <div class="number" id="total-count">27</div>
+                    <div class="label">Total Tests</div>
+                </div>
+            </div>
+            <table>
+                <tr><th>Phase</th><th>Total</th><th>Passed</th><th>Failed</th></tr>
+                <tr><td>Phase 1: Local</td><td>15</td><td></td><td></td></tr>
+                <tr><td>Phase 2: Intune</td><td>12</td><td></td><td></td></tr>
+                <tr><td><strong>TOTAL</strong></td><td><strong>27</strong></td><td></td><td></td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Issues Found</h2>
+            <table>
+                <tr><th>#</th><th>Description</th><th>Severity</th><th>Status</th></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Sign-Off</h2>
+            <table class="signature-row">
+                <tr><th>Role</th><th>Name</th><th>Date</th><th>Signature</th></tr>
+                <tr><td>Tester</td><td></td><td></td><td></td></tr>
+                <tr><td>Technical Lead</td><td></td><td></td><td></td></tr>
+                <tr><td>Customer Representative</td><td></td><td></td><td></td></tr>
+            </table>
+        </section>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; background: #333; color: white; margin-top: 20px;">
+        <p>NWR Field Device - Test Plan v1.0 | January 2025</p>
+    </footer>
+</body>
+</html>

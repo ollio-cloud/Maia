@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; color: #333; }
+        h1 { color: #0078d4; border-bottom: 2px solid #0078d4; padding-bottom: 10px; }
+        h2 { color: #106ebe; margin-top: 25px; }
+        h3 { color: #333; margin-top: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f5f5f5; font-weight: bold; }
+        .phase { background-color: #e7f3ff; }
+        .warning { background-color: #fff4ce; border-left: 4px solid #ffb900; padding: 10px; margin: 10px 0; }
+        .success { background-color: #dff6dd; border-left: 4px solid #107c10; padding: 10px; margin: 10px 0; }
+        .info { background-color: #f0f6ff; border-left: 4px solid #0078d4; padding: 10px; margin: 10px 0; }
+        .critical { background-color: #fde7e9; border-left: 4px solid #d13438; padding: 10px; margin: 10px 0; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; }
+        pre { background-color: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: Consolas, monospace; font-size: 12px; }
+        ul { margin: 10px 0; }
+        li { margin: 5px 0; }
+        .checkbox { margin-right: 8px; }
+        .section { margin-bottom: 30px; }
+        .highlight { background-color: #fff3cd; border: 2px solid #d83b01; padding: 2px 5px; font-weight: bold; }
+        .highlight-section { border-left: 4px solid #d83b01; background-color: #fff8e6; padding: 10px; margin: 10px 0; }
+        .new-tag { background-color: #d83b01; color: white; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-left: 8px; }
+    </style>
+</head>
+<body>
+
+<h1>Change Request: AVD Session Host Deployment &amp; FSLogix Migration</h1>
+<h2 style="color: #107c10; margin-top: 0;">Authentication: Azure AD Kerberos <span class="new-tag">KERBEROS</span></h2>
+
+<table>
+    <tr>
+        <th width="200">Change ID</th>
+        <td>CR-AVD-2026-001</td>
+        <th width="200">Priority</th>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <th>Requested By</th>
+        <td>AVD Team</td>
+        <th>Change Type</th>
+        <td>Normal Change</td>
+    </tr>
+    <tr>
+        <th>Environment</th>
+        <td>Production</td>
+        <th>Risk Level</th>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <th>Submission Date</th>
+        <td>2026-01-20</td>
+        <th>Target Completion</th>
+        <td>TBD</td>
+    </tr>
+</table>
+
+<div class="section">
+<h2>1. Change Summary</h2>
+<p>Deploy a new Azure Virtual Desktop (AVD) session host and implement FSLogix profile containers for improved user profile management. This change migrates existing local user profiles to centralized FSLogix storage, enabling profile roaming across session hosts.</p>
+
+<div class="info">
+<strong>Business Justification:</strong> Currently, user profiles are stored locally on a single session host, limiting scalability and creating a single point of failure. FSLogix enables profile portability, faster logons, and better disaster recovery capabilities.
+</div>
+
+<h3 style="color: #d83b01;">🔶 Key Configuration Highlights</h3>
+<table style="border: 2px solid #d83b01;">
+    <tr style="background-color: #fff4ce;">
+        <th>Category</th>
+        <th>Configuration</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td><strong>Authentication</strong></td>
+        <td style="color: #107c10; font-weight: bold;">Azure AD Kerberos</td>
+        <td>No storage keys on VMs, uses Azure AD identity</td>
+    </tr>
+    <tr>
+        <td><strong>Network Security</strong></td>
+        <td style="color: #107c10; font-weight: bold;">VNet Service Endpoint</td>
+        <td>Storage restricted to AVD subnet only, public access denied</td>
+    </tr>
+    <tr>
+        <td><strong>VM Size</strong></td>
+        <td style="color: #107c10; font-weight: bold;">Standard_E8s_v5</td>
+        <td>8 vCPU, 64 GB RAM (matches existing host)</td>
+    </tr>
+    <tr>
+        <td><strong>Availability Zones</strong></td>
+        <td style="color: #107c10; font-weight: bold;">Zone 1 + Zone 2</td>
+        <td>High availability across zones</td>
+    </tr>
+    <tr>
+        <td><strong>Pre-Migration Backup</strong></td>
+        <td style="color: #107c10; font-weight: bold;">VM Snapshot</td>
+        <td>Snapshot of pauseisavd-0 before changes</td>
+    </tr>
+    <tr>
+        <td><strong>Users Group</strong></td>
+        <td style="color: #0078d4; font-weight: bold;">Security - AVD Pool 01 Users</td>
+        <td>SMB Share Contributor + VM User Login</td>
+    </tr>
+    <tr>
+        <td><strong>Admins Group</strong></td>
+        <td style="color: #0078d4; font-weight: bold;">Security - AVD Pool 01 Admins</td>
+        <td>SMB Share Elevated Contributor + VM Administrator Login</td>
+    </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>2. Scope of Change</h2>
+
+<h3>2.1 Resources Affected</h3>
+<table>
+    <tr>
+        <th>Resource</th>
+        <th>Resource Group</th>
+        <th>Action</th>
+    </tr>
+    <tr>
+        <td><code>pauseisavd-1</code> (VM)</td>
+        <td>p-ause-mb-rg-avd</td>
+        <td>CREATE - New session host</td>
+    </tr>
+    <tr>
+        <td><code>pauseisavd-1-nic</code> (NIC)</td>
+        <td>p-ause-mb-rg-avd</td>
+        <td>CREATE - Network interface</td>
+    </tr>
+    <tr>
+        <td><code>pauseisfslogix001</code> (Storage)</td>
+        <td>p-ause-mb-rg-avd</td>
+        <td>CREATE - Premium FileStorage account</td>
+    </tr>
+    <tr>
+        <td><code>fslogix-profiles</code> (File Share)</td>
+        <td>p-ause-mb-rg-avd</td>
+        <td>CREATE - Azure Files share</td>
+    </tr>
+    <tr>
+        <td><code>pauseisavd-0</code> (VM)</td>
+        <td>p-ause-mb-rg-avd</td>
+        <td>MODIFY - Add FSLogix extension</td>
+    </tr>
+    <tr>
+        <td><code>pauseisavdpool01</code> (Host Pool)</td>
+        <td>p-ause-mb-rg-avd</td>
+        <td>NO CHANGE - Existing host pool</td>
+    </tr>
+</table>
+
+<h3>2.2 Users Affected</h3>
+<table>
+    <tr>
+        <th>User Count</th>
+        <th>Profile Sizes</th>
+        <th>Impact During Migration</th>
+    </tr>
+    <tr>
+        <td>18 users</td>
+        <td>1 GB - 22 GB per user</td>
+        <td>Unable to connect during Phase 3 maintenance window</td>
+    </tr>
+</table>
+
+<h3>2.3 Security Groups &amp; RBAC <span class="new-tag">RBAC</span></h3>
+<table>
+    <tr>
+        <th>Security Group</th>
+        <th>Storage Account Role</th>
+        <th>VM Role</th>
+    </tr>
+    <tr>
+        <td><code>Security - AVD Pool 01 Users</code></td>
+        <td>Storage File Data SMB Share Contributor</td>
+        <td>Virtual Machine User Login</td>
+    </tr>
+    <tr>
+        <td><code>Security - AVD Pool 01 Admins</code></td>
+        <td>Storage File Data SMB Share Elevated Contributor</td>
+        <td>Virtual Machine Administrator Login</td>
+    </tr>
+</table>
+
+<div class="info">
+<strong>Admin Access:</strong> The Admins group receives elevated permissions:
+<ul>
+    <li><strong>Storage</strong>: Can modify NTFS permissions on file share</li>
+    <li><strong>VM</strong>: Local administrator access on session hosts</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>3. Implementation Plan</h2>
+
+<table>
+    <tr class="phase">
+        <th colspan="4" style="background-color: #cce5ff;">Phase 1: Deploy New Session Host (No Downtime)</th>
+    </tr>
+    <tr>
+        <th>Step</th>
+        <th>Action</th>
+        <th>Duration</th>
+        <th>Rollback</th>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>1.0 <span class="new-tag">NEW</span></td>
+        <td>Create snapshot of <code>pauseisavd-0</code> OS disk (backup)</td>
+        <td>3 min</td>
+        <td>Delete snapshot</td>
+    </tr>
+    <tr>
+        <td>1.1</td>
+        <td>Generate host pool registration token</td>
+        <td>2 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>1.2</td>
+        <td>Deploy VM <code>pauseisavd-1</code> in <span class="highlight">Zone 2</span> (HA)</td>
+        <td>10-15 min</td>
+        <td>Delete VM and NIC</td>
+    </tr>
+    <tr>
+        <td>1.3</td>
+        <td>Disable new sessions on <code>pauseisavd-1</code></td>
+        <td>1 min</td>
+        <td>Enable sessions</td>
+    </tr>
+    <tr>
+        <td>1.4</td>
+        <td>Verify session host registration</td>
+        <td>2 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td>1.5</td>
+        <td>Assign Virtual Machine User Login role</td>
+        <td>2 min</td>
+        <td>Remove role assignment</td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>Phase 1 Total</strong></td>
+        <td><strong>~25 min</strong></td>
+        <td></td>
+    </tr>
+</table>
+
+<div class="success">
+<strong>Phase 1 Impact:</strong> NONE - Existing users continue working on <code>pauseisavd-0</code> without interruption.
+</div>
+
+<table>
+    <tr class="phase">
+        <th colspan="4" style="background-color: #cce5ff;">Phase 2: Deploy FSLogix Storage (No Downtime)</th>
+    </tr>
+    <tr>
+        <th>Step</th>
+        <th>Action</th>
+        <th>Duration</th>
+        <th>Rollback</th>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>2.0 <span class="new-tag">NEW</span></td>
+        <td>Enable <code>Microsoft.Storage</code> service endpoint on App subnet</td>
+        <td>2 min</td>
+        <td>Remove service endpoint</td>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>2.1</td>
+        <td>Create storage account <code>pauseisfslogix001</code> <span class="highlight">with VNet restriction</span></td>
+        <td>3 min</td>
+        <td>Delete storage account</td>
+    </tr>
+    <tr>
+        <td>2.2</td>
+        <td>Create file share <code>fslogix-profiles</code> (256 GB)</td>
+        <td>2 min</td>
+        <td>Delete file share</td>
+    </tr>
+    <tr>
+        <td>2.3</td>
+        <td>Enable Azure AD Kerberos authentication</td>
+        <td>2 min</td>
+        <td>Revert to storage key auth</td>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>2.4 <span class="new-tag">NEW</span></td>
+        <td>Configure Storage RBAC for <code>Security - AVD Pool 01 Users</code> and <code>Admins</code></td>
+        <td>3 min</td>
+        <td>Remove role assignments</td>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>2.5 <span class="new-tag">NEW</span></td>
+        <td>Configure VM RBAC (User Login &amp; Administrator Login roles)</td>
+        <td>3 min</td>
+        <td>Remove role assignments</td>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>2.6 <span class="new-tag">NEW</span></td>
+        <td>Configure NTFS permissions on file share</td>
+        <td>5 min</td>
+        <td>Reset ACLs</td>
+    </tr>
+    <tr>
+        <td>2.7</td>
+        <td>Verify Azure AD Kerberos connectivity</td>
+        <td>3 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>Phase 2 Total</strong></td>
+        <td><strong>~24 min</strong></td>
+        <td></td>
+    </tr>
+</table>
+
+<div class="success">
+<strong>Phase 2 Impact:</strong> MINIMAL - Adding service endpoint to subnet may cause brief (~seconds) connectivity interruption to existing VMs.
+</div>
+
+<div class="info">
+<strong>Azure AD Kerberos Note:</strong> RBAC permissions are REQUIRED for Kerberos authentication. Users must have "Storage File Data SMB Share Contributor" role assigned at the file share level.
+</div>
+
+<div class="highlight-section">
+<strong>🔒 Network Security:</strong> Storage account is restricted to AVD subnet only via VNet service endpoint. <span class="highlight">Public internet access is denied.</span>
+</div>
+
+<table>
+    <tr class="phase">
+        <th colspan="4" style="background-color: #fff3cd;">Phase 3: FSLogix Configuration &amp; Profile Migration (MAINTENANCE WINDOW)</th>
+    </tr>
+    <tr>
+        <th>Step</th>
+        <th>Action</th>
+        <th>Duration</th>
+        <th>Rollback</th>
+    </tr>
+    <tr>
+        <td>3.1</td>
+        <td>Disable new sessions on <code>pauseisavd-0</code></td>
+        <td>1 min</td>
+        <td>Enable sessions</td>
+    </tr>
+    <tr>
+        <td>3.2</td>
+        <td>Wait for users to disconnect / send notification</td>
+        <td>5-15 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td>3.3</td>
+        <td>Deploy FSLogix extension to <code>pauseisavd-0</code></td>
+        <td>5-10 min</td>
+        <td>Disable FSLogix in registry</td>
+    </tr>
+    <tr>
+        <td>3.4</td>
+        <td>Deploy FSLogix extension to <code>pauseisavd-1</code></td>
+        <td>5-10 min</td>
+        <td>Disable FSLogix in registry</td>
+    </tr>
+    <tr>
+        <td>3.5</td>
+        <td>Migrate local profiles to FSLogix containers</td>
+        <td>30-45 min</td>
+        <td>Users use fresh profiles</td>
+    </tr>
+    <tr>
+        <td>3.6</td>
+        <td>Restart both session hosts</td>
+        <td>5 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td>3.7</td>
+        <td>Enable sessions on both hosts</td>
+        <td>2 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td>3.8</td>
+        <td>Verify user login and FSLogix functionality</td>
+        <td>10 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>Phase 3 Total</strong></td>
+        <td><strong>~75 min</strong></td>
+        <td></td>
+    </tr>
+</table>
+
+<div class="critical">
+<strong>Phase 3 Impact:</strong> USERS CANNOT CONNECT during this phase. All 18 users will be unable to access AVD desktops for approximately 60-90 minutes.
+</div>
+
+<table>
+    <tr class="phase">
+        <th colspan="4" style="background-color: #d4edda;">Phase 4: Local Profile Cleanup (Post-Migration) <span class="new-tag">NEW</span></th>
+    </tr>
+    <tr>
+        <th>Step</th>
+        <th>Action</th>
+        <th>Duration</th>
+        <th>Rollback</th>
+    </tr>
+    <tr>
+        <td>4.1</td>
+        <td>Verify all users migrated successfully (7-14 days after Phase 3)</td>
+        <td>15 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td>4.2</td>
+        <td>Archive local profiles on <code>pauseisavd-0</code> to zip files</td>
+        <td>15-30 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td>4.3</td>
+        <td>Delete local profiles from <code>pauseisavd-0</code> (free disk space)</td>
+        <td>5 min</td>
+        <td>Restore from archive</td>
+    </tr>
+    <tr>
+        <td>4.4</td>
+        <td>Delete pre-migration VM snapshot</td>
+        <td>2 min</td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>Phase 4 Total</strong></td>
+        <td><strong>~45 min</strong></td>
+        <td></td>
+    </tr>
+</table>
+
+<div class="success">
+<strong>Phase 4 Impact:</strong> NONE - Cleanup task performed 7-14 days after successful migration. No user impact.
+</div>
+
+<div class="warning">
+<strong>Important:</strong> Do NOT delete local profiles or VM snapshot until FSLogix has been stable for at least 7 days and all users have logged in successfully.
+</div>
+</div>
+
+<div class="section">
+<h2>4. Maintenance Window Requirements</h2>
+
+<table>
+    <tr>
+        <th>Phase</th>
+        <th>Maintenance Window Required</th>
+        <th>Recommended Time</th>
+    </tr>
+    <tr>
+        <td>Phase 1</td>
+        <td>No</td>
+        <td>Business hours OK</td>
+    </tr>
+    <tr>
+        <td>Phase 2</td>
+        <td>No</td>
+        <td>Business hours OK</td>
+    </tr>
+    <tr>
+        <td>Phase 3</td>
+        <td><strong>Yes</strong></td>
+        <td>Outside business hours (evening/weekend)</td>
+    </tr>
+    <tr style="background-color: #fff8e6;">
+        <td>Phase 4 <span class="new-tag">NEW</span></td>
+        <td>No</td>
+        <td>7-14 days after Phase 3 (business hours OK)</td>
+    </tr>
+</table>
+
+<div class="warning">
+<strong>Recommended Maintenance Window:</strong><br>
+Duration: 2 hours (90 min work + 30 min buffer)<br>
+Suggested: Saturday 8:00 AM - 10:00 AM AEST or Weekday after 6:00 PM AEST
+</div>
+</div>
+
+<div class="section">
+<h2>5. Risk Assessment</h2>
+
+<table>
+    <tr>
+        <th>Risk</th>
+        <th>Likelihood</th>
+        <th>Impact</th>
+        <th>Mitigation</th>
+    </tr>
+    <tr>
+        <td>VM deployment failure</td>
+        <td>Low</td>
+        <td>Low</td>
+        <td>Delete and redeploy; existing host unaffected</td>
+    </tr>
+    <tr>
+        <td>FSLogix extension failure</td>
+        <td>Low</td>
+        <td>Medium</td>
+        <td>Disable FSLogix in registry; users get local profiles</td>
+    </tr>
+    <tr>
+        <td>Profile migration data loss</td>
+        <td>Low</td>
+        <td>High</td>
+        <td>Local profiles preserved until FSLogix confirmed working</td>
+    </tr>
+    <tr>
+        <td>Storage account connectivity</td>
+        <td>Low</td>
+        <td>High</td>
+        <td>Test connectivity before migration; verify Kerberos ticket issuance</td>
+    </tr>
+    <tr>
+        <td>Azure AD Kerberos authentication failure</td>
+        <td>Low</td>
+        <td>Medium</td>
+        <td>Fallback to storage account key authentication if required</td>
+    </tr>
+    <tr>
+        <td>RBAC propagation delay</td>
+        <td>Low</td>
+        <td>Low</td>
+        <td>Allow 15-30 min for RBAC changes to propagate before testing</td>
+    </tr>
+    <tr>
+        <td>Extended maintenance window</td>
+        <td>Medium</td>
+        <td>Medium</td>
+        <td>2-hour window provides 30 min buffer; can continue next day</td>
+    </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>6. Rollback Plan</h2>
+
+<h3>Phase 1 Rollback (if VM deployment fails)</h3>
+<pre>
+# Delete the new VM and associated resources
+az vm delete --resource-group p-ause-mb-rg-avd --name pauseisavd-1 --yes
+az network nic delete --resource-group p-ause-mb-rg-avd --name pauseisavd-1-nic
+az disk delete --resource-group p-ause-mb-rg-avd --name pauseisavd-1-osdisk --yes
+</pre>
+
+<h3>Phase 3 Rollback (if FSLogix fails)</h3>
+<pre>
+# On each VM, disable FSLogix
+Set-ItemProperty "HKLM:\SOFTWARE\FSLogix\Profiles" -Name "Enabled" -Value 0
+
+# Re-enable sessions on pauseisavd-0
+az rest --method PATCH \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts/pauseisavd-0.albi.local?api-version=2024-04-03" \
+  --body '{"properties":{"allowNewSession":true}}'
+
+# Users will use local profiles (existing behavior)
+</pre>
+</div>
+
+<div class="section">
+<h2>7. Pre-Implementation Checklist</h2>
+
+<h3>Before Phase 1</h3>
+<ul>
+    <li><input type="checkbox" class="checkbox">Azure CLI installed and logged into Production subscription</li>
+    <li><input type="checkbox" class="checkbox">Admin password prepared for new VM</li>
+    <li><input type="checkbox" class="checkbox">Bicep templates validated (<code>az bicep build</code>)</li>
+    <li><input type="checkbox" class="checkbox">Network connectivity to subnet verified</li>
+</ul>
+
+<h3>Before Phase 2</h3>
+<ul>
+    <li><input type="checkbox" class="checkbox">Azure AD tenant ID confirmed: <code>713ee28e-f3d7-4395-ae77-687d5014c757</code></li>
+    <li><input type="checkbox" class="checkbox">Azure AD tenant name confirmed: <code>albiimports.onmicrosoft.com</code></li>
+    <li><input type="checkbox" class="checkbox">Security group Object ID obtained: <code>Security - AVD Pool 01 Users</code></li>
+    <li><input type="checkbox" class="checkbox">Security group Object ID obtained: <code>Security - AVD Pool 01 Admins</code></li>
+</ul>
+
+<h3>Before Phase 3</h3>
+<ul>
+    <li><input type="checkbox" class="checkbox">Maintenance window approved and communicated to users</li>
+    <li><input type="checkbox" class="checkbox">Azure AD Kerberos authentication verified working</li>
+    <li><input type="checkbox" class="checkbox">RBAC role assignments propagated (15-30 min after assignment)</li>
+    <li><input type="checkbox" class="checkbox">NTFS permissions configured on file share</li>
+    <li><input type="checkbox" class="checkbox">Profile migration script prepared</li>
+    <li><input type="checkbox" class="checkbox">Test user identified for post-migration validation</li>
+    <li><input type="checkbox" class="checkbox">Rollback commands documented and ready</li>
+</ul>
+
+<h3>Before Phase 4 (7-14 days after Phase 3)</h3>
+<ul>
+    <li><input type="checkbox" class="checkbox">All users have logged in at least once with FSLogix</li>
+    <li><input type="checkbox" class="checkbox">No FSLogix-related issues reported for 7+ days</li>
+    <li><input type="checkbox" class="checkbox">VM snapshot still available for emergency rollback</li>
+    <li><input type="checkbox" class="checkbox">Archive storage location identified for local profiles</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>8. Post-Implementation Verification</h2>
+
+<table>
+    <tr>
+        <th>Check</th>
+        <th>Expected Result</th>
+        <th>Verified</th>
+    </tr>
+    <tr>
+        <td>Session hosts status</td>
+        <td>Both showing "Available" with AllowNewSession=True</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    <tr>
+        <td>FSLogix service running</td>
+        <td><code>frxsvc</code> service running on both hosts</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    <tr>
+        <td>Profile containers created</td>
+        <td>VHDX files visible in file share</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    <tr>
+        <td>Test user login</td>
+        <td>User can log in and see migrated profile data</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    <tr>
+        <td>FSLogix event logs</td>
+        <td>Event ID 25 "Profile loaded successfully"</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    <tr>
+        <td>Kerberos ticket present</td>
+        <td><code>klist</code> shows ticket for cifs/pauseisfslogix001.file.core.windows.net</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    <tr>
+        <td>Load balancing</td>
+        <td>New sessions distributed across both hosts</td>
+        <td><input type="checkbox"></td>
+    </tr>
+</table>
+
+<h3>8.1 Azure AD Kerberos Verification Commands</h3>
+<pre>
+# On session host - verify Kerberos ticket
+klist
+
+# Expected output should include:
+#   Server: cifs/pauseisfslogix001.file.core.windows.net @ KERBEROS.MICROSOFTONLINE.COM
+
+# Test file share access (as logged-in user)
+net use \\pauseisfslogix001.file.core.windows.net\fslogix-profiles
+
+# Check FSLogix logs
+Get-WinEvent -LogName "Microsoft-FSLogix-Apps/Operational" | Select-Object -First 10
+</pre>
+</div>
+
+<div class="section">
+<h2>9. Technical Details</h2>
+
+<h3>9.1 New Session Host Specifications</h3>
+<table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>VM Name</td><td><code>pauseisavd-1</code></td></tr>
+    <tr style="background-color: #fff8e6;"><td>VM Size</td><td><span class="highlight">Standard_E8s_v5</span> (8 vCPU, 64 GB RAM) - matches existing host</td></tr>
+    <tr><td>OS</td><td>Windows 11 Enterprise 23H2 (AVD multi-session)</td></tr>
+    <tr><td>OS Disk</td><td>128 GB Premium SSD</td></tr>
+    <tr><td>Identity</td><td>Azure AD Joined + Intune enrolled</td></tr>
+    <tr style="background-color: #fff8e6;"><td>Availability Zone</td><td><span class="highlight">Zone 2</span> (pauseisavd-0 is in Zone 1 for HA)</td></tr>
+    <tr><td>Subnet</td><td>p-ause-mb-vn-workloads/App</td></tr>
+</table>
+
+<h3>9.2 FSLogix Storage Specifications <span class="new-tag">SECURED</span></h3>
+<table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Storage Account</td><td><code>pauseisfslogix001</code></td></tr>
+    <tr><td>Account Type</td><td>Premium FileStorage</td></tr>
+    <tr><td>Redundancy</td><td>LRS (Locally Redundant)</td></tr>
+    <tr><td>File Share</td><td><code>fslogix-profiles</code></td></tr>
+    <tr><td>Share Quota</td><td>256 GB</td></tr>
+    <tr><td>Authentication</td><td><strong>Azure AD Kerberos</strong></td></tr>
+    <tr style="background-color: #fff8e6;"><td>Network Access</td><td><strong>VNet Service Endpoint (Restricted)</strong> <span class="new-tag">NEW</span></td></tr>
+    <tr style="background-color: #fff8e6;"><td>Allowed Subnet</td><td><code>p-ause-mb-vn-workloads/App</code></td></tr>
+    <tr style="background-color: #fff8e6;"><td>Public Access</td><td><span class="highlight">Denied</span></td></tr>
+    <tr><td>Soft Delete</td><td>Enabled (7 days retention)</td></tr>
+</table>
+
+<div class="success">
+<strong>Network Security:</strong> Storage account access is restricted to the AVD subnet only via VNet service endpoint. Public internet access is denied.
+</div>
+
+<h3>9.3 Azure AD Kerberos Configuration <span class="new-tag">KERBEROS</span></h3>
+<table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Directory Service</td><td>AADKERB (Azure AD Kerberos)</td></tr>
+    <tr><td>Azure AD Tenant ID</td><td><code>713ee28e-f3d7-4395-ae77-687d5014c757</code></td></tr>
+    <tr><td>Azure AD Tenant Name</td><td><code>albiimports.onmicrosoft.com</code></td></tr>
+    <tr><td>RBAC Role Required</td><td>Storage File Data SMB Share Contributor</td></tr>
+    <tr><td>RBAC Role ID</td><td><code>0c867c2a-1d8c-454a-a3db-ab2ea1bdc8bb</code></td></tr>
+    <tr><td>Authentication Flow</td><td>Azure AD → Kerberos ticket → SMB access</td></tr>
+</table>
+
+<div class="info">
+<strong>Azure AD Kerberos Benefits:</strong>
+<ul>
+    <li>No storage account keys stored on VMs</li>
+    <li>Leverages existing Azure AD identities</li>
+    <li>RBAC-based access control at file share level</li>
+    <li>Automatic Kerberos ticket renewal</li>
+    <li>No on-premises AD infrastructure required</li>
+</ul>
+</div>
+
+<h3>9.4 NTFS Permissions on File Share <span class="new-tag">NEW</span></h3>
+<table>
+    <tr><th>Principal</th><th>Permission</th><th>Applies To</th></tr>
+    <tr><td>CREATOR OWNER</td><td>Full Control</td><td>Subfolders and Files only</td></tr>
+    <tr><td><code>Security - AVD Pool 01 Admins</code></td><td>Full Control</td><td>This folder, Subfolders, Files</td></tr>
+    <tr><td><code>Security - AVD Pool 01 Users</code></td><td>Modify</td><td>This folder only</td></tr>
+</table>
+
+<div class="info">
+<strong>Why these NTFS permissions?</strong>
+<ul>
+    <li><strong>Users</strong>: Can create their profile folder (Modify on root)</li>
+    <li><strong>CREATOR OWNER</strong>: Users have full control of their own profile only</li>
+    <li><strong>Admins</strong>: Can manage all profiles for troubleshooting</li>
+</ul>
+</div>
+
+<h3>9.5 FSLogix Configuration</h3>
+<table>
+    <tr><th>Setting</th><th>Value</th></tr>
+    <tr><td>Profile Container</td><td>Enabled</td></tr>
+    <tr><td>Office Container</td><td>Enabled</td></tr>
+    <tr><td>VHD Type</td><td>VHDX (Dynamic)</td></tr>
+    <tr><td>Max Profile Size</td><td>30 GB</td></tr>
+    <tr><td>FlipFlop Directory</td><td>Enabled (SID_username format)</td></tr>
+    <tr><td>Delete Local Profile</td><td>No (pauseisavd-0) / Yes (pauseisavd-1)</td></tr>
+    <tr><td>Storage Key Authentication</td><td>Disabled (using Azure AD Kerberos)</td></tr>
+</table>
+
+<h3>9.6 Availability Zone Configuration <span class="new-tag">HA</span></h3>
+<table>
+    <tr><th>Session Host</th><th>Availability Zone</th><th>Purpose</th></tr>
+    <tr><td><code>pauseisavd-0</code></td><td>Zone 1</td><td>Existing host</td></tr>
+    <tr style="background-color: #fff8e6;"><td><code>pauseisavd-1</code></td><td><span class="highlight">Zone 2</span></td><td>New host (High Availability)</td></tr>
+</table>
+
+<div class="success">
+<strong>High Availability:</strong> Deploying session hosts across different availability zones provides resilience against single-zone failures in the Azure region.
+</div>
+</div>
+
+<div class="section">
+<h2>10. Communication Plan</h2>
+
+<h3>Pre-Maintenance Notification (24 hours before Phase 3)</h3>
+<div style="background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 10px 0;">
+<strong>Subject:</strong> Scheduled AVD Maintenance - [DATE]<br><br>
+<strong>Body:</strong><br>
+A scheduled maintenance window has been planned for the Azure Virtual Desktop environment.<br><br>
+<strong>Date:</strong> [DATE]<br>
+<strong>Time:</strong> [START TIME] - [END TIME] AEST<br>
+<strong>Impact:</strong> AVD desktops will be unavailable during this window<br>
+<strong>Reason:</strong> Implementation of FSLogix profile containers for improved performance and reliability<br><br>
+Please ensure you save all work and log out before the maintenance window begins.<br>
+Your user profile and settings will be preserved during the migration.
+</div>
+
+<h3>Post-Maintenance Notification</h3>
+<div style="background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 10px 0;">
+<strong>Subject:</strong> AVD Maintenance Completed<br><br>
+<strong>Body:</strong><br>
+The scheduled AVD maintenance has been completed successfully.<br><br>
+You can now log in to your AVD desktop. Your profile and settings have been migrated.<br><br>
+If you experience any issues, please contact the IT Service Desk.
+</div>
+</div>
+
+<div class="section">
+<h2>11. Approvals</h2>
+<!-- Note: Sections renumbered due to addition of Kerberos Troubleshooting section -->
+
+<table>
+    <tr>
+        <th>Role</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Signature</th>
+    </tr>
+    <tr>
+        <td>Change Requester</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Technical Reviewer</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Change Manager</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>CAB Approval</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>12. Kerberos Troubleshooting Guide <span class="new-tag">NEW SECTION</span></h2>
+
+<table>
+    <tr>
+        <th>Issue</th>
+        <th>Symptoms</th>
+        <th>Resolution</th>
+    </tr>
+    <tr>
+        <td>No Kerberos ticket</td>
+        <td><code>klist</code> shows no cifs ticket</td>
+        <td>Verify user is Azure AD joined; run <code>klist purge</code> and re-login</td>
+    </tr>
+    <tr>
+        <td>Access denied to file share</td>
+        <td>FSLogix error "Access is denied"</td>
+        <td>Verify RBAC role assignment; allow 15-30 min for propagation</td>
+    </tr>
+    <tr>
+        <td>Wrong Kerberos realm</td>
+        <td>Ticket shows unexpected realm</td>
+        <td>Verify Azure AD Kerberos is enabled on storage account</td>
+    </tr>
+    <tr>
+        <td>Profile fails to mount</td>
+        <td>Event ID 31 in FSLogix logs</td>
+        <td>Check storage account firewall allows session host subnet</td>
+    </tr>
+</table>
+
+<div class="warning">
+<strong>Fallback Option:</strong> If Azure AD Kerberos cannot be resolved during the maintenance window, the FSLogix extension can be redeployed with <code>useStorageKey = true</code> to use storage account key authentication. This requires storing the key securely via cmdkey.
+</div>
+</div>
+
+<div class="section">
+<h2>13. Supporting Documentation</h2>
+<ul>
+    <li>Detailed Deployment Guide: <code>claude/templates/avd/PRODUCTION_DEPLOYMENT_GUIDE.md</code></li>
+    <li>Bicep Templates: <code>claude/templates/avd/bicep/</code></li>
+    <li>Session Host Template: <code>avd-session-host-deploy.bicep</code></li>
+    <li>FSLogix Module: <code>modules/fslogix-extension.bicep</code></li>
+    <li>Storage Account Module: <code>modules/storage-account.bicep</code></li>
+    <li>RBAC Assignment Module: <code>modules/rbac-assignment.bicep</code></li>
+</ul>
+</div>
+
+</body>
+</html>

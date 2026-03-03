@@ -1,0 +1,333 @@
+<mxfile host="app.diagrams.net" compressed="false" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0" version="29.5.3">
+  <diagram id="ampac-full-topology" name="AMPAC Full Network Topology">
+    <mxGraphModel dx="1790" dy="2762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2800" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=18;fontColor=#0078D4;" value="&lt;b&gt;AMPAC - Complete Azure Infrastructure Topology&lt;/b&gt;&lt;br&gt;4 Subscriptions | Australia Southeast | All Resources Discovered 2026-02-25" vertex="1">
+          <mxGeometry height="55" width="680" x="800" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="region" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FBFF;dashed=0;strokeColor=#0078D4;strokeWidth=1;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=4;" value="Azure Region: Australia Southeast" vertex="1">
+          <mxGeometry height="1210" width="2740" x="30" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="sub-servers" parent="region" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8F0;dashed=0;strokeColor=#E67E22;strokeWidth=1;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=4;" value="Subscription: Orro - AMPAC - Servers (c5996fbb)" vertex="1">
+          <mxGeometry height="660" width="600" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="servers-vnet" parent="sub-servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=#E67E22;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=8;" value="ampac-servers-vnet&#xa;10.104.0.0/16&#xa;RG: ampac-servers-network" vertex="1">
+          <mxGeometry height="445" width="580" x="10" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="servers-subnet" parent="servers-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDEBD0;dashed=1;dashPattern=4 4;strokeColor=#E67E22;strokeWidth=1;fontSize=11;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="Servers Subnet&#xa;10.104.0.0/24" vertex="1">
+          <mxGeometry height="260" width="560" x="10" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="nsg-servers" parent="servers-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=7;image=img/lib/azure2/networking/Network_Security_Groups.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZDC01-nsg" vertex="1">
+          <mxGeometry height="28" width="28" x="515" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-fs" parent="servers-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ADRVMASEFS1&#xa;File Server&#xa;F4s_v2 | .0.4" vertex="1">
+          <mxGeometry height="50" width="50" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-web" parent="servers-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRWEB001&#xa;Web Server&#xa;D2ds_v5 | .0.7" vertex="1">
+          <mxGeometry height="50" width="50" x="140" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-app" parent="servers-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRAPP01&#xa;App Server&#xa;D4s_v3 | .0.11" vertex="1">
+          <mxGeometry height="50" width="50" x="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-sql" parent="servers-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/databases/SQL_Database.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRSQL001&#xa;SQL Server&#xa;E4ads_v5 | .0.8" vertex="1">
+          <mxGeometry height="50" width="50" x="410" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-flow1" edge="1" parent="servers-subnet" source="srv-web" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=1;strokeColor=#E67E22;endArrow=classic;" target="srv-app" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-flow2" edge="1" parent="servers-subnet" source="srv-app" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=1;strokeColor=#E67E22;endArrow=classic;" target="srv-sql" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-bastion-sub" parent="servers-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDEBD0;dashed=1;dashPattern=4 4;strokeColor=#E67E22;strokeWidth=1;fontSize=10;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="AzureBastionSubnet&#xa;10.104.1.0/26" vertex="1">
+          <mxGeometry height="65" width="560" x="10" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-bastion" parent="srv-bastion-sub" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/networking/Bastions.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Azure Bastion" vertex="1">
+          <mxGeometry height="40" width="40" x="255" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-lb" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/networking/Load_Balancers.svg;labelPosition=right;verticalLabelPosition=middle;verticalAlign=middle;align=left;" value="ADR-LB-ASE (Public LB)" vertex="1">
+          <mxGeometry height="40" width="40" x="320" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-storage1" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/storage/Storage_Accounts.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampacfs02archive&#xa;(Archive)" vertex="1">
+          <mxGeometry height="40" width="40" x="15" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-storage2" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/storage/Storage_Accounts.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampacfinalequnix&#xa;(Backup)" vertex="1">
+          <mxGeometry height="40" width="40" x="105" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-storage3" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/storage/Storage_Accounts.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampaconprem&#xa;mailboxpst" vertex="1">
+          <mxGeometry height="40" width="40" x="195" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-gallery" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AmpacVMGallery" vertex="1">
+          <mxGeometry height="40" width="40" x="295" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-backup" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AMPAC-Server&#xa;-Backups" vertex="1">
+          <mxGeometry height="40" width="40" x="395" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-csg" parent="sub-servers" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/general/Resource_Groups.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="CSG-LiftAndShift&#xa;(Migration)" vertex="1">
+          <mxGeometry height="40" width="40" x="495" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="sub-avd" parent="region" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F8FF;dashed=0;strokeColor=#0078D4;strokeWidth=1;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=4;" value="Subscription: Orro - AMPAC - AVD (df97e73a)" vertex="1">
+          <mxGeometry height="610" width="720" x="650" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-vnet" parent="sub-avd" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=#0078D4;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=8;" value="ampac-avd-vnet&#xa;10.105.0.0/16&#xa;RG: ampac-avd-network" vertex="1">
+          <mxGeometry height="445" width="700" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bastion-subnet" parent="avd-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E6F1;dashed=1;dashPattern=4 4;strokeColor=#0078D4;strokeWidth=1;fontSize=10;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="AzureBastionSubnet&#xa;10.105.1.0/26" vertex="1">
+          <mxGeometry height="120" width="160" x="10" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="bastion" parent="bastion-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/networking/Bastions.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Azure Bastion" vertex="1">
+          <mxGeometry height="50" width="50" x="55" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-subnet" parent="avd-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E6F1;dashed=1;dashPattern=4 4;strokeColor=#0078D4;strokeWidth=1;fontSize=10;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="AVD Subnet&#xa;10.105.0.0/24" vertex="1">
+          <mxGeometry height="290" width="500" x="190" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="nsg-avd" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=7;image=img/lib/azure2/networking/Network_Security_Groups.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampac-avd-nsg" vertex="1">
+          <mxGeometry height="28" width="28" x="455" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="avd1" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZAVD-1&#xa;D8as_v5 | .0.5" vertex="1">
+          <mxGeometry height="45" width="45" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="avd2" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZAVD-2&#xa;D8as_v5 | .0.6" vertex="1">
+          <mxGeometry height="45" width="45" x="110" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="avd3" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZAVD-3&#xa;D8as_v5 | .0.7" vertex="1">
+          <mxGeometry height="45" width="45" x="200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="avd4" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZAVD-4&#xa;D8as_v5 | .0.4" vertex="1">
+          <mxGeometry height="45" width="45" x="290" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="avd5" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZAVD-5&#xa;D8as_v5 | .0.9" vertex="1">
+          <mxGeometry height="45" width="45" x="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="avd6" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01AZAVD-6&#xa;D8as_v5 | .0.8" vertex="1">
+          <mxGeometry height="45" width="45" x="20" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-status" parent="avd-subnet" style="text;html=1;align=left;verticalAlign=top;fontSize=8;fontColor=#107C10;fillColor=#E6FFE6;strokeColor=#107C10;rounded=1;spacing=4;" value="&lt;b&gt;All 6 VMs: Running&lt;/b&gt;&#xa;Windows | D8as_v5 (8 vCPU, 32GB)&#xa;MDE + Azure Monitor on all" vertex="1">
+          <mxGeometry height="50" width="200" x="110" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-hostpool" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampac-avd-hostpool&#xa;(Host Pool)" vertex="1">
+          <mxGeometry height="40" width="40" x="340" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-dag" parent="avd-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="DAG&#xa;(Desktop App)" vertex="1">
+          <mxGeometry height="40" width="40" x="420" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="nsg-rules" parent="avd-subnet" style="text;html=1;align=left;verticalAlign=top;fontSize=7;fontColor=#666666;fillColor=#FFFFFF;strokeColor=#CCCCCC;rounded=1;spacing=3;" value="&lt;b&gt;NSG:&lt;/b&gt; 100: TCP/443 ← WVD | 110: * ← AzureLB" vertex="1">
+          <mxGeometry height="22" width="280" x="10" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-bastion-avd" edge="1" parent="avd-vnet" source="bastion" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#0078D4;fontSize=8;labelBackgroundColor=#FFFFFF;endArrow=classic;" target="avd1" value="RDP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-workspace" parent="avd-vnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AMPAC-AVD&#xa;-WORKSPACE" vertex="1">
+          <mxGeometry height="40" width="40" x="10" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-scaling" parent="avd-vnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/general/Resource_Groups.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Scaling Plan" vertex="1">
+          <mxGeometry height="40" width="40" x="80" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-law" parent="avd-vnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/networking/Network_Watcher.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ADRLAWSASE1&#xa;(Log Analytics)" vertex="1">
+          <mxGeometry height="40" width="40" x="10" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-fslogix" parent="sub-avd" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/storage/Storage_Accounts.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampacfslogix&#xa;(FSLogix Profiles)" vertex="1">
+          <mxGeometry height="40" width="40" x="15" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-profile-bk" parent="sub-avd" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/storage/Storage_Accounts.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AMPAC-Profile&#xa;-backup" vertex="1">
+          <mxGeometry height="40" width="40" x="115" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-keyvault" parent="sub-avd" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="vault-m2tr1gsv&#xa;(Key Vault)" vertex="1">
+          <mxGeometry height="40" width="40" x="215" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-backups" parent="sub-avd" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AMPAC-AVD&#xa;-Backups" vertex="1">
+          <mxGeometry height="40" width="40" x="315" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-adobe" parent="sub-avd" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampac-adobe&#xa;-workspace" vertex="1">
+          <mxGeometry height="40" width="40" x="415" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="sub-entrads" parent="region" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F0FA;dashed=0;strokeColor=#8E44AD;strokeWidth=1;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=4;" value="Subscription: Orro - AMPAC - Entra DS (04276bfc)" vertex="1">
+          <mxGeometry height="610" width="440" x="1400" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-vnet" parent="sub-entrads" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=#8E44AD;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=8;" value="ampac-entrads-vnet&#xa;10.103.0.0/24&#xa;RG: ampac-entrads-network" vertex="1">
+          <mxGeometry height="445" width="420" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-subnet" parent="entrads-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBDEF0;dashed=1;dashPattern=4 4;strokeColor=#8E44AD;strokeWidth=1;fontSize=10;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="ampac-entrads-sn-001&#xa;10.103.0.0/28" vertex="1">
+          <mxGeometry height="260" width="400" x="10" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="nsg-entrads" parent="entrads-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=7;image=img/lib/azure2/networking/Network_Security_Groups.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="ampac-entrads-nsg" vertex="1">
+          <mxGeometry height="28" width="28" x="355" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-dc1" parent="entrads-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Entra DS&#xa;Replica 1" vertex="1">
+          <mxGeometry height="50" width="50" x="30" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-dc2" parent="entrads-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Entra DS&#xa;Replica 2" vertex="1">
+          <mxGeometry height="50" width="50" x="160" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-dc3" parent="entrads-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Entra DS&#xa;Replica 3" vertex="1">
+          <mxGeometry height="50" width="50" x="290" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-lb" parent="entrads-subnet" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/networking/Load_Balancers.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Entra DS&#xa;Internal LB" vertex="1">
+          <mxGeometry height="50" width="50" x="160" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="entrads-domain" parent="entrads-vnet" style="text;html=1;align=center;verticalAlign=top;fontSize=8;fontColor=#8E44AD;fillColor=#FFFFFF;strokeColor=#8E44AD;rounded=1;spacing=4;" value="&lt;b&gt;Domain: cloud.4ampac.com.au&lt;/b&gt;&lt;br&gt;3 replicas | Internal LB | Public IP&#xa;LDAP, Kerberos, NTLM authentication" vertex="1">
+          <mxGeometry height="45" width="360" x="30" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="sub-nonprod" parent="region" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF5F5;dashed=0;strokeColor=#C0392B;strokeWidth=1;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=4;" value="Subscription: Orro - AMPAC - Non-Prod Servers (b91effce)" vertex="1">
+          <mxGeometry height="610" width="600" x="1870" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="nonprod-vnet" parent="sub-nonprod" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=#C0392B;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=8;" value="ampac-nonprod-servers-vnet&#xa;10.106.0.0/16&#xa;RG: ampac-nonprod-servers-network" vertex="1">
+          <mxGeometry height="445" width="580" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="np-default-sub" parent="nonprod-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FADBD8;dashed=1;dashPattern=4 4;strokeColor=#C0392B;strokeWidth=1;fontSize=10;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="default Subnet&#xa;10.106.0.0/24" vertex="1">
+          <mxGeometry height="260" width="560" x="10" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="np-web" parent="np-default-sub" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRWEB001&#xa;-NONPROD&#xa;(Web)" vertex="1">
+          <mxGeometry height="50" width="50" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="np-app" parent="np-default-sub" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/compute/Virtual_Machine.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRAPP01&#xa;-NONPROD&#xa;(App)" vertex="1">
+          <mxGeometry height="50" width="50" x="140" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="np-sql1" parent="np-default-sub" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/databases/SQL_Database.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRSQL001&#xa;-NONPROD&#xa;(SQL)" vertex="1">
+          <mxGeometry height="50" width="50" x="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="np-sql2" parent="np-default-sub" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/databases/SQL_Database.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AU01ADRSQL002&#xa;-NONPROD&#xa;(SQL 2)" vertex="1">
+          <mxGeometry height="50" width="50" x="400" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="np-f1" edge="1" parent="np-default-sub" source="np-web" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=1;strokeColor=#C0392B;endArrow=classic;" target="np-app" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np-f2" edge="1" parent="np-default-sub" source="np-app" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=1;strokeColor=#C0392B;endArrow=classic;" target="np-sql1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np-nsg-note" parent="np-default-sub" style="text;html=1;align=left;verticalAlign=top;fontSize=7;fontColor=#666666;fillColor=#FFFFFF;strokeColor=#CCCCCC;rounded=1;spacing=3;" value="&lt;b&gt;NIC-level NSGs:&lt;/b&gt; Web &amp; App: DenyInternetOutbound, AllowVnetOutbound | SQL: AllowVnetOutbound only" vertex="1">
+          <mxGeometry height="22" width="430" x="10" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="np-bastion-sub" parent="nonprod-vnet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FADBD8;dashed=1;dashPattern=4 4;strokeColor=#C0392B;strokeWidth=1;fontSize=10;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;arcSize=6;" value="AzureBastionSubnet&#xa;10.106.1.0/26" vertex="1">
+          <mxGeometry height="65" width="560" x="10" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="np-bastion" parent="np-bastion-sub" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=9;image=img/lib/azure2/networking/Bastions.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Azure Bastion" vertex="1">
+          <mxGeometry height="40" width="40" x="255" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="np-storage" parent="sub-nonprod" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/storage/Storage_Accounts.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="nprestores&#xa;(Storage)" vertex="1">
+          <mxGeometry height="40" width="40" x="15" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="np-keyvault" parent="sub-nonprod" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=8;image=img/lib/azure2/security/Key_Vaults.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="vault204&#xa;(Key Vault)" vertex="1">
+          <mxGeometry height="40" width="40" x="115" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="np-warning" parent="sub-nonprod" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#E81123;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#E81123;verticalAlign=middle;align=center;" value="⚠ NO PEERINGS - This VNet is completely isolated from other subscriptions" vertex="1">
+          <mxGeometry height="40" width="370" x="220" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="srv-flow-lb" edge="1" parent="1" source="srv-lb" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#E67E22;endArrow=classic;fontSize=8;labelBackgroundColor=#FFFFFF;" value="Inbound">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="235" y="170" />
+            </Array>
+            <mxPoint x="235" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="internet" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;strokeWidth=2;fontSize=13;fontStyle=1;" value="Internet" vertex="1">
+          <mxGeometry height="65" width="180" x="460" as="geometry" />
+        </mxCell>
+        <mxCell id="internet-to-lb" edge="1" parent="1" source="internet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#333333;endArrow=classic;fontSize=9;labelBackgroundColor=#FFFFFF;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="srv-lb" value="Inbound Traffic&#xa;(Public IP)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="peering-srv-avd" edge="1" parent="1" source="servers-vnet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#E67E22;dashed=1;dashPattern=8 8;fontSize=9;labelBackgroundColor=#FFFFFF;endArrow=classic;startArrow=classic;endFill=1;startFill=1;" target="avd-vnet" value="avd-peer-to-servers&#xa;(Connected)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="peering-avd-entrads" edge="1" parent="1" source="avd-vnet" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#8E44AD;dashed=1;dashPattern=8 8;fontSize=9;labelBackgroundColor=#FFFFFF;endArrow=classic;startArrow=classic;endFill=1;startFill=1;" target="entrads-vnet" value="entra-peer-to-avd&#xa;(Connected)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-auth" edge="1" parent="1" source="avd1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#8E44AD;dashed=1;dashPattern=4 4;fontSize=8;labelBackgroundColor=#FFFFFF;endArrow=classic;fontColor=#8E44AD;" target="entrads-lb" value="LDAP/Kerberos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-files" edge="1" parent="1" source="avd1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#E67E22;dashed=1;dashPattern=4 4;fontSize=8;labelBackgroundColor=#FFFFFF;endArrow=classic;fontColor=#E67E22;" target="srv-fs" value="SMB (File Shares)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-control" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#107C10;strokeWidth=2;fontSize=12;fontStyle=1;verticalAlign=top;align=center;spacingTop=8;container=1;collapsible=0;arcSize=8;" value="AVD Control Plane (Microsoft Managed)" vertex="1">
+          <mxGeometry height="120" width="420" x="730" y="1350" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-gw-svc" parent="avd-control" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=10;image=img/lib/azure2/networking/Virtual_Network_Gateways.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="AVD Gateway" vertex="1">
+          <mxGeometry height="50" width="50" x="50" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-broker-svc" parent="avd-control" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=10;image=img/lib/azure2/networking/Load_Balancers.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="Connection Broker" vertex="1">
+          <mxGeometry height="50" width="50" x="185" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="avd-rdweb" parent="avd-control" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=10;image=img/lib/azure2/networking/Front_Doors.svg;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" value="RD Web Access" vertex="1">
+          <mxGeometry height="50" width="50" x="320" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="users" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#D83B01;strokeWidth=2;fontSize=12;fontStyle=1;" value="Remote Users&#xa;(AVD Client / Browser)" vertex="1">
+          <mxGeometry height="100" width="200" x="840" y="1520" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-ctrl-avd" edge="1" parent="1" source="avd-control" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#107C10;fontSize=9;labelBackgroundColor=#FFFFFF;endArrow=classic;" target="avd-vnet" value="TCP/443 (Reverse Connect)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-users-ctrl" edge="1" parent="1" source="users" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D83B01;fontSize=9;labelBackgroundColor=#FFFFFF;endArrow=classic;" target="avd-control" value="HTTPS / RDP over HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cidr-table" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10;fillColor=#FFFFFF;strokeColor=#CCCCCC;rounded=1;spacing=6;" value="&lt;b&gt;CIDR Address Plan&lt;/b&gt;&lt;table style=&#39;font-size:9px;border-collapse:collapse;&#39;&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;&lt;b&gt;VNet&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;&lt;b&gt;CIDR&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;&lt;b&gt;Peered&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;&lt;b&gt;VMs&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;ampac-entrads-vnet&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;10.103.0.0/24&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;↔ AVD&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;3 replicas&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;ampac-servers-vnet&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;10.104.0.0/16&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;↔ AVD&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;4 VMs&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;ampac-avd-vnet&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;10.105.0.0/16&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;↔ Servers, Entra&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;6 VMs&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px;color:red&#39;&gt;ampac-nonprod-vnet&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;10.106.0.0/16&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px;color:red&#39;&gt;NONE&lt;/td&gt;&lt;td style=&#39;border:1px solid #ccc;padding:2px&#39;&gt;4 VMs&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="140" width="360" x="1300" y="1350" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;strokeWidth=1;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingTop=5;spacingLeft=10;container=1;collapsible=0;" value="&lt;b&gt;Legend&lt;/b&gt;" vertex="1">
+          <mxGeometry height="110" width="640" x="30" y="1350" as="geometry" />
+        </mxCell>
+        <mxCell id="l1b" parent="legend" style="rounded=1;html=1;fillColor=#FFF8F0;strokeColor=#E67E22;strokeWidth=2;dashed=1;dashPattern=8 8;" value="" vertex="1">
+          <mxGeometry height="12" width="18" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l1t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="Servers (10.104/16)" vertex="1">
+          <mxGeometry height="18" width="120" x="32" y="27" as="geometry" />
+        </mxCell>
+        <mxCell id="l2b" parent="legend" style="rounded=1;html=1;fillColor=#F0F8FF;strokeColor=#0078D4;strokeWidth=2;dashed=1;dashPattern=8 8;" value="" vertex="1">
+          <mxGeometry height="12" width="18" x="160" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="AVD (10.105/16)" vertex="1">
+          <mxGeometry height="18" width="110" x="182" y="27" as="geometry" />
+        </mxCell>
+        <mxCell id="l3b" parent="legend" style="rounded=1;html=1;fillColor=#F5F0FA;strokeColor=#8E44AD;strokeWidth=2;dashed=1;dashPattern=8 8;" value="" vertex="1">
+          <mxGeometry height="12" width="18" x="300" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l3t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="Entra DS (10.103/24)" vertex="1">
+          <mxGeometry height="18" width="130" x="322" y="27" as="geometry" />
+        </mxCell>
+        <mxCell id="l4b" parent="legend" style="rounded=1;html=1;fillColor=#FEF5F5;strokeColor=#C0392B;strokeWidth=2;dashed=1;dashPattern=8 8;" value="" vertex="1">
+          <mxGeometry height="12" width="18" x="460" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l4t" parent="legend" style="text;html=1;fontSize=9;align=left;fontColor=#C0392B;" value="Non-Prod (10.106/16) ISOLATED" vertex="1">
+          <mxGeometry height="18" width="155" x="482" y="27" as="geometry" />
+        </mxCell>
+        <mxCell id="l5b" parent="legend" style="rounded=1;html=1;fillColor=#E6FFE6;strokeColor=#107C10;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="12" width="18" x="10" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="l5t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="Microsoft-managed" vertex="1">
+          <mxGeometry height="18" width="110" x="32" y="49" as="geometry" />
+        </mxCell>
+        <mxCell id="l6i" parent="legend" style="aspect=fixed;html=1;points=[];image;image=img/lib/azure2/networking/Network_Security_Groups.svg;" value="" vertex="1">
+          <mxGeometry height="18" width="18" x="160" y="49" as="geometry" />
+        </mxCell>
+        <mxCell id="l6t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="NSG attached" vertex="1">
+          <mxGeometry height="18" width="80" x="182" y="49" as="geometry" />
+        </mxCell>
+        <mxCell id="l7l" edge="1" parent="legend" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;dashed=1;dashPattern=8 8;strokeColor=#0078D4;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="58" as="sourcePoint" />
+            <mxPoint x="320" y="58" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="VNet Peering" vertex="1">
+          <mxGeometry height="18" width="80" x="325" y="49" as="geometry" />
+        </mxCell>
+        <mxCell id="l8l" edge="1" parent="legend" style="endArrow=classic;html=1;strokeWidth=1;dashed=1;dashPattern=4 4;strokeColor=#8E44AD;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460" y="58" as="sourcePoint" />
+            <mxPoint x="480" y="58" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l8t" parent="legend" style="text;html=1;fontSize=9;align=left;" value="Traffic flow" vertex="1">
+          <mxGeometry height="18" width="80" x="485" y="49" as="geometry" />
+        </mxCell>
+        <mxCell id="l9t" parent="legend" style="text;html=1;fontSize=9;align=left;fontColor=#333333;" value="&lt;b&gt;Total:&lt;/b&gt; 4 subscriptions | 4 VNets | 17 VMs/replicas | 6 storage accounts | 3 Key Vaults | 4 Bastions | 2 LBs | All in Australia Southeast" vertex="1">
+          <mxGeometry height="20" width="620" x="10" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="metadata" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=9;fontColor=#999999;" value="&lt;i&gt;Auto-discovered from Azure CLI | 4 Subscriptions | Date: 2026-02-25 | No firewalls, route tables, or private endpoints found across any subscription&lt;/i&gt;" vertex="1">
+          <mxGeometry height="20" width="700" x="30" y="1640" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

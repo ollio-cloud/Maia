@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "Parameter file for FSLogix Storage Account - pauseisfslogix001",
+    "environment": "Production",
+    "lastUpdated": "2025-12-17"
+  },
+  "parameters": {
+    "storageAccountName": {
+      "value": "pauseisfslogix001"
+    },
+    "location": {
+      "value": "australiasoutheast"
+    },
+    "fileShareName": {
+      "value": "fslogix-profiles"
+    },
+    "fileShareQuotaGB": {
+      "value": 256
+    },
+    "storageAccountSku": {
+      "value": "Premium_LRS"
+    },
+    "enableAzureADKerberos": {
+      "value": true
+    },
+    "azureADTenantId": {
+      "value": "YOUR_TENANT_ID_HERE"
+    },
+    "azureADTenantName": {
+      "value": "YOUR_TENANT.onmicrosoft.com"
+    },
+    "avdUsersGroupObjectId": {
+      "value": "YOUR_AVD_USERS_GROUP_OBJECT_ID"
+    },
+    "avdAdminsGroupObjectId": {
+      "value": "YOUR_AVD_ADMINS_GROUP_OBJECT_ID"
+    },
+    "enableSoftDelete": {
+      "value": true
+    },
+    "softDeleteRetentionDays": {
+      "value": 7
+    },
+    "tags": {
+      "value": {
+        "Environment": "Production",
+        "Application": "AVD",
+        "Component": "FSLogix",
+        "CostCenter": "IT",
+        "Owner": "AVD Team",
+        "ManagedBy": "ARM Template"
+      }
+    }
+  }
+}

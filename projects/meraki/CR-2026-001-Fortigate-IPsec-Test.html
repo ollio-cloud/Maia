@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR-2026-001: Fortigate Azure IPsec VPN Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a365d;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c5282;
+            margin-top: 30px;
+            border-left: 4px solid #3182ce;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #2d3748;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        .header-table {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .header-table th {
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .header-table td {
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+        .risk-low {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .code-block {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .checklist {
+            background-color: #f7fafc;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #3182ce;
+        }
+        .checklist-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #a0aec0;
+            border-radius: 3px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .section-note {
+            background-color: #ebf8ff;
+            border: 1px solid #90cdf4;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #2c5282;
+        }
+        .warning-note {
+            background-color: #fffbeb;
+            border: 1px solid #f6e05e;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #744210;
+        }
+        .approval-box {
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        .signature-line {
+            border-bottom: 1px solid #a0aec0;
+            min-width: 200px;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .tag {
+            background-color: #805ad5;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .location-path {
+            background-color: #edf2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85em;
+            color: #4a5568;
+            margin: 10px 0;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Change Request: Fortigate Azure IPsec VPN Test</h1>
+
+        <div class="header-table">
+            <table>
+                <tr>
+                    <th>CR Number</th>
+                    <td>CR-2026-001</td>
+                    <th>Request Date</th>
+                    <td>2026-01-22</td>
+                </tr>
+                <tr>
+                    <th>Requested By</th>
+                    <td>Olli Ojala</td>
+                    <th>Environment</th>
+                    <td>Meraki Dashboard - KD BUS Organization</td>
+                </tr>
+                <tr>
+                    <th>Network</th>
+                    <td>ATE-TEST</td>
+                    <th>Change Type</th>
+                    <td>Non-Production / Test</td>
+                </tr>
+                <tr>
+                    <th>Risk Level</th>
+                    <td><span class="risk-low">LOW</span></td>
+                    <th>Rollback Time</th>
+                    <td>&lt; 5 minutes</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>1. Purpose &amp; Objective</h2>
+        <p>Test new Fortigate firewall IPsec VPN connectivity from Meraki MX to Azure-hosted Fortigate before rolling out to production sites. This change will add two new IPsec tunnels to the ATE-TEST network only, isolated using network tags.</p>
+
+        <h2>2. Current State</h2>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Current Value</th>
+            </tr>
+            <tr>
+                <td>Network</td>
+                <td>ATE-TEST</td>
+            </tr>
+            <tr>
+                <td>VPN Type</td>
+                <td>Hub (Mesh)</td>
+            </tr>
+            <tr>
+                <td>Local Subnet</td>
+                <td>10.160.10.0/24 (TEST VLAN)</td>
+            </tr>
+            <tr>
+                <td>Existing IPsec Peers</td>
+                <td>2 peers (ATE.Azure.to.ATE.WAN, ATE.Azure.DR.to.ATE.WAN)</td>
+            </tr>
+            <tr>
+                <td>NAT Traversal</td>
+                <td>Automatic</td>
+            </tr>
+        </table>
+
+        <h2>3. Planned Changes</h2>
+
+        <h3>3.1 Create Network Tag for Test Isolation</h3>
+        <div class="location-path">📍 Organization &gt; Configure &gt; Networks &gt; ATE-TEST</div>
+        <table>
+            <tr>
+                <th>Action</th>
+                <th>Value</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td>Add Network Tag</td>
+                <td><span class="tag">fortigate-test</span></td>
+                <td>Restrict new IPsec peers to test network only</td>
+            </tr>
+        </table>
+
+        <h3>3.2 Add IPsec VPN Peer - Fortigate Azure East</h3>
+        <div class="location-path">📍 Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN &gt; Organization-wide settings &gt; IPsec VPN Peers &gt; + Add a peer</div>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><strong>Fortigate-Azure-East</strong></td>
+            </tr>
+            <tr>
+                <td>Public IP/Hostname</td>
+                <td><strong>68.218.113.249</strong></td>
+            </tr>
+            <tr>
+                <td>IKE Version</td>
+                <td>IKEv2</td>
+            </tr>
+            <tr>
+                <td>Encryption</td>
+                <td>AES-256</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>SHA256</td>
+            </tr>
+            <tr>
+                <td>DH Group</td>
+                <td>14 (2048-bit)</td>
+            </tr>
+            <tr>
+                <td>PFS</td>
+                <td>Enabled, Group 14</td>
+            </tr>
+            <tr>
+                <td>Phase 1 Lifetime</td>
+                <td>1800 seconds</td>
+            </tr>
+            <tr>
+                <td>Phase 2 Lifetime</td>
+                <td>3600 seconds</td>
+            </tr>
+            <tr>
+                <td>Pre-shared Key</td>
+                <td><em>Shared securely outside of CR</em></td>
+            </tr>
+            <tr>
+                <td>Private Subnets (Remote)</td>
+                <td><strong>10.200.10.0/24</strong></td>
+            </tr>
+            <tr>
+                <td>Network Tags</td>
+                <td><span class="tag">fortigate-test</span></td>
+            </tr>
+        </table>
+
+        <h3>3.3 Add IPsec VPN Peer - Fortigate Azure SouthEast</h3>
+        <div class="location-path">📍 Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN &gt; Organization-wide settings &gt; IPsec VPN Peers &gt; + Add a peer</div>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><strong>Fortigate-Azure-SouthEast</strong></td>
+            </tr>
+            <tr>
+                <td>Public IP/Hostname</td>
+                <td><strong>4.200.139.87</strong></td>
+            </tr>
+            <tr>
+                <td>IKE Version</td>
+                <td>IKEv2</td>
+            </tr>
+            <tr>
+                <td>Encryption</td>
+                <td>AES-256</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>SHA256</td>
+            </tr>
+            <tr>
+                <td>DH Group</td>
+                <td>14 (2048-bit)</td>
+            </tr>
+            <tr>
+                <td>PFS</td>
+                <td>Enabled, Group 14</td>
+            </tr>
+            <tr>
+                <td>Phase 1 Lifetime</td>
+                <td>1800 seconds</td>
+            </tr>
+            <tr>
+                <td>Phase 2 Lifetime</td>
+                <td>3600 seconds</td>
+            </tr>
+            <tr>
+                <td>Pre-shared Key</td>
+                <td><em>Shared securely outside of CR</em></td>
+            </tr>
+            <tr>
+                <td>Private Subnets (Remote)</td>
+                <td><strong>10.201.10.0/24</strong></td>
+            </tr>
+            <tr>
+                <td>Network Tags</td>
+                <td><span class="tag">fortigate-test</span></td>
+            </tr>
+        </table>
+
+        <h2>4. Configuration Summary</h2>
+        <div class="section-note">
+            ℹ️ All required information has been collected. Pre-shared key will be shared securely outside of this CR.
+        </div>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Status</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Fortigate Azure East Public IP</td>
+                <td><span style="background-color: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 4px;">✅ Confirmed</span></td>
+                <td><strong>68.218.113.249</strong></td>
+            </tr>
+            <tr>
+                <td>Fortigate Azure SouthEast Public IP</td>
+                <td><span style="background-color: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 4px;">✅ Confirmed</span></td>
+                <td><strong>4.200.139.87</strong></td>
+            </tr>
+            <tr>
+                <td>Azure East Subnet</td>
+                <td><span style="background-color: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 4px;">✅ Confirmed</span></td>
+                <td><strong>10.200.10.0/24</strong></td>
+            </tr>
+            <tr>
+                <td>Azure SouthEast Subnet</td>
+                <td><span style="background-color: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 4px;">✅ Confirmed</span></td>
+                <td><strong>10.201.10.0/24</strong></td>
+            </tr>
+            <tr>
+                <td>Pre-shared Key</td>
+                <td><span style="background-color: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 4px;">✅ Confirmed</span></td>
+                <td><em>Shared securely outside of CR</em></td>
+            </tr>
+            <tr>
+                <td>Fortigate IKE/IPsec Settings</td>
+                <td><span class="status-pending">⬜ Pending</span></td>
+                <td>Confirm matching parameters on Fortigate side</td>
+            </tr>
+        </table>
+
+        <h2>5. Test Plan</h2>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Method</th>
+                <th>Expected Result</th>
+            </tr>
+            <tr>
+                <td>Tunnel Establishment</td>
+                <td>Dashboard &gt; VPN Status</td>
+                <td>Both tunnels show "Connected" (green)</td>
+            </tr>
+            <tr>
+                <td>IKE Negotiation</td>
+                <td>Event Log</td>
+                <td>No Phase 1/Phase 2 errors</td>
+            </tr>
+            <tr>
+                <td>Traffic Flow</td>
+                <td>Ping from ATE-TEST client to Fortigate subnet</td>
+                <td>Successful ICMP response</td>
+            </tr>
+            <tr>
+                <td>Failover Test</td>
+                <td>Disable primary Fortigate</td>
+                <td>Traffic fails over to secondary</td>
+            </tr>
+            <tr>
+                <td>Isolation Verification</td>
+                <td>Check other networks in org</td>
+                <td>No Fortigate tunnels visible on production sites</td>
+            </tr>
+        </table>
+
+        <h2>6. Rollback Procedure</h2>
+        <div class="section-note">
+            ℹ️ If issues occur, execute the following rollback steps. Estimated time: &lt; 5 minutes
+        </div>
+        <div class="code-block">1. Navigate: Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN
+
+2. Scroll to: Organization-wide settings &gt; IPsec VPN Peers
+
+3. Delete: Fortigate-Azure-East
+   - Click on peer → Delete → Confirm
+
+4. Delete: Fortigate-Azure-SouthEast
+   - Click on peer → Delete → Confirm
+
+5. (Optional) Remove tag "fortigate-test" from ATE-TEST network:
+   - Organization &gt; Configure &gt; Networks &gt; ATE-TEST &gt; Edit &gt; Remove tag</div>
+
+        <h2>7. Production Rollout (Post-Test Success)</h2>
+        <p>After successful testing, production implementation will require:</p>
+        <ol>
+            <li>Remove <span class="tag">fortigate-test</span> tag restriction from IPsec peers (or add tag to production networks)</li>
+            <li>Create configuration template with Fortigate VPN settings</li>
+            <li>Schedule maintenance window for production sites</li>
+            <li><strong>Separate Change Request required for production rollout</strong></li>
+        </ol>
+
+        <h2>8. Approvals</h2>
+        <div class="approval-box">
+            <table>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Signature</th>
+                    <th>Date</th>
+                </tr>
+                <tr>
+                    <td>Requestor</td>
+                    <td>Olli Ojala</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Network Admin</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Change Manager</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>9. Implementation Checklist</h2>
+
+        <h3>PRE-CHANGE</h3>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Fortigate-side configuration prepared</div>
+            <div class="checklist-item"><span class="checkbox"></span> PSK shared securely (outside of CR)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Rollback procedure reviewed</div>
+        </div>
+
+        <h3>IMPLEMENTATION</h3>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Add tag "fortigate-test" to ATE-TEST network</div>
+            <div class="checklist-item"><span class="checkbox"></span> Create IPsec Peer: Fortigate-Azure-East (68.218.113.249)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Create IPsec Peer: Fortigate-Azure-SouthEast (4.200.139.87)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Verify peers show in Dashboard</div>
+        </div>
+
+        <h3>VALIDATION</h3>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Tunnel status: Connected</div>
+            <div class="checklist-item"><span class="checkbox"></span> Ping test successful</div>
+            <div class="checklist-item"><span class="checkbox"></span> Event log: No errors</div>
+            <div class="checklist-item"><span class="checkbox"></span> Other networks unaffected</div>
+        </div>
+
+        <h3>POST-CHANGE</h3>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Document actual values used</div>
+            <div class="checklist-item"><span class="checkbox"></span> Screenshot working configuration</div>
+            <div class="checklist-item"><span class="checkbox"></span> Update runbook for production rollout</div>
+        </div>
+
+        <hr style="margin-top: 40px; border: none; border-top: 1px solid #e2e8f0;">
+        <p style="color: #718096; font-size: 0.85em; text-align: center;">
+            Generated by Maia - Meraki Network Agent | CR-2026-001 | 2026-01-22
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NWR Project - Firewall Request for SICE</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --secondary-color: #106ebe;
+            --success-color: #107c10;
+            --warning-color: #ff8c00;
+            --danger-color: #d13438;
+            --critical-color: #a4262c;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #323130;
+            --border-color: #e1e1e1;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--critical-color), #c50f1f);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        header .priority-badge {
+            display: inline-block;
+            background: #ffb900;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        header .version-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        nav h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        nav li a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        nav li a:hover {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 25px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        h4 {
+            color: var(--text-color);
+            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e8f4ff;
+        }
+
+        /* Critical row highlighting */
+        tr.critical {
+            background-color: #fde7e9 !important;
+        }
+
+        tr.critical td {
+            font-weight: 600;
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Alerts/Notes */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-critical {
+            background: #fde7e9;
+            border-color: var(--critical-color);
+            color: #6e0811;
+        }
+
+        .alert-warning {
+            background: #fff4ce;
+            border-color: var(--warning-color);
+            color: #835c00;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: var(--primary-color);
+            color: #004578;
+        }
+
+        .alert-success {
+            background: #dff6dd;
+            border-color: var(--success-color);
+            color: #0b6a0b;
+        }
+
+        /* Status badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-critical { background: #fde7e9; color: #a4262c; }
+        .badge-required { background: #fff4ce; color: #835c00; }
+        .badge-optional { background: #e7f3ff; color: #0078d4; }
+
+        /* Summary box */
+        .summary-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .summary-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .summary-item .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .summary-item .label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Server info cards */
+        .server-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .server-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .server-card h4 {
+            color: white;
+            margin: 0 0 10px 0;
+        }
+
+        .server-card p {
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+
+        /* Endpoint lists */
+        .endpoint-list {
+            background: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Cascadia Code', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .endpoint-list .comment {
+            color: #6a9955;
+        }
+
+        /* Copy button */
+        .code-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: #666;
+        }
+
+        /* Print styles */
+        @media print {
+            nav { display: none; }
+            section { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+            .no-print { display: none; }
+            header { background: #333 !important; -webkit-print-color-adjust: exact; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            nav ul { grid-template-columns: 1fr; }
+            section { padding: 20px; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 6px 8px; }
+        }
+
+        /* Signature table */
+        .signature-table td {
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        .signature-table td:last-child {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NWR Project - Firewall Request</h1>
+        <div class="subtitle">Entra ID Connect & Intune Network Requirements for SICE</div>
+        <div class="priority-badge">PRIORITY: CRITICAL - Blocking Deployment</div>
+        <div class="version-info">
+            <strong>Version:</strong> 1.0 | <strong>Date:</strong> January 2025 | <strong>Project:</strong> NWR Field Device Network Restriction
+        </div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <h2>Quick Navigation</h2>
+            <ul>
+                <li><a href="#executive-summary">Executive Summary</a></li>
+                <li><a href="#section1">Section 1: Entra Connect Servers</a></li>
+                <li><a href="#section2">Section 2: Intune Endpoints</a></li>
+                <li><a href="#section3">Section 3: Field Device Applications</a></li>
+                <li><a href="#section4">Section 4: Consolidated Rules</a></li>
+                <li><a href="#section5">Section 5: Verification Scripts</a></li>
+                <li><a href="#section6">Section 6: Important Notes</a></li>
+                <li><a href="#section7">Section 7: Approval Sign-Off</a></li>
+            </ul>
+        </nav>
+
+        <!-- Executive Summary -->
+        <section id="executive-summary">
+            <h2>Executive Summary</h2>
+
+            <div class="alert alert-critical">
+                <strong>CURRENT BLOCKER:</strong> Global Admin cannot authenticate to Azure AD from Entra Connect servers due to firewall restrictions on <code>login.microsoftonline.com</code>. This is preventing the entire deployment from proceeding.
+            </div>
+
+            <p>This document contains all required firewall rules for:</p>
+            <ol>
+                <li><strong>Entra ID Connect Servers</strong> (M7EC-EC1-CYB-01, PH-EC2-CYB-01) - Tier 0 infrastructure</li>
+                <li><strong>Intune-Managed Field Devices</strong> - Windows endpoints with restricted network access</li>
+            </ol>
+
+            <div class="summary-box">
+                <h3>Firewall Rules Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="number">38</div>
+                        <div class="label">Entra Connect Rules</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="number">41</div>
+                        <div class="label">Intune Endpoint Rules</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="number">9</div>
+                        <div class="label">Application Rules</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="number">88</div>
+                        <div class="label">Total Rules</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Entra Connect -->
+        <section id="section1">
+            <h2>Section 1: Entra ID Connect Server Requirements</h2>
+
+            <h3>1.1 Server Details</h3>
+            <div class="server-cards">
+                <div class="server-card">
+                    <h4>M7EC-EC1-CYB-01</h4>
+                    <p><strong>Site:</strong> M7EC</p>
+                    <p><strong>Role:</strong> Primary Entra Connect</p>
+                    <p><strong>IP:</strong> TBD (SICE to provide)</p>
+                </div>
+                <div class="server-card">
+                    <h4>PH-EC2-CYB-01</h4>
+                    <p><strong>Site:</strong> PH</p>
+                    <p><strong>Role:</strong> Standby Entra Connect</p>
+                    <p><strong>IP:</strong> TBD (SICE to provide)</p>
+                </div>
+            </div>
+
+            <h3>1.2 Outbound Rules - Azure AD / Entra ID (CRITICAL)</h3>
+            <p><span class="badge badge-critical">Priority: P1 - Required for initial login and sync</span></p>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>1</td><td><code>login.microsoftonline.com</code></td><td>443</td><td>TCP</td><td><strong>Primary Azure AD authentication</strong></td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>2</td><td><code>login.microsoft.com</code></td><td>443</td><td>TCP</td><td>Microsoft authentication</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>3</td><td><code>login.windows.net</code></td><td>443</td><td>TCP</td><td>Legacy Azure AD authentication</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>4</td><td><code>*.login.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Regional authentication endpoints</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>5</td><td><code>device.login.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Device authentication</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>6</td><td><code>autologon.microsoftazuread-sso.com</code></td><td>443</td><td>TCP</td><td>Seamless SSO</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>7</td><td><code>secure.aadcdn.microsoftonline-p.com</code></td><td>443</td><td>TCP</td><td>Azure AD CDN</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.3 Outbound Rules - Microsoft Graph & Management APIs</h3>
+            <p><span class="badge badge-critical">Priority: P1 - Required for sync operations</span></p>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>8</td><td><code>graph.microsoft.com</code></td><td>443</td><td>TCP</td><td>Microsoft Graph API</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>9</td><td><code>graph.windows.net</code></td><td>443</td><td>TCP</td><td>Azure AD Graph (legacy)</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>10</td><td><code>management.azure.com</code></td><td>443</td><td>TCP</td><td>Azure Resource Management</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>11</td><td><code>adminwebservice.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Admin web service</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>12</td><td><code>provisioningapi.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Provisioning API</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>13</td><td><code>policykeyservice.dc.ad.msft.net</code></td><td>443</td><td>TCP</td><td>Policy key service</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.4 Outbound Rules - Entra Connect Sync Service</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>14</td><td><code>*.msappproxy.net</code></td><td>443</td><td>TCP</td><td>Azure AD Connect service</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>15</td><td><code>*.servicebus.windows.net</code></td><td>443, 5671</td><td>TCP</td><td>Service Bus (password writeback)</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>16</td><td><code>*.adhybridhealth.azure.com</code></td><td>443</td><td>TCP</td><td>Azure AD Connect Health</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>17</td><td><code>*.aadconnecthealth.azure.com</code></td><td>443</td><td>TCP</td><td>Connect Health monitoring</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>18</td><td><code>*.blob.core.windows.net</code></td><td>443</td><td>TCP</td><td>Azure Blob storage</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.5 Outbound Rules - Certificate Validation (CRL/OCSP)</h3>
+            <div class="alert alert-warning">
+                <strong>Important:</strong> These endpoints use HTTP (port 80), not HTTPS. Certificate validation will fail if blocked!
+            </div>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>19</td><td><code>crl.microsoft.com</code></td><td>80</td><td>TCP</td><td>Microsoft CRL</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>20</td><td><code>mscrl.microsoft.com</code></td><td>80</td><td>TCP</td><td>Microsoft CRL</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>21</td><td><code>crl3.digicert.com</code></td><td>80</td><td>TCP</td><td>DigiCert CRL</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>22</td><td><code>crl4.digicert.com</code></td><td>80</td><td>TCP</td><td>DigiCert CRL</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>23</td><td><code>ocsp.digicert.com</code></td><td>80</td><td>TCP</td><td>DigiCert OCSP</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>24</td><td><code>ocsp.msocsp.com</code></td><td>80</td><td>TCP</td><td>Microsoft OCSP</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>25</td><td><code>www.microsoft.com</code></td><td>80</td><td>TCP</td><td>CRL distribution</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>26</td><td><code>ctldl.windowsupdate.com</code></td><td>80</td><td>TCP</td><td>Certificate Trust List</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.6 Outbound Rules - Windows Update</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>27</td><td><code>*.windowsupdate.com</code></td><td>443, 80</td><td>TCP</td><td>Windows Update</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>28</td><td><code>*.update.microsoft.com</code></td><td>443, 80</td><td>TCP</td><td>Microsoft Update</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>29</td><td><code>*.delivery.mp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Delivery optimization</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>1.7 Internal Rules - Active Directory Communication</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>30</td><td>Domain Controllers</td><td>53</td><td>TCP/UDP</td><td>DNS</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>31</td><td>Domain Controllers</td><td>88</td><td>TCP/UDP</td><td>Kerberos</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>32</td><td>Domain Controllers</td><td>135</td><td>TCP</td><td>RPC Endpoint Mapper</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>33</td><td>Domain Controllers</td><td>389</td><td>TCP/UDP</td><td>LDAP</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>34</td><td>Domain Controllers</td><td>636</td><td>TCP</td><td>LDAPS</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>35</td><td>Domain Controllers</td><td>445</td><td>TCP</td><td>SMB</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>36</td><td>Domain Controllers</td><td>3268</td><td>TCP</td><td>Global Catalog</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>37</td><td>Domain Controllers</td><td>3269</td><td>TCP</td><td>Global Catalog SSL</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr class="critical"><td>38</td><td>Domain Controllers</td><td>49152-65535</td><td>TCP</td><td>RPC Dynamic Ports</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 2: Intune Endpoints -->
+        <section id="section2">
+            <h2>Section 2: Intune-Managed Endpoint Requirements</h2>
+
+            <h3>2.1 Device Groups</h3>
+            <p>These rules apply to all field devices in the <code>Field-Devices-Restricted-Network</code> group.</p>
+
+            <h3>2.2 Outbound Rules - Intune Core Services</h3>
+            <p><span class="badge badge-critical">Priority: P1 - Required for device management</span></p>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>1</td><td><code>*.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Intune management</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>2</td><td><code>manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Intune management</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>3</td><td><code>enrollment.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Device enrollment</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>4</td><td><code>enterpriseregistration.windows.net</code></td><td>443</td><td>TCP</td><td>Device registration</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>5</td><td><code>enterpriseenrollment.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>MDM enrollment</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>6</td><td><code>enterpriseenrollment-s.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>MDM enrollment</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>7</td><td><code>*.dm.microsoft.com</code></td><td>443</td><td>TCP</td><td>Delivery/Defender</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2.3 Outbound Rules - Authentication</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>8</td><td><code>login.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Azure AD authentication</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>9</td><td><code>login.microsoft.com</code></td><td>443</td><td>TCP</td><td>Microsoft authentication</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>10</td><td><code>*.login.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Regional auth endpoints</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>11</td><td><code>login.windows.net</code></td><td>443</td><td>TCP</td><td>Legacy authentication</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>12</td><td><code>device.login.microsoftonline.com</code></td><td>443</td><td>TCP</td><td>Device authentication</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>13</td><td><code>graph.microsoft.com</code></td><td>443</td><td>TCP</td><td>Microsoft Graph</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>14</td><td><code>graph.windows.net</code></td><td>443</td><td>TCP</td><td>Azure AD Graph</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2.4 Outbound Rules - Windows Update & Defender</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>15</td><td><code>*.windowsupdate.com</code></td><td>443, 80</td><td>TCP</td><td>Windows Update</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>16</td><td><code>*.update.microsoft.com</code></td><td>443, 80</td><td>TCP</td><td>Microsoft Update</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>17</td><td><code>*.delivery.mp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Delivery optimization</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>18</td><td><code>*.dl.delivery.mp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Download delivery</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>19</td><td><code>*.do.dsp.mp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Delivery optimization</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>20</td><td><code>tsfe.trafficshaping.dsp.mp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Traffic shaping</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2.5 Outbound Rules - Microsoft Defender</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>21</td><td><code>*.wdcp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Defender cloud protection</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>22</td><td><code>*.wdcpalt.microsoft.com</code></td><td>443</td><td>TCP</td><td>Defender cloud (alt)</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>23</td><td><code>*.smartscreen.microsoft.com</code></td><td>443</td><td>TCP</td><td>SmartScreen</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>24</td><td><code>*.smartscreen-prod.microsoft.com</code></td><td>443</td><td>TCP</td><td>SmartScreen</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr class="critical"><td>25</td><td><code>definitionupdates.microsoft.com</code></td><td>443</td><td>TCP</td><td>Defender definitions</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>26</td><td><code>*.mp.microsoft.com</code></td><td>443</td><td>TCP</td><td>Malware protection</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2.6 Outbound Rules - Win32 App & Script Deployment</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>27</td><td><code>*.blob.core.windows.net</code></td><td>443</td><td>TCP</td><td>Azure blob storage</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>28</td><td><code>swda01-mscdn.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Win32 app CDN</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>29</td><td><code>swda02-mscdn.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Win32 app CDN</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>30</td><td><code>swdb01-mscdn.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Win32 app CDN (EU)</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>31</td><td><code>swdb02-mscdn.manage.microsoft.com</code></td><td>443</td><td>TCP</td><td>Win32 app CDN (EU)</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>32</td><td><code>naprodimedatapri.azureedge.net</code></td><td>443</td><td>TCP</td><td>Script deployment</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>33</td><td><code>naprodimedatasec.azureedge.net</code></td><td>443</td><td>TCP</td><td>Script deployment</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2.7 Outbound Rules - Windows Push Notifications (WNS)</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>34</td><td><code>*.notify.windows.com</code></td><td>443</td><td>TCP</td><td>Push notifications</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>35</td><td><code>*.wns.windows.com</code></td><td>443</td><td>TCP</td><td>WNS service</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2.8 Outbound Rules - Certificate Validation</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>36</td><td><code>crl.microsoft.com</code></td><td>80</td><td>TCP</td><td>Microsoft CRL</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>37</td><td><code>mscrl.microsoft.com</code></td><td>80</td><td>TCP</td><td>Microsoft CRL</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>38</td><td><code>crl3.digicert.com</code></td><td>80</td><td>TCP</td><td>DigiCert CRL</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>39</td><td><code>ocsp.digicert.com</code></td><td>80</td><td>TCP</td><td>DigiCert OCSP</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>40</td><td><code>ocsp.msocsp.com</code></td><td>80</td><td>TCP</td><td>Microsoft OCSP</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>41</td><td><code>ctldl.windowsupdate.com</code></td><td>80</td><td>TCP</td><td>CTL download</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 3: Field Device Apps -->
+        <section id="section3">
+            <h2>Section 3: Field Device Application-Specific Requirements</h2>
+
+            <h3>3.1 Azure Bastion Access (Use Case 1 & 2)</h3>
+            <p><span class="badge badge-critical">Priority: P1 - Required for remote access to infrastructure</span></p>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>1</td><td><code>*.bastion.azure.com</code></td><td>443</td><td>TCP</td><td>Azure Bastion service</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>2</td><td><code>*.portal.azure.com</code></td><td>443</td><td>TCP</td><td>Azure Portal</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>3</td><td><code>portal.azure.com</code></td><td>443</td><td>TCP</td><td>Azure Portal</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>3.2 ShareFile Access (Use Case 1 & 2)</h3>
+            <p><span class="badge badge-critical">Priority: P1 - Required for file access</span></p>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="critical"><td>4</td><td><code>*.sharefile.com</code></td><td>443</td><td>TCP</td><td>ShareFile service</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr class="critical"><td>5</td><td><code>*.sf-api.com</code></td><td>443</td><td>TCP</td><td>ShareFile API</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                    <tr><td>6</td><td><code>*.citrixdata.com</code></td><td>443</td><td>TCP</td><td>ShareFile storage</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>7</td><td><code>*.sf-cdn.net</code></td><td>443</td><td>TCP</td><td>ShareFile CDN</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>3.3 SICE/MSP Patch Access (Use Case 6)</h3>
+            <p><span class="badge badge-required">Priority: P2 - Required for patching (TBD - confirm with MSP)</span></p>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Destination</th><th>Port</th><th>Protocol</th><th>Purpose</th><th>Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>8</td><td><code>*.msp-sice.com</code></td><td>443</td><td>TCP</td><td>SICE patch server (TBD)</td><td><span class="badge badge-required">Required</span></td></tr>
+                    <tr><td>9</td><td>(MSP to provide)</td><td>443</td><td>TCP</td><td>MSP endpoints</td><td><span class="badge badge-required">Required</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 4: Consolidated Rules -->
+        <section id="section4">
+            <h2>Section 4: Consolidated Wildcard Rules</h2>
+
+            <p>For environments that support wildcard rules, use these consolidated entries:</p>
+
+            <h3>TCP 443 (HTTPS)</h3>
+            <div class="code-container">
+                <pre><code><span class="comment"># Authentication</span>
+login.microsoftonline.com
+login.microsoft.com
+login.windows.net
+*.login.microsoftonline.com
+device.login.microsoftonline.com
+secure.aadcdn.microsoftonline-p.com
+
+<span class="comment"># Microsoft Graph & APIs</span>
+graph.microsoft.com
+graph.windows.net
+management.azure.com
+adminwebservice.microsoftonline.com
+provisioningapi.microsoftonline.com
+
+<span class="comment"># Entra Connect Specific</span>
+*.msappproxy.net
+*.servicebus.windows.net
+*.adhybridhealth.azure.com
+*.aadconnecthealth.azure.com
+
+<span class="comment"># Intune Core</span>
+*.manage.microsoft.com
+manage.microsoft.com
+enterpriseregistration.windows.net
+enterpriseenrollment.manage.microsoft.com
+enterpriseenrollment-s.manage.microsoft.com
+*.dm.microsoft.com
+
+<span class="comment"># Windows Update</span>
+*.windowsupdate.com
+*.update.microsoft.com
+*.delivery.mp.microsoft.com
+*.dl.delivery.mp.microsoft.com
+*.do.dsp.mp.microsoft.com
+
+<span class="comment"># Defender</span>
+*.wdcp.microsoft.com
+*.wdcpalt.microsoft.com
+*.smartscreen.microsoft.com
+definitionupdates.microsoft.com
+
+<span class="comment"># Content Delivery</span>
+*.blob.core.windows.net
+*.azureedge.net
+
+<span class="comment"># Push Notifications</span>
+*.notify.windows.com
+*.wns.windows.com
+
+<span class="comment"># Application Access (Field Devices)</span>
+*.bastion.azure.com
+*.portal.azure.com
+*.sharefile.com
+*.sf-api.com
+*.citrixdata.com</code></pre>
+            </div>
+
+            <h3>TCP 80 (HTTP - CRL/OCSP)</h3>
+            <div class="code-container">
+                <pre><code>crl.microsoft.com
+mscrl.microsoft.com
+crl3.digicert.com
+crl4.digicert.com
+ocsp.digicert.com
+ocsp.msocsp.com
+www.microsoft.com
+ctldl.windowsupdate.com</code></pre>
+            </div>
+
+            <h3>TCP 5671 (Optional - Password Writeback)</h3>
+            <div class="code-container">
+                <pre><code>*.servicebus.windows.net</code></pre>
+            </div>
+        </section>
+
+        <!-- Section 5: Verification -->
+        <section id="section5">
+            <h2>Section 5: Verification & Testing</h2>
+
+            <h3>5.1 Entra Connect Server Verification Script</h3>
+            <div class="code-container">
+                <pre><code># Run on Entra Connect servers to verify connectivity
+$Endpoints = @(
+    # Critical Authentication
+    @{ Name = "Azure AD Login"; Host = "login.microsoftonline.com"; Port = 443 },
+    @{ Name = "MS Login"; Host = "login.microsoft.com"; Port = 443 },
+    @{ Name = "Graph API"; Host = "graph.microsoft.com"; Port = 443 },
+    @{ Name = "Azure AD Graph"; Host = "graph.windows.net"; Port = 443 },
+    @{ Name = "Admin Service"; Host = "adminwebservice.microsoftonline.com"; Port = 443 },
+    @{ Name = "Provisioning"; Host = "provisioningapi.microsoftonline.com"; Port = 443 },
+    @{ Name = "Azure Management"; Host = "management.azure.com"; Port = 443 },
+
+    # CRL (HTTP)
+    @{ Name = "MS CRL"; Host = "crl.microsoft.com"; Port = 80 },
+    @{ Name = "DigiCert CRL"; Host = "crl3.digicert.com"; Port = 80 },
+    @{ Name = "MS OCSP"; Host = "ocsp.msocsp.com"; Port = 80 }
+)
+
+Write-Host "=== ENTRA CONNECT FIREWALL VERIFICATION ===" -ForegroundColor Cyan
+$Failed = 0
+
+foreach ($EP in $Endpoints) {
+    $Result = Test-NetConnection -ComputerName $EP.Host -Port $EP.Port -WarningAction SilentlyContinue -InformationLevel Quiet
+    $Status = if ($Result) { "OK" } else { "BLOCKED"; $Failed++ }
+    $Color = if ($Result) { "Green" } else { "Red" }
+    Write-Host "  $($EP.Name.PadRight(25)) $($EP.Host):$($EP.Port) - $Status" -ForegroundColor $Color
+}
+
+if ($Failed -gt 0) {
+    Write-Host "`nBLOCKED: $Failed endpoints - Contact SICE to update firewall rules" -ForegroundColor Red
+} else {
+    Write-Host "`nAll endpoints accessible - Ready for Entra Connect installation" -ForegroundColor Green
+}</code></pre>
+            </div>
+
+            <h3>5.2 Field Device Verification Script</h3>
+            <div class="code-container">
+                <pre><code># Run on managed endpoints to verify Intune connectivity
+$Endpoints = @(
+    # Intune
+    @{ Name = "Intune Manage"; Host = "manage.microsoft.com"; Port = 443 },
+    @{ Name = "Intune Enrollment"; Host = "enrollment.manage.microsoft.com"; Port = 443 },
+    @{ Name = "Enterprise Reg"; Host = "enterpriseregistration.windows.net"; Port = 443 },
+
+    # Authentication
+    @{ Name = "Azure AD Login"; Host = "login.microsoftonline.com"; Port = 443 },
+    @{ Name = "Graph API"; Host = "graph.microsoft.com"; Port = 443 },
+
+    # Defender
+    @{ Name = "Defender"; Host = "wdcp.microsoft.com"; Port = 443 },
+    @{ Name = "SmartScreen"; Host = "smartscreen.microsoft.com"; Port = 443 },
+
+    # Windows Update
+    @{ Name = "Windows Update"; Host = "windowsupdate.com"; Port = 443 },
+
+    # Field Device Apps
+    @{ Name = "Azure Bastion"; Host = "portal.azure.com"; Port = 443 },
+    @{ Name = "ShareFile"; Host = "www.sharefile.com"; Port = 443 }
+)
+
+Write-Host "=== INTUNE ENDPOINT FIREWALL VERIFICATION ===" -ForegroundColor Cyan
+$Failed = 0
+
+foreach ($EP in $Endpoints) {
+    $Result = Test-NetConnection -ComputerName $EP.Host -Port $EP.Port -WarningAction SilentlyContinue -InformationLevel Quiet
+    $Status = if ($Result) { "OK" } else { "BLOCKED"; $Failed++ }
+    $Color = if ($Result) { "Green" } else { "Red" }
+    Write-Host "  $($EP.Name.PadRight(20)) $($EP.Host):$($EP.Port) - $Status" -ForegroundColor $Color
+}
+
+if ($Failed -gt 0) {
+    Write-Host "`nBLOCKED: $Failed endpoints - Intune management may fail" -ForegroundColor Red
+} else {
+    Write-Host "`nAll endpoints accessible - Ready for Intune enrollment" -ForegroundColor Green
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Section 6: Important Notes -->
+        <section id="section6">
+            <h2>Section 6: Important Notes</h2>
+
+            <h3>6.1 SSL/TLS Inspection</h3>
+            <div class="alert alert-critical">
+                <strong>SSL inspection is NOT supported</strong> for the following endpoints (bypass required):
+                <ul>
+                    <li><code>*.manage.microsoft.com</code></li>
+                    <li><code>*.dm.microsoft.com</code></li>
+                    <li><code>*.wdcp.microsoft.com</code></li>
+                    <li><code>*.smartscreen.microsoft.com</code></li>
+                    <li><code>*.blob.core.windows.net</code></li>
+                </ul>
+            </div>
+
+            <h3>6.2 Proxy Requirements</h3>
+            <div class="alert alert-warning">
+                If using a proxy server:
+                <ul>
+                    <li><strong>Unauthenticated proxy access required</strong> for Intune endpoints</li>
+                    <li><strong>Byte Range request support required</strong> for Delivery Optimization</li>
+                </ul>
+            </div>
+
+            <h3>6.3 Upcoming Change (December 2025)</h3>
+            <div class="alert alert-info">
+                Microsoft is migrating Intune to Azure Front Door. By <strong>December 2, 2025</strong>, add:
+                <ul>
+                    <li><strong>Service Tag:</strong> <code>AzureFrontDoor.MicrosoftSecurity</code> (outbound port 443)</li>
+                </ul>
+            </div>
+
+            <h3>6.4 DNS Requirements</h3>
+            <p>Entra Connect servers require DNS resolution for:</p>
+            <ul>
+                <li>On-premises Active Directory (internal DNS)</li>
+                <li>Microsoft cloud endpoints (external DNS via corporate resolver)</li>
+            </ul>
+        </section>
+
+        <!-- Section 7: Sign-Off -->
+        <section id="section7">
+            <h2>Section 7: Approval & Sign-Off</h2>
+
+            <table class="signature-table">
+                <thead>
+                    <tr><th>Role</th><th>Name</th><th>Date</th><th>Signature</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Requestor</td><td>Principal Endpoint Engineer</td><td>Jan 2025</td><td></td></tr>
+                    <tr><td>SICE Network Team</td><td></td><td></td><td></td></tr>
+                    <tr><td>Cyber Security</td><td></td><td></td><td></td></tr>
+                    <tr><td>Change Manager</td><td></td><td></td><td></td></tr>
+                </tbody>
+            </table>
+
+            <h3>References</h3>
+            <ul>
+                <li><a href="https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/reference-connect-ports" target="_blank">Microsoft Entra Connect Ports & Protocols</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/intune-endpoints" target="_blank">Microsoft Intune Network Endpoints</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/azure/bastion/bastion-nsg" target="_blank">Azure Bastion NSG Configuration</a></li>
+                <li><a href="https://support.citrix.com/article/CTX208318" target="_blank">ShareFile Firewall Configuration</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; background: #333; color: white; margin-top: 30px;">
+        <p>NWR Project - Firewall Request for SICE v1.0</p>
+        <p style="opacity: 0.7; font-size: 0.9rem;">Entra ID Connect & Intune Network Requirements | January 2025</p>
+    </footer>
+
+    <script>
+        // Copy button functionality
+        document.querySelectorAll('.code-container').forEach(container => {
+            const btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.textContent = 'Copy';
+            btn.onclick = function() {
+                const code = container.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => btn.textContent = 'Copy', 2000);
+                });
+            };
+            container.appendChild(btn);
+        });
+
+        // Smooth scrolling for nav links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

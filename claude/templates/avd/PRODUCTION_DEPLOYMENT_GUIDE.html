@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AVD Production Deployment Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { color: #0078d4; border-bottom: 3px solid #0078d4; padding-bottom: 10px; }
+        h2 { color: #106ebe; margin-top: 30px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        h3 { color: #333; margin-top: 25px; }
+        h4 { color: #555; margin-top: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f5f5f5; font-weight: bold; }
+        .phase-header { background-color: #0078d4; color: white; padding: 15px; margin-top: 30px; border-radius: 5px 5px 0 0; }
+        .phase-header h2 { color: white; margin: 0; border: none; padding: 0; }
+        .phase-content { border: 1px solid #0078d4; border-top: none; padding: 20px; margin-bottom: 30px; border-radius: 0 0 5px 5px; }
+        .phase-1 .phase-header { background-color: #107c10; }
+        .phase-1 .phase-content { border-color: #107c10; }
+        .phase-2 .phase-header { background-color: #0078d4; }
+        .phase-2 .phase-content { border-color: #0078d4; }
+        .phase-3 .phase-header { background-color: #d83b01; }
+        .phase-3 .phase-content { border-color: #d83b01; }
+        .phase-4 .phase-header { background-color: #8764b8; }
+        .phase-4 .phase-content { border-color: #8764b8; }
+        .warning { background-color: #fff4ce; border-left: 4px solid #ffb900; padding: 10px 15px; margin: 15px 0; }
+        .success { background-color: #dff6dd; border-left: 4px solid #107c10; padding: 10px 15px; margin: 15px 0; }
+        .info { background-color: #f0f6ff; border-left: 4px solid #0078d4; padding: 10px 15px; margin: 15px 0; }
+        .critical { background-color: #fde7e9; border-left: 4px solid #d13438; padding: 10px 15px; margin: 15px 0; }
+        .note { background-color: #f5f5f5; border-left: 4px solid #666; padding: 10px 15px; margin: 15px 0; font-style: italic; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; }
+        pre { background-color: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; line-height: 1.4; }
+        pre .comment { color: #6a9955; }
+        pre .string { color: #ce9178; }
+        pre .keyword { color: #569cd6; }
+        ul { margin: 10px 0; }
+        li { margin: 5px 0; }
+        .step { background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .step h4 { margin-top: 0; color: #0078d4; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-left: 8px; }
+        .tag-bash { background-color: #4caf50; color: white; }
+        .tag-powershell { background-color: #012456; color: white; }
+        .tag-new { background-color: #d83b01; color: white; }
+        .tag-important { background-color: #d13438; color: white; }
+        .toc { background-color: #f5f5f5; padding: 20px; border-radius: 5px; margin-bottom: 30px; }
+        .toc h3 { margin-top: 0; }
+        .toc ul { list-style-type: none; padding-left: 0; }
+        .toc li { margin: 8px 0; }
+        .toc a { text-decoration: none; color: #0078d4; }
+        .toc a:hover { text-decoration: underline; }
+        .metadata { background-color: #e7f3ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .metadata table { margin: 0; }
+        .metadata th { background-color: transparent; width: 150px; }
+        .checklist { list-style-type: none; padding-left: 0; }
+        .checklist li { margin: 8px 0; }
+        .checklist input { margin-right: 10px; }
+        .code-header { background-color: #333; color: #fff; padding: 8px 15px; border-radius: 5px 5px 0 0; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .code-header + pre { border-radius: 0 0 5px 5px; margin-top: 0; }
+        .highlight { background-color: #fff3cd; border: 2px solid #d83b01; padding: 2px 5px; font-weight: bold; }
+        @media print {
+            .phase-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+        }
+    </style>
+</head>
+<body>
+
+<h1>AVD Production Deployment Guide</h1>
+<h2 style="color: #107c10; margin-top: 0; border: none;">FSLogix Migration with Azure AD Kerberos Authentication</h2>
+
+<div class="metadata">
+<table>
+    <tr><th>Environment</th><td>Production - pauseisavdpool01</td></tr>
+    <tr><th>Resource Group</th><td><code>p-ause-mb-rg-avd</code></td></tr>
+    <tr><th>Date</th><td>January 2026</td></tr>
+    <tr><th>Authentication</th><td><strong style="color: #107c10;">Azure AD Kerberos</strong></td></tr>
+</table>
+</div>
+
+<div class="toc">
+<h3>Table of Contents</h3>
+<ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#phase1">Phase 1: Deploy New Session Host</a> <span class="tag" style="background-color: #107c10; color: white;">No Downtime</span></li>
+    <li><a href="#phase2">Phase 2: Deploy FSLogix Storage</a> <span class="tag" style="background-color: #0078d4; color: white;">No Downtime</span></li>
+    <li><a href="#phase3">Phase 3: Configure FSLogix & Migrate Profiles</a> <span class="tag" style="background-color: #d83b01; color: white;">Maintenance Window</span></li>
+    <li><a href="#phase4">Phase 4: Local Profile Cleanup</a> <span class="tag" style="background-color: #8764b8; color: white;">Post-Migration</span></li>
+    <li><a href="#validation">Post-Deployment Validation</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#rollback">Rollback Procedures</a></li>
+    <li><a href="#appendix">Appendix</a></li>
+</ul>
+</div>
+
+<section id="overview">
+<h2>Overview</h2>
+
+<p>This guide covers the phased deployment of:</p>
+<ol>
+    <li><strong>Phase 1</strong>: Deploy new session host <code>pauseisavd-1</code> (without FSLogix) - <em>Can be done anytime</em></li>
+    <li><strong>Phase 2</strong>: Deploy FSLogix storage with Azure AD Kerberos - <em>Maintenance window recommended</em></li>
+    <li><strong>Phase 3</strong>: Configure FSLogix on both hosts and migrate profiles - <em>Maintenance window required</em></li>
+    <li><strong>Phase 4</strong>: Clean up local profiles - <em>7-14 days after migration</em></li>
+</ol>
+
+<h3>Current State</h3>
+<table>
+    <tr><th>Resource</th><th>Status</th></tr>
+    <tr><td><code>pauseisavd-0</code></td><td>Running, Azure AD joined, no FSLogix</td></tr>
+    <tr><td><code>pauseisavd-1</code></td><td>Not deployed</td></tr>
+    <tr><td>FSLogix Storage</td><td>Not deployed</td></tr>
+    <tr><td>Users</td><td>18 users, profiles 1-22GB each</td></tr>
+</table>
+
+<h3>Target State</h3>
+<table>
+    <tr><th>Resource</th><th>Status</th></tr>
+    <tr><td><code>pauseisavd-0</code></td><td style="color: #107c10;">Running with FSLogix (Azure AD Kerberos)</td></tr>
+    <tr><td><code>pauseisavd-1</code></td><td style="color: #107c10;">Running with FSLogix (Azure AD Kerberos)</td></tr>
+    <tr><td>FSLogix Storage</td><td style="color: #107c10;"><code>pauseisfslogix001</code> with Kerberos auth</td></tr>
+</table>
+
+<h3>Authentication Method: Azure AD Kerberos</h3>
+
+<div class="success">
+<strong>Benefits over Storage Account Key:</strong>
+<ul>
+    <li>No credentials stored on VMs</li>
+    <li>Uses Azure AD identity for authentication</li>
+    <li>Automatic Kerberos ticket management</li>
+    <li>More secure - no key rotation required</li>
+    <li>Supports Conditional Access policies</li>
+</ul>
+</div>
+
+<div class="info">
+<strong>Requirements:</strong>
+<ul>
+    <li>Azure AD joined VMs (already in place)</li>
+    <li>Users synced to Azure AD</li>
+    <li>RBAC roles on file share</li>
+</ul>
+</div>
+</section>
+
+<!-- PHASE 1 -->
+<section id="phase1" class="phase-1">
+<div class="phase-header">
+    <h2>Phase 1: Deploy New Session Host (No Downtime)</h2>
+</div>
+<div class="phase-content">
+
+<table>
+    <tr><th>Impact</th><td>None - existing users unaffected</td></tr>
+    <tr><th>Duration</th><td>~20-25 minutes</td></tr>
+    <tr><th>Can be done</th><td>Anytime (business hours OK)</td></tr>
+</table>
+
+<h3>Prerequisites</h3>
+<ul class="checklist">
+    <li><input type="checkbox"> Azure CLI logged into Production subscription</li>
+    <li><input type="checkbox"> Admin password for new VM</li>
+    <li><input type="checkbox"> Host pool registration token</li>
+</ul>
+
+<div class="step">
+<h4>Step 1.0: Create Snapshot of pauseisavd-0 (Backup) <span class="tag tag-new">NEW</span></h4>
+<p>Before making any changes, create a snapshot of the existing session host for rollback purposes:</p>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Get the OS disk name for pauseisavd-0</span>
+OS_DISK=$(az vm show --resource-group p-ause-mb-rg-avd --name pauseisavd-0 --query "storageProfile.osDisk.name" -o tsv)
+
+<span class="comment"># Create a snapshot</span>
+az snapshot create \
+  --resource-group p-ause-mb-rg-avd \
+  --name "pauseisavd-0-snapshot-$(date +%Y%m%d)" \
+  --source "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/disks/$OS_DISK" \
+  --tags Environment=Production Purpose=Pre-Migration-Backup CreatedDate=$(date +%Y-%m-%d)</pre>
+
+<div class="code-header"><span>PowerShell (Alternative)</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre>$osDisk = az vm show --resource-group p-ause-mb-rg-avd --name pauseisavd-0 --query "storageProfile.osDisk.name" -o tsv
+$snapshotName = "pauseisavd-0-snapshot-$(Get-Date -Format 'yyyyMMdd')"
+az snapshot create `
+  --resource-group p-ause-mb-rg-avd `
+  --name $snapshotName `
+  --source "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/disks/$osDisk" `
+  --tags Environment=Production Purpose=Pre-Migration-Backup CreatedDate=$(Get-Date -Format 'yyyy-MM-dd')</pre>
+
+<div class="note">
+<strong>Note:</strong> Keep this snapshot until migration is verified successful (recommend 7-14 days).
+</div>
+</div>
+
+<div class="step">
+<h4>Step 1.1: Generate Host Pool Registration Token</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Generate a new registration token (valid for 24 hours)</span>
+az rest --method POST \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/registrationTokens?api-version=2024-04-03" \
+  --body '{"properties":{"expirationTime":"'$(date -u -d "+24 hours" +%Y-%m-%dT%H:%M:%SZ)'"}}' \
+  --query "properties.token" -o tsv</pre>
+
+<div class="code-header"><span>PowerShell (Alternative)</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre>$expiry = (Get-Date).AddHours(24).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+az rest --method POST `
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/registrationTokens?api-version=2024-04-03" `
+  --body "{`"properties`":{`"expirationTime`":`"$expiry`"}}" `
+  --query "properties.token" -o tsv</pre>
+
+<div class="warning">
+<strong>Important:</strong> Save the token output - you'll need it for deployment.
+</div>
+</div>
+
+<div class="step">
+<h4>Step 1.2: Deploy Session Host VM <span class="tag tag-new">ZONE 2</span></h4>
+
+<div class="info">
+<strong>Availability Zone Strategy:</strong> Deploy <code>pauseisavd-1</code> in <span class="highlight">Zone 2</span> for high availability. The existing host <code>pauseisavd-0</code> is in Zone 1. This provides resilience against single-zone failures.
+</div>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>cd claude/templates/avd/bicep
+
+az deployment group create \
+  --resource-group p-ause-mb-rg-avd \
+  --template-file avd-session-host-deploy.bicep \
+  --parameters vmName='pauseisavd-1' \
+               location='australiasoutheast' \
+               vmSize='Standard_E8s_v5' \
+               availabilityZone='2' \
+               adminUsername='avdadmin' \
+               adminPassword='&lt;YOUR_SECURE_PASSWORD&gt;' \
+               subnetId='/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-workloads/providers/Microsoft.Network/virtualNetworks/p-ause-mb-vn-workloads/subnets/App' \
+               hostPoolName='pauseisavdpool01' \
+               hostPoolToken='&lt;TOKEN_FROM_STEP_1&gt;' \
+               enableFSLogix=false \
+  --name "deploy-pauseisavd-1-$(date +%Y%m%d%H%M)"</pre>
+
+<table>
+    <tr><th>Session Host</th><th>Availability Zone</th><th>Purpose</th></tr>
+    <tr><td><code>pauseisavd-0</code></td><td>Zone 1</td><td>Existing host</td></tr>
+    <tr style="background-color: #dff6dd;"><td><code>pauseisavd-1</code></td><td><strong>Zone 2</strong></td><td>New host (HA)</td></tr>
+</table>
+</div>
+
+<div class="step">
+<h4>Step 1.3: Disable New Sessions on pauseisavd-1</h4>
+<p>Immediately after deployment completes, disable new sessions so users can't connect until FSLogix is ready:</p>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Disable new sessions on the new host</span>
+az rest --method PATCH \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts/pauseisavd-1?api-version=2024-04-03" \
+  --body '{"properties":{"allowNewSession":false}}'</pre>
+</div>
+
+<div class="step">
+<h4>Step 1.4: Verify Deployment</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Check both session hosts</span>
+az rest --method GET \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts?api-version=2024-04-03" \
+  --query "value[].{name:name, status:properties.status, allowNewSession:properties.allowNewSession}" -o table</pre>
+
+<p><strong>Expected output:</strong></p>
+<pre style="background-color: #f4f4f4; color: #333;">Name                            Status     AllowNewSession
+------------------------------  ---------  ---------------
+pauseisavdpool01/pauseisavd-0   Available  True
+pauseisavdpool01/pauseisavd-1   Available  False</pre>
+</div>
+
+<div class="step">
+<h4>Step 1.5: Add Virtual Machine User Login Role</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Assign Virtual Machine User Login role to AVD users (replace with your user/group)</span>
+az role assignment create \
+  --assignee "&lt;YOUR_USER_OR_GROUP_OBJECT_ID&gt;" \
+  --role "Virtual Machine User Login" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/virtualMachines/pauseisavd-1"</pre>
+</div>
+
+<div class="success">
+<strong>Phase 1 Complete!</strong> The new session host is deployed and registered with the host pool. Sessions are disabled until FSLogix is configured.
+</div>
+
+</div>
+</section>
+
+<!-- PHASE 2 -->
+<section id="phase2" class="phase-2">
+<div class="phase-header">
+    <h2>Phase 2: Deploy FSLogix Storage with Azure AD Kerberos</h2>
+</div>
+<div class="phase-content">
+
+<table>
+    <tr><th>Impact</th><td>None yet - storage only</td></tr>
+    <tr><th>Duration</th><td>~15-20 minutes</td></tr>
+    <tr><th>Maintenance Window</th><td>Recommended before Phase 3</td></tr>
+</table>
+
+<div class="step">
+<h4>Step 2.0: Enable Service Endpoint on Subnet (Prerequisites) <span class="tag tag-new">NEW</span></h4>
+<p>Before deploying the storage account with network restrictions, ensure the subnet has the <code>Microsoft.Storage</code> service endpoint enabled:</p>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Check current service endpoints on the subnet</span>
+az network vnet subnet show \
+  --resource-group p-ause-mb-rg-workloads \
+  --vnet-name p-ause-mb-vn-workloads \
+  --name App \
+  --query "serviceEndpoints[].service" -o table
+
+<span class="comment"># If Microsoft.Storage is not listed, add it</span>
+az network vnet subnet update \
+  --resource-group p-ause-mb-rg-workloads \
+  --vnet-name p-ause-mb-vn-workloads \
+  --name App \
+  --service-endpoints Microsoft.Storage</pre>
+
+<div class="warning">
+<strong>Note:</strong> Adding a service endpoint may cause a brief connectivity interruption to VMs in the subnet (typically a few seconds).
+</div>
+</div>
+
+<div class="step">
+<h4>Step 2.1: Deploy FSLogix Storage Account with Kerberos</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>cd claude/templates/avd/bicep
+
+az deployment group create \
+  --resource-group p-ause-mb-rg-avd \
+  --template-file modules/storage-account.bicep \
+  --parameters storageAccountName='pauseisfslogix001' \
+               location='australiasoutheast' \
+               sku='Premium_LRS' \
+               enableAzureADKerberos=true \
+               tenantId='713ee28e-f3d7-4395-ae77-687d5014c757' \
+               tenantName='albiimports.onmicrosoft.com' \
+               enableNetworkRestrictions=true \
+               allowedSubnetId='/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-workloads/providers/Microsoft.Network/virtualNetworks/p-ause-mb-vn-workloads/subnets/App' \
+               tags='{"Environment":"Production","Application":"AVD","Component":"FSLogix","Authentication":"AzureADKerberos"}' \
+  --name "deploy-fslogix-storage-$(date +%Y%m%d%H%M)"</pre>
+
+<div class="success">
+<strong>Security:</strong> The storage account is now restricted to only allow access from the AVD subnet. Public internet access is denied.
+</div>
+</div>
+
+<div class="step">
+<h4>Step 2.2: Create File Share</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>az deployment group create \
+  --resource-group p-ause-mb-rg-avd \
+  --template-file modules/file-share.bicep \
+  --parameters storageAccountName='pauseisfslogix001' \
+               fileShareName='fslogix-profiles' \
+               shareQuotaGB=256 \
+               accessTier='Premium' \
+               enableSoftDelete=true \
+               softDeleteRetentionDays=7 \
+  --name "deploy-fslogix-share-$(date +%Y%m%d%H%M)"</pre>
+</div>
+
+<div class="step">
+<h4>Step 2.3: Configure RBAC for Azure AD Kerberos (REQUIRED)</h4>
+
+<p>For Azure AD Kerberos, RBAC permissions are <strong>mandatory</strong>.</p>
+
+<table>
+    <tr><th>Security Group</th><th>Purpose</th></tr>
+    <tr><td><code>Security - AVD Pool 01 Users</code></td><td>Standard AVD users</td></tr>
+    <tr><td><code>Security - AVD Pool 01 Admins</code></td><td>AVD administrators</td></tr>
+</table>
+
+<p>First, get the Object IDs for these groups:</p>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Get Object ID for Security - AVD Pool 01 Users</span>
+az ad group show --group "Security - AVD Pool 01 Users" --query "id" -o tsv
+
+<span class="comment"># Get Object ID for Security - AVD Pool 01 Admins</span>
+az ad group show --group "Security - AVD Pool 01 Admins" --query "id" -o tsv</pre>
+
+<p>Then assign the RBAC roles:</p>
+
+<div class="code-header"><span>Bash - Storage Account RBAC</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># ============================================================================</span>
+<span class="comment"># Storage Account RBAC (for FSLogix/Kerberos)</span>
+<span class="comment"># ============================================================================</span>
+
+<span class="comment"># For "Security - AVD Pool 01 Users" - Storage File Data SMB Share Contributor</span>
+az role assignment create \
+  --assignee "&lt;AVD_POOL_01_USERS_OBJECT_ID&gt;" \
+  --role "Storage File Data SMB Share Contributor" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Storage/storageAccounts/pauseisfslogix001"
+
+<span class="comment"># For "Security - AVD Pool 01 Admins" - Storage File Data SMB Share Elevated Contributor</span>
+az role assignment create \
+  --assignee "&lt;AVD_POOL_01_ADMINS_OBJECT_ID&gt;" \
+  --role "Storage File Data SMB Share Elevated Contributor" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Storage/storageAccounts/pauseisfslogix001"</pre>
+
+<div class="code-header"><span>Bash - VM RBAC</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># ============================================================================</span>
+<span class="comment"># VM RBAC (for Azure AD login to session hosts)</span>
+<span class="comment"># ============================================================================</span>
+
+<span class="comment"># For "Security - AVD Pool 01 Users" - Virtual Machine User Login (on both VMs)</span>
+az role assignment create \
+  --assignee "&lt;AVD_POOL_01_USERS_OBJECT_ID&gt;" \
+  --role "Virtual Machine User Login" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/virtualMachines/pauseisavd-0"
+
+az role assignment create \
+  --assignee "&lt;AVD_POOL_01_USERS_OBJECT_ID&gt;" \
+  --role "Virtual Machine User Login" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/virtualMachines/pauseisavd-1"
+
+<span class="comment"># For "Security - AVD Pool 01 Admins" - Virtual Machine Administrator Login (on both VMs)</span>
+az role assignment create \
+  --assignee "&lt;AVD_POOL_01_ADMINS_OBJECT_ID&gt;" \
+  --role "Virtual Machine Administrator Login" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/virtualMachines/pauseisavd-0"
+
+az role assignment create \
+  --assignee "&lt;AVD_POOL_01_ADMINS_OBJECT_ID&gt;" \
+  --role "Virtual Machine Administrator Login" \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Compute/virtualMachines/pauseisavd-1"</pre>
+
+<h4>Summary of RBAC Assignments</h4>
+<table>
+    <tr><th>Group</th><th>Storage Account Role</th><th>VM Role</th></tr>
+    <tr><td>Security - AVD Pool 01 Users</td><td>Storage File Data SMB Share Contributor</td><td>Virtual Machine User Login</td></tr>
+    <tr><td>Security - AVD Pool 01 Admins</td><td>Storage File Data SMB Share Elevated Contributor</td><td>Virtual Machine Administrator Login</td></tr>
+</table>
+</div>
+
+<div class="step">
+<h4>Step 2.4: Configure NTFS Permissions on File Share <span class="tag tag-new">NEW</span></h4>
+
+<p>After RBAC is configured, set the NTFS permissions on the file share. This must be done from a session host that has access to the share.</p>
+
+<p><strong>Connect to pauseisavd-0 and run:</strong></p>
+
+<div class="code-header"><span>PowerShell - Run as Administrator on session host</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># ============================================================================</span>
+<span class="comment"># Configure NTFS Permissions for FSLogix File Share</span>
+<span class="comment"># Run as Administrator on a session host</span>
+<span class="comment"># ============================================================================</span>
+
+$StorageAccount = "pauseisfslogix001"
+$FileShare = "fslogix-profiles"
+$SharePath = "\\$StorageAccount.file.core.windows.net\$FileShare"
+
+<span class="comment"># Mount the share (should work via Kerberos without credentials)</span>
+Write-Host "Mounting file share..." -ForegroundColor Cyan
+if (!(Test-Path $SharePath)) {
+    Write-Host "ERROR: Cannot access file share. Verify RBAC permissions." -ForegroundColor Red
+    exit 1
+}
+
+<span class="comment"># Get the current ACL</span>
+$acl = Get-Acl $SharePath
+
+Write-Host "Configuring NTFS permissions..." -ForegroundColor Cyan
+
+<span class="comment"># 1. CREATOR OWNER - Full Control (Subfolders and Files only)</span>
+$creatorOwner = New-Object System.Security.AccessControl.FileSystemAccessRule(
+    "CREATOR OWNER",
+    "FullControl",
+    "ContainerInherit,ObjectInherit",
+    "InheritOnly",
+    "Allow"
+)
+$acl.AddAccessRule($creatorOwner)
+
+<span class="comment"># 2. Security - AVD Pool 01 Admins - Full Control</span>
+$adminsGroup = "Security - AVD Pool 01 Admins"
+try {
+    $admins = New-Object System.Security.AccessControl.FileSystemAccessRule(
+        $adminsGroup,
+        "FullControl",
+        "ContainerInherit,ObjectInherit",
+        "None",
+        "Allow"
+    )
+    $acl.AddAccessRule($admins)
+    Write-Host "  Added: $adminsGroup - Full Control" -ForegroundColor Green
+} catch {
+    Write-Host "  WARNING: Could not add $adminsGroup - may need to use SID" -ForegroundColor Yellow
+}
+
+<span class="comment"># 3. Security - AVD Pool 01 Users - Modify (This folder only)</span>
+$usersGroup = "Security - AVD Pool 01 Users"
+try {
+    $users = New-Object System.Security.AccessControl.FileSystemAccessRule(
+        $usersGroup,
+        "Modify",
+        "None",
+        "None",
+        "Allow"
+    )
+    $acl.AddAccessRule($users)
+    Write-Host "  Added: $usersGroup - Modify (This folder only)" -ForegroundColor Green
+} catch {
+    Write-Host "  WARNING: Could not add $usersGroup - may need to use SID" -ForegroundColor Yellow
+}
+
+<span class="comment"># Apply the ACL</span>
+Set-Acl -Path $SharePath -AclObject $acl
+Write-Host "NTFS permissions configured successfully!" -ForegroundColor Green
+
+<span class="comment"># Verify permissions</span>
+Write-Host "`nCurrent permissions:" -ForegroundColor Cyan
+(Get-Acl $SharePath).Access | Format-Table IdentityReference, FileSystemRights, InheritanceFlags -AutoSize</pre>
+
+<h4>Expected NTFS Permission Structure</h4>
+<table>
+    <tr><th>Principal</th><th>Permission</th><th>Applies To</th></tr>
+    <tr><td>CREATOR OWNER</td><td>Full Control</td><td>Subfolders and Files</td></tr>
+    <tr><td>Security - AVD Pool 01 Admins</td><td>Full Control</td><td>This folder, Subfolders, Files</td></tr>
+    <tr><td>Security - AVD Pool 01 Users</td><td>Modify</td><td>This folder only</td></tr>
+</table>
+
+<div class="info">
+<strong>Why these permissions?</strong>
+<ul>
+    <li>Users can create their profile folder (Modify on root)</li>
+    <li>CREATOR OWNER ensures users have full control of their own profile</li>
+    <li>Admins can manage all profiles for troubleshooting</li>
+</ul>
+</div>
+</div>
+
+<div class="step">
+<h4>Step 2.5: Verify Azure AD Kerberos Configuration</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Check storage account authentication settings</span>
+az storage account show \
+  --resource-group p-ause-mb-rg-avd \
+  --name pauseisfslogix001 \
+  --query "azureFilesIdentityBasedAuthentication" -o json</pre>
+
+<p><strong>Expected output:</strong></p>
+<pre style="background-color: #f4f4f4; color: #333;">{
+  "activeDirectoryProperties": {
+    "domainGuid": "713ee28e-f3d7-4395-ae77-687d5014c757",
+    "domainName": "albiimports.onmicrosoft.com"
+  },
+  "directoryServiceOptions": "AADKERB"
+}</pre>
+</div>
+
+<div class="step">
+<h4>Step 2.6: Test Kerberos Authentication (Optional)</h4>
+
+<p>You can test from an existing Azure AD joined VM:</p>
+
+<div class="code-header"><span>PowerShell - On pauseisavd-0</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># On pauseisavd-0, test connectivity</span>
+$StorageAccount = "pauseisfslogix001"
+$FileShare = "fslogix-profiles"
+
+<span class="comment"># This should work WITHOUT providing credentials (uses Kerberos)</span>
+Test-Path "\\$StorageAccount.file.core.windows.net\$FileShare"
+
+<span class="comment"># If it fails, check Kerberos ticket</span>
+klist</pre>
+</div>
+
+<div class="success">
+<strong>Phase 2 Complete!</strong> Storage account and file share are configured with Azure AD Kerberos authentication and network restrictions.
+</div>
+
+</div>
+</section>
+
+<!-- PHASE 3 -->
+<section id="phase3" class="phase-3">
+<div class="phase-header">
+    <h2>Phase 3: Configure FSLogix & Migrate Profiles (Maintenance Window)</h2>
+</div>
+<div class="phase-content">
+
+<table>
+    <tr><th>Impact</th><td style="color: #d13438;"><strong>Users disconnected during migration</strong></td></tr>
+    <tr><th>Duration</th><td>45-90 minutes (depending on profile sizes)</td></tr>
+    <tr><th>Maintenance Window</th><td><strong>REQUIRED</strong> - schedule with users</td></tr>
+</table>
+
+<div class="critical">
+<strong>Warning:</strong> Users will be unable to access AVD desktops during this phase. Ensure all users are notified and logged out before proceeding.
+</div>
+
+<h3>Pre-Maintenance Checklist</h3>
+<ul class="checklist">
+    <li><input type="checkbox"> Notify users of maintenance window</li>
+    <li><input type="checkbox"> RBAC permissions configured (Step 2.3)</li>
+    <li><input type="checkbox"> NTFS permissions configured (Step 2.4)</li>
+    <li><input type="checkbox"> Profile migration script prepared</li>
+    <li><input type="checkbox"> Test user identified for post-migration validation</li>
+    <li><input type="checkbox"> Rollback commands documented and ready</li>
+</ul>
+
+<div class="step">
+<h4>Step 3.1: Disconnect All Users and Disable Sessions</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Disable new sessions on pauseisavd-0</span>
+az rest --method PATCH \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts/pauseisavd-0.albi.local?api-version=2024-04-03" \
+  --body '{"properties":{"allowNewSession":false}}'
+
+<span class="comment"># Check for active sessions</span>
+az rest --method GET \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts?api-version=2024-04-03" \
+  --query "value[].{name:name, sessions:properties.sessions}" -o table</pre>
+
+<div class="warning">
+If sessions > 0, send logout message or wait for users to disconnect.
+</div>
+</div>
+
+<div class="step">
+<h4>Step 3.2: Deploy FSLogix Extension to pauseisavd-0 (Kerberos)</h4>
+
+<div class="info">
+<strong>Note:</strong> With Azure AD Kerberos, no storage account key is needed!
+</div>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>az deployment group create \
+  --resource-group p-ause-mb-rg-avd \
+  --template-file modules/fslogix-extension.bicep \
+  --parameters vmName='pauseisavd-0' \
+               location='australiasoutheast' \
+               storageAccountName='pauseisfslogix001' \
+               fileShareName='fslogix-profiles' \
+               profileSizeMB=30720 \
+               enableOfficeContainer=true \
+               deleteLocalProfile=false \
+               preventTempProfile=true \
+               preventLoginOnFailure=false \
+               useStorageKey=false \
+               tags='{"Environment":"Production","Application":"AVD","Authentication":"AzureADKerberos"}' \
+  --name "deploy-fslogix-host0-$(date +%Y%m%d%H%M)"</pre>
+
+<div class="note">
+<strong>Note:</strong> <code>deleteLocalProfile=false</code> preserves local profiles during migration.
+</div>
+</div>
+
+<div class="step">
+<h4>Step 3.3: Deploy FSLogix Extension to pauseisavd-1 (Kerberos)</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>az deployment group create \
+  --resource-group p-ause-mb-rg-avd \
+  --template-file modules/fslogix-extension.bicep \
+  --parameters vmName='pauseisavd-1' \
+               location='australiasoutheast' \
+               storageAccountName='pauseisfslogix001' \
+               fileShareName='fslogix-profiles' \
+               profileSizeMB=30720 \
+               enableOfficeContainer=true \
+               deleteLocalProfile=true \
+               preventTempProfile=true \
+               preventLoginOnFailure=false \
+               useStorageKey=false \
+               tags='{"Environment":"Production","Application":"AVD","Authentication":"AzureADKerberos"}' \
+  --name "deploy-fslogix-host1-$(date +%Y%m%d%H%M)"</pre>
+</div>
+
+<div class="step">
+<h4>Step 3.4: Migrate Local Profiles to FSLogix</h4>
+
+<p>Connect to <code>pauseisavd-0</code> via Azure Bastion or RDP and run the profile migration script.</p>
+
+<div class="info">
+<strong>Important for Kerberos:</strong> The file share should be accessible without credentials if you're logged in as an Azure AD user with RBAC permissions.
+</div>
+
+<div class="code-header"><span>PowerShell - Profile Migration Script (Run on pauseisavd-0)</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># ============================================================================</span>
+<span class="comment"># FSLogix Profile Migration Script (Azure AD Kerberos)</span>
+<span class="comment"># Run on: pauseisavd-0</span>
+<span class="comment"># ============================================================================</span>
+
+$StorageAccount = "pauseisfslogix001"
+$FileShare = "fslogix-profiles"
+$SharePath = "\\$StorageAccount.file.core.windows.net\$FileShare"
+
+<span class="comment"># Test Kerberos connectivity (no credentials needed!)</span>
+Write-Host "Testing Kerberos authentication to file share..." -ForegroundColor Cyan
+if (Test-Path $SharePath) {
+    Write-Host "SUCCESS: Connected via Azure AD Kerberos" -ForegroundColor Green
+} else {
+    Write-Host "ERROR: Cannot connect to file share. Check RBAC permissions." -ForegroundColor Red
+    Write-Host "Ensure user has 'Storage File Data SMB Share Contributor' role" -ForegroundColor Yellow
+    exit 1
+}
+
+<span class="comment"># Get local user profiles (exclude system accounts)</span>
+$ExcludedUsers = @('Public', 'Default', 'Default User', 'avdadmin', 'Administrator', 'SYSTEM')
+$UserProfiles = Get-ChildItem "C:\Users" -Directory | Where-Object { $_.Name -notin $ExcludedUsers }
+
+Write-Host "`nFound $($UserProfiles.Count) user profiles to migrate:" -ForegroundColor Cyan
+$UserProfiles | ForEach-Object { Write-Host "  - $($_.Name)" }
+
+<span class="comment"># Migrate each profile</span>
+foreach ($Profile in $UserProfiles) {
+    $UserName = $Profile.Name
+    $SourcePath = $Profile.FullName
+
+    Write-Host "`nMigrating profile: $UserName" -ForegroundColor Yellow
+
+    <span class="comment"># Get user SID</span>
+    try {
+        $UserSID = (New-Object System.Security.Principal.NTAccount($UserName)).Translate(
+            [System.Security.Principal.SecurityIdentifier]).Value
+    } catch {
+        Write-Host "  Could not resolve SID for $UserName - skipping" -ForegroundColor Red
+        continue
+    }
+
+    <span class="comment"># Create FSLogix folder structure (FlipFlop format: SID_username)</span>
+    $FSLogixFolder = "$SharePath\${UserSID}_${UserName}"
+    $ProfileVHDPath = "$FSLogixFolder\Profile_$UserName.vhdx"
+
+    if (!(Test-Path $FSLogixFolder)) {
+        New-Item -Path $FSLogixFolder -ItemType Directory -Force | Out-Null
+    }
+
+    <span class="comment"># Calculate required size (profile size + 20% buffer, minimum 1GB)</span>
+    $ProfileSize = (Get-ChildItem $SourcePath -Recurse -ErrorAction SilentlyContinue |
+        Measure-Object -Property Length -Sum).Sum
+    $ProfileSizeGB = [math]::Ceiling($ProfileSize / 1GB)
+    $VHDSizeGB = [math]::Max(1, [math]::Ceiling($ProfileSizeGB * 1.2))
+    $VHDSizeMB = $VHDSizeGB * 1024
+
+    Write-Host "  Profile size: $([math]::Round($ProfileSize/1GB, 2)) GB"
+    Write-Host "  VHD size: $VHDSizeGB GB"
+
+    <span class="comment"># Create VHDX</span>
+    if (!(Test-Path $ProfileVHDPath)) {
+        Write-Host "  Creating VHDX..."
+        $diskpartScript = @"
+create vdisk file="$ProfileVHDPath" maximum=$VHDSizeMB type=expandable
+select vdisk file="$ProfileVHDPath"
+attach vdisk
+create partition primary
+format fs=ntfs quick label="Profile-$UserName"
+assign letter=P
+"@
+        $diskpartScript | diskpart
+
+        <span class="comment"># Copy profile data</span>
+        Write-Host "  Copying profile data..."
+        robocopy $SourcePath "P:\Profile" /E /COPY:DATSO /R:1 /W:1 /MT:8 `
+            /XD "AppData\Local\Temp" /XF "*.tmp" /NFL /NDL /NJH /NJS
+
+        <span class="comment"># Detach VHD</span>
+        $detachScript = @"
+select vdisk file="$ProfileVHDPath"
+detach vdisk
+"@
+        $detachScript | diskpart
+
+        Write-Host "  Completed: $UserName" -ForegroundColor Green
+    } else {
+        Write-Host "  VHDX already exists - skipping" -ForegroundColor Yellow
+    }
+}
+
+Write-Host "`n========================================" -ForegroundColor Cyan
+Write-Host "Migration complete!" -ForegroundColor Green
+Write-Host "Migrated profiles are in: $SharePath" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan</pre>
+</div>
+
+<div class="step">
+<h4>Step 3.5: Verify Migration</h4>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># On the VM, check the file share contents (Kerberos - no credentials needed)</span>
+Get-ChildItem "\\pauseisfslogix001.file.core.windows.net\fslogix-profiles" -Directory</pre>
+
+<p>You should see folders named <code>SID_username</code> for each migrated user.</p>
+</div>
+
+<div class="step">
+<h4>Step 3.6: Restart Both Session Hosts</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Restart both VMs to apply FSLogix changes</span>
+az vm restart --resource-group p-ause-mb-rg-avd --name pauseisavd-0 --no-wait
+az vm restart --resource-group p-ause-mb-rg-avd --name pauseisavd-1 --no-wait
+
+<span class="comment"># Wait for VMs to come back online (~3-5 minutes)</span>
+sleep 180
+
+<span class="comment"># Check session host status</span>
+az rest --method GET \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts?api-version=2024-04-03" \
+  --query "value[].{name:name, status:properties.status}" -o table</pre>
+</div>
+
+<div class="step">
+<h4>Step 3.7: Enable Sessions on Both Hosts</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Enable sessions on pauseisavd-0</span>
+az rest --method PATCH \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts/pauseisavd-0.albi.local?api-version=2024-04-03" \
+  --body '{"properties":{"allowNewSession":true}}'
+
+<span class="comment"># Enable sessions on pauseisavd-1</span>
+az rest --method PATCH \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts/pauseisavd-1?api-version=2024-04-03" \
+  --body '{"properties":{"allowNewSession":true}}'</pre>
+</div>
+
+<div class="step">
+<h4>Step 3.8: Test User Login with Kerberos</h4>
+
+<ol>
+    <li>Have a test user log in via <a href="https://client.wvd.microsoft.com">https://client.wvd.microsoft.com</a></li>
+    <li>Verify FSLogix profile is created/loaded:
+        <ul>
+            <li>Check Event Viewer > Applications and Services Logs > FSLogix > Profile</li>
+            <li>Look for "Profile was successfully loaded" event</li>
+        </ul>
+    </li>
+    <li>Verify user settings are preserved from migration</li>
+    <li>Verify Kerberos authentication (no credential prompts for file share)</li>
+</ol>
+</div>
+
+<div class="success">
+<strong>Phase 3 Complete!</strong> FSLogix is configured on both hosts and user profiles have been migrated. Users can now log in and their profiles will be stored in Azure Files.
+</div>
+
+</div>
+</section>
+
+<!-- PHASE 4 -->
+<section id="phase4" class="phase-4">
+<div class="phase-header">
+    <h2>Phase 4: Local Profile Cleanup (Post-Migration)</h2>
+</div>
+<div class="phase-content">
+
+<table>
+    <tr><th>Impact</th><td>None - maintenance task</td></tr>
+    <tr><th>Duration</th><td>~30 minutes</td></tr>
+    <tr><th>When</th><td>After 7-14 days of successful FSLogix operation</td></tr>
+</table>
+
+<div class="critical">
+<strong>IMPORTANT:</strong> Do NOT delete local profiles immediately after migration. Wait until:
+<ul>
+    <li>All users have logged in at least once with FSLogix</li>
+    <li>No issues reported for 7-14 days</li>
+    <li>Snapshot of pauseisavd-0 is still available for emergency rollback</li>
+</ul>
+</div>
+
+<div class="step">
+<h4>Step 4.1: Verify All Users Migrated Successfully</h4>
+
+<p>Before cleanup, verify all users are using FSLogix profiles:</p>
+
+<div class="code-header"><span>PowerShell - Run on pauseisavd-0</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># On pauseisavd-0 - Check FSLogix profile containers exist for all users</span>
+$StorageAccount = "pauseisfslogix001"
+$FileShare = "fslogix-profiles"
+$SharePath = "\\$StorageAccount.file.core.windows.net\$FileShare"
+
+<span class="comment"># List all FSLogix profile containers</span>
+Write-Host "FSLogix Profile Containers:" -ForegroundColor Cyan
+Get-ChildItem $SharePath -Directory | ForEach-Object {
+    $vhdx = Get-ChildItem $_.FullName -Filter "*.vhdx" -ErrorAction SilentlyContinue
+    Write-Host "  $($_.Name) - VHDX: $(if($vhdx){'YES'}else{'NO'})" `
+        -ForegroundColor $(if($vhdx){'Green'}else{'Yellow'})
+}
+
+<span class="comment"># Compare with local profiles</span>
+Write-Host "`nLocal Profiles on this host:" -ForegroundColor Cyan
+$ExcludedUsers = @('Public', 'Default', 'Default User', 'avdadmin', 'Administrator')
+Get-ChildItem "C:\Users" -Directory | Where-Object { $_.Name -notin $ExcludedUsers } | ForEach-Object {
+    $size = (Get-ChildItem $_.FullName -Recurse -ErrorAction SilentlyContinue |
+        Measure-Object -Property Length -Sum).Sum / 1GB
+    Write-Host "  $($_.Name) - Size: $([math]::Round($size, 2)) GB" -ForegroundColor Yellow
+}</pre>
+</div>
+
+<div class="step">
+<h4>Step 4.2: Archive Local Profiles (Recommended)</h4>
+
+<p>Keep a backup of local profiles before deletion:</p>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># Create archive folder</span>
+$ArchivePath = "C:\ProfileArchive_$(Get-Date -Format 'yyyyMMdd')"
+New-Item -Path $ArchivePath -ItemType Directory -Force
+
+<span class="comment"># Archive local profiles (excluding system accounts)</span>
+$ExcludedUsers = @('Public', 'Default', 'Default User', 'avdadmin', 'Administrator')
+$UserProfiles = Get-ChildItem "C:\Users" -Directory | Where-Object { $_.Name -notin $ExcludedUsers }
+
+foreach ($Profile in $UserProfiles) {
+    Write-Host "Archiving: $($Profile.Name)" -ForegroundColor Yellow
+
+    <span class="comment"># Compress profile to archive</span>
+    $ZipPath = "$ArchivePath\$($Profile.Name).zip"
+    Compress-Archive -Path $Profile.FullName -DestinationPath $ZipPath -Force
+
+    Write-Host "  Archived to: $ZipPath" -ForegroundColor Green
+}
+
+Write-Host "`nArchive complete. Files saved to: $ArchivePath" -ForegroundColor Cyan
+Write-Host "Total archive size: $([math]::Round((Get-ChildItem $ArchivePath | Measure-Object -Property Length -Sum).Sum / 1GB, 2)) GB"</pre>
+</div>
+
+<div class="step">
+<h4>Step 4.3: Delete Local Profiles (After Archive)</h4>
+
+<div class="warning">
+<strong>CAUTION:</strong> Only run after verifying FSLogix is working for ALL users and archive is complete.
+</div>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre>$ExcludedUsers = @('Public', 'Default', 'Default User', 'avdadmin', 'Administrator')
+$UserProfiles = Get-ChildItem "C:\Users" -Directory | Where-Object { $_.Name -notin $ExcludedUsers }
+
+Write-Host "WARNING: About to delete $($UserProfiles.Count) local profiles" -ForegroundColor Red
+Write-Host "Press Ctrl+C to cancel, or any key to continue..." -ForegroundColor Yellow
+$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+foreach ($Profile in $UserProfiles) {
+    Write-Host "Deleting: $($Profile.Name)" -ForegroundColor Yellow
+
+    <span class="comment"># Use CIM to properly delete user profile (handles registry cleanup)</span>
+    $UserProfile = Get-CimInstance -Class Win32_UserProfile |
+        Where-Object { $_.LocalPath -eq $Profile.FullName }
+    if ($UserProfile) {
+        Remove-CimInstance -InputObject $UserProfile
+        Write-Host "  Deleted via CIM" -ForegroundColor Green
+    } else {
+        <span class="comment"># Fallback to folder deletion</span>
+        Remove-Item -Path $Profile.FullName -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Host "  Deleted folder" -ForegroundColor Green
+    }
+}
+
+Write-Host "`nLocal profile cleanup complete!" -ForegroundColor Cyan</pre>
+</div>
+
+<div class="step">
+<h4>Step 4.4: Delete VM Snapshot (After Stabilization)</h4>
+
+<p>Once migration is confirmed successful (7-14 days), delete the pre-migration snapshot:</p>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># List snapshots</span>
+az snapshot list --resource-group p-ause-mb-rg-avd \
+  --query "[].{name:name, timeCreated:timeCreated}" -o table
+
+<span class="comment"># Delete the pre-migration snapshot (replace with actual snapshot name)</span>
+az snapshot delete --resource-group p-ause-mb-rg-avd --name pauseisavd-0-snapshot-YYYYMMDD</pre>
+</div>
+
+<h3>Local Profile Cleanup Summary</h3>
+<table>
+    <tr><th>Step</th><th>Timing</th><th>Action</th></tr>
+    <tr><td>Migration Complete</td><td>Day 0</td><td>Keep local profiles, monitor FSLogix</td></tr>
+    <tr><td>Validation Period</td><td>Days 1-7</td><td>All users test login, report issues</td></tr>
+    <tr><td>Stabilization</td><td>Days 7-14</td><td>No issues reported, FSLogix stable</td></tr>
+    <tr><td>Archive Profiles</td><td>Day 14+</td><td>Compress local profiles to archive</td></tr>
+    <tr><td>Delete Profiles</td><td>Day 14+</td><td>Remove local profiles from C:\Users</td></tr>
+    <tr><td>Delete Snapshot</td><td>Day 14+</td><td>Remove VM snapshot to save storage costs</td></tr>
+</table>
+
+<div class="success">
+<strong>Phase 4 Complete!</strong> Local profiles have been archived and cleaned up. The migration is fully complete.
+</div>
+
+</div>
+</section>
+
+<!-- VALIDATION -->
+<section id="validation">
+<h2>Post-Deployment Validation</h2>
+
+<div class="step">
+<h4>Check FSLogix Status on VMs</h4>
+
+<p>Run on each session host:</p>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># Check FSLogix service</span>
+Get-Service -Name frxsvc
+
+<span class="comment"># Check FSLogix configuration</span>
+Get-ItemProperty "HKLM:\SOFTWARE\FSLogix\Profiles"
+
+<span class="comment"># Verify Kerberos connectivity (should work without credentials)</span>
+Test-Path "\\pauseisfslogix001.file.core.windows.net\fslogix-profiles"
+
+<span class="comment"># Check for profile containers</span>
+Get-ChildItem "\\pauseisfslogix001.file.core.windows.net\fslogix-profiles" -Directory</pre>
+</div>
+
+<div class="step">
+<h4>Check Session Hosts Status</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>az rest --method GET \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts?api-version=2024-04-03" \
+  --query "value[].{name:name, status:properties.status, allowNewSession:properties.allowNewSession, sessions:properties.sessions}" -o table</pre>
+</div>
+
+<div class="step">
+<h4>Verify Kerberos Authentication</h4>
+
+<div class="code-header"><span>PowerShell - On a session host</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># On a session host, check Kerberos tickets</span>
+klist
+
+<span class="comment"># Look for a ticket to: cifs/pauseisfslogix001.file.core.windows.net</span></pre>
+</div>
+</section>
+
+<!-- TROUBLESHOOTING -->
+<section id="troubleshooting">
+<h2>Troubleshooting Azure AD Kerberos</h2>
+
+<div class="step">
+<h4>Error: Access Denied to File Share</h4>
+
+<ol>
+    <li><strong>Check RBAC permissions:</strong></li>
+</ol>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre>az role assignment list \
+  --scope "/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.Storage/storageAccounts/pauseisfslogix001" \
+  -o table</pre>
+
+<ol start="2">
+    <li><strong>Verify user has correct role:</strong>
+        <ul>
+            <li><code>Storage File Data SMB Share Contributor</code> for normal users</li>
+            <li><code>Storage File Data SMB Share Elevated Contributor</code> for admins</li>
+        </ul>
+    </li>
+</ol>
+</div>
+
+<div class="step">
+<h4>Error: Kerberos Ticket Not Found</h4>
+
+<ol>
+    <li><strong>Ensure VM is Azure AD joined:</strong></li>
+</ol>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre>dsregcmd /status
+<span class="comment"># Look for: AzureAdJoined: YES</span></pre>
+
+<ol start="2">
+    <li><strong>Check user is Azure AD authenticated:</strong></li>
+</ol>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre>whoami /upn
+<span class="comment"># Should show: user@albiimports.onmicrosoft.com</span></pre>
+
+<ol start="3">
+    <li><strong>Request new Kerberos ticket:</strong></li>
+</ol>
+
+<div class="code-header"><span>PowerShell</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre>klist purge
+<span class="comment"># Log out and log back in</span></pre>
+</div>
+
+<div class="step">
+<h4>Error: Storage Account Kerberos Not Configured</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Verify Kerberos is enabled</span>
+az storage account show --name pauseisfslogix001 --resource-group p-ause-mb-rg-avd \
+  --query "azureFilesIdentityBasedAuthentication.directoryServiceOptions" -o tsv
+
+<span class="comment"># Should return: AADKERB</span></pre>
+</div>
+</section>
+
+<!-- ROLLBACK -->
+<section id="rollback">
+<h2>Rollback Procedures</h2>
+
+<div class="step">
+<h4>If Phase 1 Fails</h4>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Delete the new VM</span>
+az vm delete --resource-group p-ause-mb-rg-avd --name pauseisavd-1 --yes
+az network nic delete --resource-group p-ause-mb-rg-avd --name pauseisavd-1-nic</pre>
+</div>
+
+<div class="step">
+<h4>If Phase 3 FSLogix/Kerberos Fails</h4>
+
+<div class="code-header"><span>PowerShell - On each VM</span><span class="tag tag-powershell">POWERSHELL</span></div>
+<pre><span class="comment"># On each VM, disable FSLogix</span>
+Set-ItemProperty "HKLM:\SOFTWARE\FSLogix\Profiles" -Name "Enabled" -Value 0</pre>
+
+<div class="code-header"><span>Bash</span><span class="tag tag-bash">BASH</span></div>
+<pre><span class="comment"># Re-enable sessions on pauseisavd-0</span>
+az rest --method PATCH \
+  --uri "https://management.azure.com/subscriptions/86602705-1029-43e3-99a8-3fee6ca0c1e0/resourceGroups/p-ause-mb-rg-avd/providers/Microsoft.DesktopVirtualization/hostPools/pauseisavdpool01/sessionHosts/pauseisavd-0.albi.local?api-version=2024-04-03" \
+  --body '{"properties":{"allowNewSession":true}}'
+
+<span class="comment"># Users will use local profiles (existing behavior)</span></pre>
+</div>
+</section>
+
+<!-- APPENDIX -->
+<section id="appendix">
+<h2>Appendix</h2>
+
+<h3>A. File Locations</h3>
+<table>
+    <tr><th>Item</th><th>Path</th></tr>
+    <tr><td>Bicep Templates</td><td><code>claude/templates/avd/bicep/</code></td></tr>
+    <tr><td>Session Host Template</td><td><code>avd-session-host-deploy.bicep</code></td></tr>
+    <tr><td>FSLogix Extension</td><td><code>modules/fslogix-extension.bicep</code></td></tr>
+    <tr><td>Storage Module</td><td><code>modules/storage-account.bicep</code></td></tr>
+    <tr><td>File Share Module</td><td><code>modules/file-share.bicep</code></td></tr>
+    <tr><td>RBAC Module</td><td><code>modules/rbac-assignment.bicep</code></td></tr>
+</table>
+
+<h3>B. Resource IDs</h3>
+<table>
+    <tr><th>Resource</th><th>ID</th></tr>
+    <tr><td>Subscription</td><td><code>86602705-1029-43e3-99a8-3fee6ca0c1e0</code></td></tr>
+    <tr><td>Resource Group</td><td><code>p-ause-mb-rg-avd</code></td></tr>
+    <tr><td>VNet</td><td><code>/subscriptions/.../virtualNetworks/p-ause-mb-vn-workloads</code></td></tr>
+    <tr><td>Subnet</td><td><code>.../subnets/App</code></td></tr>
+    <tr><td>Host Pool</td><td><code>pauseisavdpool01</code></td></tr>
+    <tr><td>Tenant ID</td><td><code>713ee28e-f3d7-4395-ae77-687d5014c757</code></td></tr>
+    <tr><td>Tenant Name</td><td><code>albiimports.onmicrosoft.com</code></td></tr>
+</table>
+
+<h3>C. Azure AD Kerberos Requirements</h3>
+<table>
+    <tr><th>Requirement</th><th>Status</th></tr>
+    <tr><td>Azure AD joined VMs</td><td style="color: #107c10;">&#10004; Required</td></tr>
+    <tr><td>Users in Azure AD</td><td style="color: #107c10;">&#10004; Required</td></tr>
+    <tr><td>RBAC on file share</td><td style="color: #107c10;">&#10004; Required</td></tr>
+    <tr><td>Storage account key</td><td style="color: #d13438;">&#10008; Not needed</td></tr>
+    <tr><td>Credential Manager entries</td><td style="color: #d13438;">&#10008; Not needed</td></tr>
+</table>
+
+<h3>D. Security Groups & RBAC Summary</h3>
+<table>
+    <tr><th>Security Group</th><th>Storage Role</th><th>VM Role</th></tr>
+    <tr>
+        <td><code>Security - AVD Pool 01 Users</code></td>
+        <td>Storage File Data SMB Share Contributor</td>
+        <td>Virtual Machine User Login</td>
+    </tr>
+    <tr>
+        <td><code>Security - AVD Pool 01 Admins</code></td>
+        <td>Storage File Data SMB Share Elevated Contributor</td>
+        <td>Virtual Machine Administrator Login</td>
+    </tr>
+</table>
+
+<h3>E. NTFS Permissions Summary</h3>
+<table>
+    <tr><th>Principal</th><th>Permission</th><th>Applies To</th></tr>
+    <tr><td>CREATOR OWNER</td><td>Full Control</td><td>Subfolders and Files only</td></tr>
+    <tr><td>Security - AVD Pool 01 Admins</td><td>Full Control</td><td>This folder, Subfolders, Files</td></tr>
+    <tr><td>Security - AVD Pool 01 Users</td><td>Modify</td><td>This folder only</td></tr>
+</table>
+</section>
+
+<hr style="margin-top: 40px;">
+<p style="text-align: center; color: #666; font-size: 12px;">
+    AVD Production Deployment Guide | Version 1.0 | January 2026<br>
+    Generated for: <code>pauseisavdpool01</code> | Authentication: Azure AD Kerberos
+</p>
+
+</body>
+</html>

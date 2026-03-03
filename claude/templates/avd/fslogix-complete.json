@@ -1,0 +1,241 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "Complete FSLogix Deployment - Storage Account + VM Configuration",
+    "author": "Maia Azure Solutions Architect",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "pauseisfslogix001",
+      "metadata": {
+        "description": "Storage account name for FSLogix profiles"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "australiasoutheast",
+      "metadata": {
+        "description": "Azure region"
+      }
+    },
+    "fileShareName": {
+      "type": "string",
+      "defaultValue": "fslogix-profiles",
+      "metadata": {
+        "description": "File share name"
+      }
+    },
+    "fileShareQuotaGB": {
+      "type": "int",
+      "defaultValue": 256,
+      "metadata": {
+        "description": "File share quota in GB"
+      }
+    },
+    "vmNames": {
+      "type": "array",
+      "defaultValue": [
+        "pauseisavd-0",
+        "pauseisavd-1"
+      ],
+      "metadata": {
+        "description": "Array of VM names to configure"
+      }
+    },
+    "profileSizeMB": {
+      "type": "int",
+      "defaultValue": 30720,
+      "metadata": {
+        "description": "Maximum profile size in MB (30GB)"
+      }
+    },
+    "enableAzureADKerberos": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable Azure AD Kerberos authentication"
+      }
+    },
+    "azureADTenantId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Azure AD Tenant ID"
+      }
+    },
+    "azureADTenantName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Azure AD Tenant name"
+      }
+    },
+    "avdUsersGroupObjectId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Object ID of AVD users group"
+      }
+    },
+    "avdAdminsGroupObjectId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Object ID of AVD admins group"
+      }
+    },
+    "enableOfficeContainer": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable Office 365 container"
+      }
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {
+        "Environment": "Production",
+        "Application": "AVD",
+        "Component": "FSLogix"
+      }
+    }
+  },
+  "variables": {
+    "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+    "fileShareResourceId": "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]",
+    "storageFileDataSMBShareContributorRoleId": "0c867c2a-1d8c-454a-a3db-ab2ea1bdc8bb",
+    "storageFileDataSMBShareElevatedContributorRoleId": "a7264617-510b-434b-a828-9731dc254ea7",
+    "fslogixSharePath": "[concat('\\\\', parameters('storageAccountName'), '.file.core.windows.net\\', parameters('fileShareName'))]",
+    "azureFilesIdentityBasedAuth": {
+      "directoryServiceOptions": "[if(parameters('enableAzureADKerberos'), 'AADKERB', 'None')]",
+      "activeDirectoryProperties": "[if(parameters('enableAzureADKerberos'), createObject('domainName', parameters('azureADTenantName'), 'domainGuid', parameters('azureADTenantId')), null())]"
+    },
+    "fslogixInstallScript": "[concat('$ErrorActionPreference=\"Stop\";New-Item -Path \"C:\\Temp\" -ItemType Directory -Force|Out-Null;[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12;Invoke-WebRequest -Uri \"https://aka.ms/fslogix_download\" -OutFile \"C:\\Temp\\FSLogix.zip\" -UseBasicParsing;Expand-Archive -Path \"C:\\Temp\\FSLogix.zip\" -DestinationPath \"C:\\Temp\\FSLogix\" -Force;Start-Process -FilePath \"C:\\Temp\\FSLogix\\x64\\Release\\FSLogixAppsSetup.exe\" -ArgumentList \"/install /quiet /norestart\" -Wait;Start-Sleep -Seconds 10;$p=\"HKLM:\\SOFTWARE\\FSLogix\\Profiles\";New-Item -Path $p -Force|Out-Null;Set-ItemProperty -Path $p -Name \"Enabled\" -Value 1 -Type DWord;Set-ItemProperty -Path $p -Name \"VHDLocations\" -Value \"', variables('fslogixSharePath'), '\" -Type MultiString;Set-ItemProperty -Path $p -Name \"SizeInMBs\" -Value ', parameters('profileSizeMB'), ' -Type DWord;Set-ItemProperty -Path $p -Name \"IsDynamic\" -Value 1 -Type DWord;Set-ItemProperty -Path $p -Name \"VolumeType\" -Value \"VHDX\" -Type String;Set-ItemProperty -Path $p -Name \"FlipFlopProfileDirectoryName\" -Value 1 -Type DWord;Set-ItemProperty -Path $p -Name \"DeleteLocalProfileWhenVHDShouldApply\" -Value 1 -Type DWord;Set-ItemProperty -Path $p -Name \"PreventLoginWithTempProfile\" -Value 1 -Type DWord;Set-ItemProperty -Path $p -Name \"PreventLoginWithFailure\" -Value 0 -Type DWord;Set-ItemProperty -Path $p -Name \"LockedRetryCount\" -Value 3 -Type DWord;Set-ItemProperty -Path $p -Name \"LockedRetryInterval\" -Value 15 -Type DWord;Set-ItemProperty -Path $p -Name \"ProfileType\" -Value 0 -Type DWord;Set-ItemProperty -Path $p -Name \"ReAttachIntervalSeconds\" -Value 15 -Type DWord;Set-ItemProperty -Path $p -Name \"ReAttachRetryCount\" -Value 3 -Type DWord;Set-ItemProperty -Path $p -Name \"AccessNetworkAsComputerObject\" -Value 0 -Type DWord;', if(parameters('enableOfficeContainer'), concat('$o=\"HKLM:\\SOFTWARE\\Policies\\FSLogix\\ODFC\";New-Item -Path $o -Force|Out-Null;Set-ItemProperty -Path $o -Name \"Enabled\" -Value 1 -Type DWord;Set-ItemProperty -Path $o -Name \"VHDLocations\" -Value \"', variables('fslogixSharePath'), '\" -Type MultiString;Set-ItemProperty -Path $o -Name \"IncludeOfficeActivation\" -Value 1 -Type DWord;Set-ItemProperty -Path $o -Name \"IncludeOneDrive\" -Value 1 -Type DWord;Set-ItemProperty -Path $o -Name \"IncludeOutlook\" -Value 1 -Type DWord;Set-ItemProperty -Path $o -Name \"IncludeTeams\" -Value 1 -Type DWord;'), ''), 'Remove-Item -Path \"C:\\Temp\\FSLogix.zip\" -Force -ErrorAction SilentlyContinue;Remove-Item -Path \"C:\\Temp\\FSLogix\" -Recurse -Force -ErrorAction SilentlyContinue;Write-Output \"FSLogix installed and configured successfully\"')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tags')]",
+      "kind": "FileStorage",
+      "sku": {
+        "name": "Premium_LRS"
+      },
+      "properties": {
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "allowBlobPublicAccess": false,
+        "allowSharedKeyAccess": true,
+        "largeFileSharesState": "Enabled",
+        "azureFilesIdentityBasedAuthentication": "[if(parameters('enableAzureADKerberos'), variables('azureFilesIdentityBasedAuth'), null())]"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2023-01-01",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
+      "dependsOn": [
+        "[variables('storageAccountId')]"
+      ],
+      "properties": {
+        "shareDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": 7
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+      "apiVersion": "2023-01-01",
+      "name": "[concat(parameters('storageAccountName'), '/default/', parameters('fileShareName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccountName'), 'default')]"
+      ],
+      "properties": {
+        "shareQuota": "[parameters('fileShareQuotaGB')]",
+        "enabledProtocols": "SMB",
+        "accessTier": "Premium"
+      }
+    },
+    {
+      "condition": "[not(empty(parameters('avdUsersGroupObjectId')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(variables('fileShareResourceId'), parameters('avdUsersGroupObjectId'), variables('storageFileDataSMBShareContributorRoleId'))]",
+      "scope": "[variables('fileShareResourceId')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('storageFileDataSMBShareContributorRoleId'))]",
+        "principalId": "[parameters('avdUsersGroupObjectId')]",
+        "principalType": "Group"
+      }
+    },
+    {
+      "condition": "[not(empty(parameters('avdAdminsGroupObjectId')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(variables('fileShareResourceId'), parameters('avdAdminsGroupObjectId'), variables('storageFileDataSMBShareElevatedContributorRoleId'))]",
+      "scope": "[variables('fileShareResourceId')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('storageFileDataSMBShareElevatedContributorRoleId'))]",
+        "principalId": "[parameters('avdAdminsGroupObjectId')]",
+        "principalType": "Group"
+      }
+    },
+    {
+      "copy": {
+        "name": "vmExtensionCopy",
+        "count": "[length(parameters('vmNames'))]"
+      },
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2023-03-01",
+      "name": "[concat(parameters('vmNames')[copyIndex()], '/FSLogixConfig')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tags')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.10",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -Command \"', variables('fslogixInstallScript'), '\"')]"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "storageAccountName": {
+      "type": "string",
+      "value": "[parameters('storageAccountName')]"
+    },
+    "fileShareUNC": {
+      "type": "string",
+      "value": "[concat('\\\\', parameters('storageAccountName'), '.file.core.windows.net\\', parameters('fileShareName'))]"
+    },
+    "storageAccountKey": {
+      "type": "string",
+      "value": "[listKeys(variables('storageAccountId'), '2023-01-01').keys[0].value]"
+    },
+    "configuredVMs": {
+      "type": "array",
+      "value": "[parameters('vmNames')]"
+    },
+    "authenticationMethod": {
+      "type": "string",
+      "value": "[if(parameters('enableAzureADKerberos'), 'Azure AD Kerberos', 'Storage Account Key')]"
+    }
+  }
+}

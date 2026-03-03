@@ -1,0 +1,428 @@
+<mxfile host="app.diagrams.net" modified="2026-02-06T12:00:00.000Z" agent="Claude" version="21.0.0" type="device">
+  <diagram name="Melbourne Site Network" id="melbourne-site">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="mel-title" value="&lt;b&gt;Melbourne Office - Network Topology&lt;/b&gt;&lt;br&gt;Network: 10.0.0.0/24 | VPN: Azure_Oculus_Melbourne (Connected)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Site Boundary -->
+        <mxCell id="mel-boundary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#4CAF50;strokeWidth=3;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1020" height="770" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-site-label" value="&lt;b&gt;Melbourne Office&lt;/b&gt;&lt;br&gt;Physical Location" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontColor=#2E7D32;" vertex="1" parent="1">
+          <mxGeometry x="50" y="65" width="150" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Internet Connection -->
+        <mxCell id="mel-internet" value="&lt;b&gt;Internet&lt;/b&gt;&lt;br&gt;ISP Connection" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- VPN Tunnel to Azure -->
+        <mxCell id="mel-vpn-cloud" value="&lt;b&gt;Azure Cloud&lt;/b&gt;&lt;br&gt;VPN Gateway&lt;br&gt;20.213.90.41" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E8EAF6;strokeColor=#3F51B5;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="80" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- VPN Connection Line -->
+        <mxCell id="mel-vpn-line" value="IPsec/IKEv2 VPN&lt;br&gt;↓1.53 PB ↑16.81 TB" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#4CAF50;dashed=1;dashPattern=5 5;fontSize=9;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="120" as="sourcePoint" />
+            <mxPoint x="750" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Main Gateway -->
+        <mxCell id="mel-gateway-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#00897B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="300" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mel-gateway-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzAwODk3QiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4eiIvPjxwYXRoIGZpbGw9IiMwMDg5N0IiIGQ9Ik0xMiA2Yy0zLjMxIDAtNiAyLjY5LTYgNnMyLjY5IDYgNiA2IDYtMi42OSA2LTYtMi42OS02LTYtNnptMCAxMGMtMi4yMSAwLTQtMS43OS00LTRzMS43OS00IDQtNCA0IDEuNzkgNCA0LTEuNzkgNC00IDR6Ii8+PC9zdmc+;fillColor=#00897B;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="220" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mel-gateway-details" value="&lt;b&gt;OCU-MEL-UXG&lt;/b&gt;&lt;br&gt;UniFi UXG Gateway&lt;br&gt;&lt;hr&gt;IP Address: 10.0.0.2&lt;br&gt;Connected Clients: 60&lt;br&gt;&lt;hr&gt;Traffic Statistics:&lt;br&gt;↓ Download: 16.1 TB&lt;br&gt;↑ Upload: 4.55 TB&lt;br&gt;&lt;hr&gt;Features: Firewall, IDS/IPS, VPN" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="490" y="215" width="200" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Internet to Gateway -->
+        <mxCell id="mel-inet-gw" value="" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#1565C0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="160" as="sourcePoint" />
+            <mxPoint x="550" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Main Switch -->
+        <mxCell id="mel-switch-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#00897B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="400" width="400" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mel-switch-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzAwODk3QiIgZD0iTTQgNmgydjEySDRWNnptNCAwaDJ2MTJIOFY2em00IDBoMnYxMmgtMlY2em00IDBoMnYxMmgtMlY2em00IDBoMnYxMmgtMlY2eiIvPjxyZWN0IGZpbGw9IiMwMDg5N0IiIHg9IjIiIHk9IjQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyIi8+PHJlY3QgZmlsbD0iIzAwODk3QiIgeD0iMiIgeT0iMTgiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyIi8+PC9zdmc+;fillColor=#00897B;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="370" y="420" width="50" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mel-switch-details" value="&lt;b&gt;OCU-MEL-USWPro48&lt;/b&gt;&lt;br&gt;UniFi Switch Pro 48-Port&lt;br&gt;&lt;hr&gt;IP Address: 10.0.0.3&lt;br&gt;Ports Used: 44 of 48&lt;br&gt;&lt;hr&gt;Traffic Statistics:&lt;br&gt;↓ Download: 2.36 TB&lt;br&gt;↑ Upload: 17.2 TB&lt;br&gt;&lt;hr&gt;Features: PoE+, VLAN, LAG" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="430" y="410" width="200" height="115" as="geometry" />
+        </mxCell>
+
+        <!-- Port Status Indicator -->
+        <mxCell id="mel-port-status" value="&lt;b&gt;Port Status&lt;/b&gt;&lt;br&gt;🟢 44 Active&lt;br&gt;⚫ 4 Available" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="640" y="420" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway to Switch -->
+        <mxCell id="mel-gw-sw" value="10 Gbps" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#00897B;" edge="1" parent="1">
+          <mxGeometry x="0.1" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="350" as="sourcePoint" />
+            <mxPoint x="550" y="400" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Access Points Row -->
+        <mxCell id="mel-ap-row" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2F1;strokeColor=#00897B;strokeWidth=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="580" width="380" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap-label" value="&lt;b&gt;Wireless Access Points&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="200" y="585" width="180" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- AP2 -->
+        <mxCell id="mel-ap2-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#26A69A;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="615" width="160" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap2-icon" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#26A69A;strokeColor=#00897B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="175" y="625" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap2-ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4DB6AC;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="167" y="617" width="66" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap2-details" value="&lt;b&gt;Oculus Melbourne AP2&lt;/b&gt;&lt;br&gt;&lt;hr&gt;IP: 10.0.0.111&lt;br&gt;Clients: 10&lt;br&gt;&lt;hr&gt;↓ Download: 133 GB&lt;br&gt;↑ Upload: 38 GB&lt;br&gt;&lt;hr&gt;Status: 🟢 Online" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="130" y="690" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- AP3 -->
+        <mxCell id="mel-ap3-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#26A69A;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="615" width="160" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap3-icon" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#26A69A;strokeColor=#00897B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="355" y="625" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap3-ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4DB6AC;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="347" y="617" width="66" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap3-details" value="&lt;b&gt;Oculus Melbourne AP3&lt;/b&gt;&lt;br&gt;&lt;hr&gt;IP: 10.0.0.104&lt;br&gt;Clients: 7&lt;br&gt;&lt;hr&gt;↓ Download: 92.3 GB&lt;br&gt;↑ Upload: 13.8 GB&lt;br&gt;&lt;hr&gt;Status: 🟢 Online" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="310" y="690" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Switch to APs -->
+        <mxCell id="mel-sw-ap2" value="PoE+" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#26A69A;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="530" as="sourcePoint" />
+            <mxPoint x="200" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mel-sw-ap3" value="PoE+" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#26A69A;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="530" as="sourcePoint" />
+            <mxPoint x="380" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Wired Devices Section -->
+        <mxCell id="mel-wired-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FF9800;strokeWidth=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="580" width="480" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-wired-label" value="&lt;b&gt;Wired Devices&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="700" y="585" width="120" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Workstations -->
+        <mxCell id="mel-ws-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#F57C00;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="615" width="140" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ws-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0Y1N0MwMCIgZD0iTTIwIDNINGMtMS4xIDAtMiAuOS0yIDJ2MTFjMCAxLjEuOSAyIDIgMmg3bC0yIDNoMnYyaDZ2LTJoMmwtMi0zaDdjMS4xIDAgMi0uOSAyLTJWNWMwLTEuMS0uOS0yLTItMnptMCAxM0g0VjVoMTZ2MTF6Ii8+PC9zdmc+;fillColor=#F57C00;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="585" y="625" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ws-details" value="&lt;b&gt;Workstations&lt;/b&gt;&lt;br&gt;&lt;hr&gt;Count: ~30&lt;br&gt;VLAN: Corporate&lt;br&gt;&lt;hr&gt;OS: Windows 10/11&lt;br&gt;Domain: aadds.oculus.info&lt;br&gt;&lt;hr&gt;File Access:&lt;br&gt;oculusmelbourne (7.9TB)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="550" y="680" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Printers -->
+        <mxCell id="mel-print-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#F57C00;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="615" width="140" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-print-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0Y1N0MwMCIgZD0iTTE5IDhoLTFWM0g2djVINWMtMS42NiAwLTMgMS4zNC0zIDN2Nmg0djRoMTJ2LTRoNHYtNmMwLTEuNjYtMS4zNC0zLTMtM3pNOCA1aDh2M0g4VjV6bTggMTJIOXYtNGg3djR6bTItN2MtLjU1IDAtMS0uNDUtMS0xczQuNS0xIDEtMSAxIC40NSAxIDEtLjQ1IDEtMSAxeiIvPjwvc3ZnPg==;fillColor=#F57C00;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="745" y="625" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-print-details" value="&lt;b&gt;Printers/MFPs&lt;/b&gt;&lt;br&gt;&lt;hr&gt;Count: ~5&lt;br&gt;VLAN: Corporate&lt;br&gt;&lt;hr&gt;Print Server:&lt;br&gt;Oculus-PrintToServer-VM&lt;br&gt;(Azure: 10.193.0.7)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="680" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- IP Phones -->
+        <mxCell id="mel-phone-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#F57C00;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="860" y="615" width="120" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-phone-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0Y1N0MwMCIgZD0iTTYuNjIgMTAuNzljMS40NCAyLjgzIDMuNzYgNS4xNSA2LjU5IDYuNTlsMi4yLTIuMmMuMjctLjI3LjY3LS4zNiAxLjAyLS4yNCAxLjEyLjM3IDIuMzMuNTcgMy41Ny41Ny41NSAwIDEgLjQ1IDEgMVYyMGMwIC41NS0uNDUgMS0xIDEtOS4zOSAwLTE3LTcuNjEtMTctMTcgMC0uNTUuNDUtMSAxLTFoMy41YzUuNTUgMCAxIC40NSAxIDEgMCAxLjI1LjIgMi40NS41NyAzLjU3LjExLjM1LjAzLjc0LS4yNSAxLjAybC0yLjIgMi4yeiIvPjwvc3ZnPg==;fillColor=#F57C00;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="895" y="625" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-phone-details" value="&lt;b&gt;VoIP Phones&lt;/b&gt;&lt;br&gt;&lt;hr&gt;Count: ~20&lt;br&gt;VLAN: Voice&lt;br&gt;&lt;hr&gt;PBX Server:&lt;br&gt;OCU-3CX&lt;br&gt;(Azure: 10.193.2.4)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="865" y="680" width="110" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Switch to Wired Devices -->
+        <mxCell id="mel-sw-wired" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#F57C00;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="530" as="sourcePoint" />
+            <mxPoint x="610" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mel-sw-wired2" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#F57C00;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="530" as="sourcePoint" />
+            <mxPoint x="770" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mel-sw-wired3" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#F57C00;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="530" as="sourcePoint" />
+            <mxPoint x="920" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Summary Box -->
+        <mxCell id="mel-summary" value="&lt;b&gt;Melbourne Site Summary&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;table style=&quot;font-size:9px;&quot;&gt;&lt;tr&gt;&lt;td&gt;Network:&lt;/td&gt;&lt;td&gt;10.0.0.0/24&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Gateway:&lt;/td&gt;&lt;td&gt;10.0.0.2 (UXG)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Switch:&lt;/td&gt;&lt;td&gt;10.0.0.3 (USW-Pro-48)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Clients:&lt;/td&gt;&lt;td&gt;60+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Wireless Clients:&lt;/td&gt;&lt;td&gt;17 (AP2: 10, AP3: 7)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Download:&lt;/td&gt;&lt;td&gt;16.1 TB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Upload:&lt;/td&gt;&lt;td&gt;4.55 TB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;VPN Status:&lt;/td&gt;&lt;td&gt;✅ Connected to Azure&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#4CAF50;fontSize=9;align=left;spacingLeft=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="200" height="180" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram name="Sydney Site Network" id="sydney-site">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="syd-title" value="&lt;b&gt;Sydney Office - Network Topology&lt;/b&gt;&lt;br&gt;Network: 10.110.106.0/24 | VPN: Azure_Oculus_Sydney (Connected)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Site Boundary -->
+        <mxCell id="syd-boundary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FF8F00;strokeWidth=3;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1020" height="770" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-site-label" value="&lt;b&gt;Sydney Office&lt;/b&gt;&lt;br&gt;Physical Location" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="50" y="65" width="150" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Internet Connection -->
+        <mxCell id="syd-internet" value="&lt;b&gt;Internet&lt;/b&gt;&lt;br&gt;ISP Connection" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- VPN Tunnel to Azure -->
+        <mxCell id="syd-vpn-cloud" value="&lt;b&gt;Azure Cloud&lt;/b&gt;&lt;br&gt;VPN Gateway&lt;br&gt;20.213.90.41" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E8EAF6;strokeColor=#3F51B5;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="80" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- VPN Connection Line -->
+        <mxCell id="syd-vpn-line" value="IPsec/IKEv2 VPN&lt;br&gt;↓1.01 PB ↑7.04 TB" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#FF8F00;dashed=1;dashPattern=5 5;fontSize=9;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="120" as="sourcePoint" />
+            <mxPoint x="750" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Main Router -->
+        <mxCell id="syd-router-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FF6F00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="300" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="syd-router-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZGNkYwMCIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4eiIvPjxwYXRoIGZpbGw9IiNGRjZGMDAiIGQ9Ik0xMiA2Yy0zLjMxIDAtNiAyLjY5LTYgNnMyLjY5IDYgNiA2IDYtMi42OSA2LTYtMi42OS02LTYtNnptMCAxMGMtMi4yMSAwLTQtMS43OS00LTRzMS43OS00IDQtNCA0IDEuNzkgNCA0LTEuNzkgNC00IDR6Ii8+PC9zdmc+;fillColor=#FF6F00;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="220" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="syd-router-details" value="&lt;b&gt;Sydney-Router&lt;/b&gt;&lt;br&gt;UniFi Router&lt;br&gt;&lt;hr&gt;IP Address: 10.110.106.2&lt;br&gt;Connected Clients: 37&lt;br&gt;&lt;hr&gt;Traffic Statistics:&lt;br&gt;↓ Download: 31.8 TB&lt;br&gt;↑ Upload: 22.4 TB&lt;br&gt;&lt;hr&gt;Features: Firewall, IDS/IPS, VPN" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="490" y="215" width="200" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Internet to Router -->
+        <mxCell id="syd-inet-rt" value="" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#1565C0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="160" as="sourcePoint" />
+            <mxPoint x="550" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Access Points Section -->
+        <mxCell id="syd-ap-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FF8F00;strokeWidth=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="420" width="800" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap-label" value="&lt;b&gt;Wireless Access Points&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="460" y="425" width="180" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Router to AP lines -->
+        <mxCell id="syd-rt-ap1" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#FF8F00;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="350" as="sourcePoint" />
+            <mxPoint x="320" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="syd-rt-ap2" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#FF8F00;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="620" y="350" as="sourcePoint" />
+            <mxPoint x="780" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Oculus Sydney AP -->
+        <mxCell id="syd-ap1-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFB300;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="460" width="280" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap1-icon" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=#FF8F00;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="285" y="480" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap1-ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4CAF50;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="270" y="465" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap1-details" value="&lt;b&gt;Oculus Sydney&lt;/b&gt;&lt;br&gt;UniFi Access Point&lt;br&gt;&lt;hr&gt;IP Address: 10.110.106.17&lt;br&gt;Connected Clients: 0&lt;br&gt;&lt;hr&gt;Traffic Statistics:&lt;br&gt;↓ Download: 12.3 GB&lt;br&gt;↑ Upload: 1.49 GB&lt;br&gt;&lt;hr&gt;Status: 🟢 Online (Idle)&lt;br&gt;Location: Back Office&lt;br&gt;&lt;hr&gt;&lt;i&gt;Note: No active clients&lt;br&gt;possibly backup/standby AP&lt;/i&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="195" y="575" width="250" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Oculus Sydney Front AP -->
+        <mxCell id="syd-ap2-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFB300;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="640" y="460" width="280" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap2-icon" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=#FF8F00;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="745" y="480" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap2-ring" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2196F3;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="730" y="465" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap2-details" value="&lt;b&gt;Oculus Sydney Front&lt;/b&gt;&lt;br&gt;UniFi Access Point&lt;br&gt;&lt;hr&gt;IP Address: 10.110.106.244&lt;br&gt;Connected Clients: 14&lt;br&gt;&lt;hr&gt;Traffic Statistics:&lt;br&gt;↓ Download: 149 GB&lt;br&gt;↑ Upload: 41.3 GB&lt;br&gt;&lt;hr&gt;Status: 🔵 Online (Active)&lt;br&gt;Location: Front Office/Reception&lt;br&gt;&lt;hr&gt;&lt;i&gt;Primary wireless coverage&lt;br&gt;for main work area&lt;/i&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="655" y="575" width="250" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Summary Box -->
+        <mxCell id="syd-summary" value="&lt;b&gt;Sydney Site Summary&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;table style=&quot;font-size:9px;&quot;&gt;&lt;tr&gt;&lt;td&gt;Network:&lt;/td&gt;&lt;td&gt;10.110.106.0/24&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Router:&lt;/td&gt;&lt;td&gt;10.110.106.2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Clients:&lt;/td&gt;&lt;td&gt;37&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Wireless Clients:&lt;/td&gt;&lt;td&gt;14 (Front AP only)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Download:&lt;/td&gt;&lt;td&gt;31.8 TB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Upload:&lt;/td&gt;&lt;td&gt;22.4 TB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;VPN Status:&lt;/td&gt;&lt;td&gt;✅ Connected to Azure&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Primary Storage:&lt;/td&gt;&lt;td&gt;oculussydney (25.6TB)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FF8F00;fontSize=9;align=left;spacingLeft=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="200" height="190" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram name="Canberra Site Network" id="canberra-site">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="cbr-title" value="&lt;b&gt;Canberra Office - Network Topology&lt;/b&gt;&lt;br&gt;Network: 10.120.106.0/24 | VPN: Azure_Oculus_Canberra (Connected)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Site Boundary -->
+        <mxCell id="cbr-boundary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE7F6;strokeColor=#7E57C2;strokeWidth=3;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1020" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-site-label" value="&lt;b&gt;Canberra Office&lt;/b&gt;&lt;br&gt;Physical Location (Small Site)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;fontColor=#5E35B1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="65" width="180" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Internet Connection -->
+        <mxCell id="cbr-internet" value="&lt;b&gt;Internet&lt;/b&gt;&lt;br&gt;ISP Connection" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- VPN Tunnel to Azure -->
+        <mxCell id="cbr-vpn-cloud" value="&lt;b&gt;Azure Cloud&lt;/b&gt;&lt;br&gt;VPN Gateway&lt;br&gt;20.213.90.41" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E8EAF6;strokeColor=#3F51B5;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="80" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- VPN Connection Line -->
+        <mxCell id="cbr-vpn-line" value="IPsec/IKEv2 VPN&lt;br&gt;↓2.21 PB ↑2.37 PB" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#7E57C2;dashed=1;dashPattern=5 5;fontSize=9;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="120" as="sourcePoint" />
+            <mxPoint x="750" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Main Gateway -->
+        <mxCell id="cbr-gateway-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7E57C2;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="320" y="220" width="460" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cbr-gateway-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzdFNTdDMiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4eiIvPjxwYXRoIGZpbGw9IiM3RTU3QzIiIGQ9Ik0xMiA2Yy0zLjMxIDAtNiAyLjY5LTYgNnMyLjY5IDYgNiA2IDYtMi42OSA2LTYtMi42OS02LTYtNnptMCAxMGMtMi4yMSAwLTQtMS43OS00LTRzMS43OS00IDQtNCA0IDEuNzkgNCA0LTEuNzkgNC00IDR6Ii8+PC9zdmc+;fillColor=#7E57C2;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="250" width="80" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cbr-gateway-details" value="&lt;b&gt;UniFi NeXt-Gen Gateway PRO&lt;/b&gt;&lt;br&gt;All-in-One Security Gateway&lt;br&gt;&lt;hr&gt;IP Address: 10.120.106.1&lt;br&gt;Connected Clients: 2&lt;br&gt;&lt;hr&gt;Traffic Statistics:&lt;br&gt;↓ Download: 479 GB&lt;br&gt;↑ Upload: 303 GB&lt;br&gt;&lt;hr&gt;Features:&lt;br&gt;• Integrated Firewall&lt;br&gt;• IDS/IPS Protection&lt;br&gt;• VPN Server/Client&lt;br&gt;• Built-in Switch Ports&lt;br&gt;• WiFi 6 (if applicable)&lt;br&gt;&lt;hr&gt;Status: 🟢 Online" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="450" y="235" width="320" height="175" as="geometry" />
+        </mxCell>
+
+        <!-- Internet to Gateway -->
+        <mxCell id="cbr-inet-gw" value="" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#1565C0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="160" as="sourcePoint" />
+            <mxPoint x="550" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Connected Devices -->
+        <mxCell id="cbr-devices-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#9575CD;strokeWidth=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="470" width="560" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-devices-label" value="&lt;b&gt;Connected Devices (2 clients)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="460" y="475" width="180" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway to Devices -->
+        <mxCell id="cbr-gw-dev" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#9575CD;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="420" as="sourcePoint" />
+            <mxPoint x="550" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Workstation 1 -->
+        <mxCell id="cbr-ws1-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7E57C2;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="510" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-ws1-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzdFNTdDMiIgZD0iTTIwIDNINGMtMS4xIDAtMiAuOS0yIDJ2MTFjMCAxLjEuOSAyIDIgMmg3bC0yIDNoMnYyaDZ2LTJoMmwtMi0zaDdjMS4xIDAgMi0uOSAyLTJWNWMwLTEuMS0uOS0yLTItMnptMCAxM0g0VjVoMTZ2MTF6Ii8+PC9zdmc+;fillColor=#7E57C2;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="330" y="520" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-ws1-details" value="&lt;b&gt;Workstation 1&lt;/b&gt;&lt;br&gt;&lt;hr&gt;Connection: Wired/WiFi&lt;br&gt;Domain: aadds.oculus.info&lt;br&gt;File Access: Azure Storage" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="385" y="520" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Workstation 2 -->
+        <mxCell id="cbr-ws2-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7E57C2;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="510" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-ws2-icon" value="" style="shape=image;imageAspect=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzdFNTdDMiIgZD0iTTIwIDNINGMtMS4xIDAtMiAuOS0yIDJ2MTFjMCAxLjEuOSAyIDIgMmg3bC0yIDNoMnYyaDZ2LTJoMmwtMi0zaDdjMS4xIDAgMi0uOSAyLTJWNWMwLTEuMS0uOS0yLTItMnptMCAxM0g0VjVoMTZ2MTF6Ii8+PC9zdmc+;fillColor=#7E57C2;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="610" y="520" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-ws2-details" value="&lt;b&gt;Workstation 2&lt;/b&gt;&lt;br&gt;&lt;hr&gt;Connection: Wired/WiFi&lt;br&gt;Domain: aadds.oculus.info&lt;br&gt;File Access: Azure Storage" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="665" y="520" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Summary Box -->
+        <mxCell id="cbr-summary" value="&lt;b&gt;Canberra Site Summary&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;table style=&quot;font-size:9px;&quot;&gt;&lt;tr&gt;&lt;td&gt;Network:&lt;/td&gt;&lt;td&gt;10.120.106.0/24&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Gateway:&lt;/td&gt;&lt;td&gt;10.120.106.1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Device:&lt;/td&gt;&lt;td&gt;NeXt-Gen Gateway PRO&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Clients:&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Download:&lt;/td&gt;&lt;td&gt;479 GB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Total Upload:&lt;/td&gt;&lt;td&gt;303 GB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;VPN Status:&lt;/td&gt;&lt;td&gt;✅ Connected to Azure&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Site Type:&lt;/td&gt;&lt;td&gt;Small/Branch Office&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;br&gt;&lt;i&gt;Note: Smallest site with all-in-one&lt;br&gt;gateway solution (no separate&lt;br&gt;switch or APs needed)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE7F6;strokeColor=#7E57C2;fontSize=9;align=left;spacingLeft=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="200" height="230" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

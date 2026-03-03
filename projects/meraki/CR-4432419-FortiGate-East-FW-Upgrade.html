@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[CR-4432419] Azure East FortiGate Firmware Upgrade</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1a365d; border-bottom: 3px solid #3182ce; padding-bottom: 10px; }
+        h2 { color: #2c5282; margin-top: 30px; border-left: 4px solid #3182ce; padding-left: 10px; }
+        h3 { color: #2d3748; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #e2e8f0; padding: 10px 12px; text-align: left; }
+        th { background-color: #edf2f7; font-weight: 600; color: #2d3748; }
+        tr:nth-child(even) { background-color: #f7fafc; }
+        .header-table {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;
+        }
+        .header-table th { background: transparent; color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.2); }
+        .header-table td { color: white; border-color: rgba(255,255,255,0.2); font-weight: 500; }
+        .risk-medium { background-color: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+        .risk-low { background-color: #c6f6d5; color: #22543d; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+        .code-block {
+            background-color: #1a202c; color: #e2e8f0; padding: 15px; border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace; font-size: 0.85em; overflow-x: auto; white-space: pre;
+        }
+        .checklist { background-color: #f7fafc; padding: 15px 20px; border-radius: 6px; border-left: 4px solid #3182ce; }
+        .checklist-item { margin: 8px 0; display: flex; align-items: center; }
+        .checkbox { width: 18px; height: 18px; border: 2px solid #a0aec0; border-radius: 3px; margin-right: 10px; display: inline-block; flex-shrink: 0; }
+        .section-note { background-color: #ebf8ff; border: 1px solid #90cdf4; padding: 12px 15px; border-radius: 6px; margin: 15px 0; color: #2c5282; }
+        .warning-note { background-color: #fffbeb; border: 1px solid #f6e05e; padding: 12px 15px; border-radius: 6px; margin: 15px 0; color: #744210; }
+        .danger-note { background-color: #fed7d7; border: 1px solid #fc8181; padding: 12px 15px; border-radius: 6px; margin: 15px 0; color: #822727; }
+        .success-note { background-color: #c6f6d5; border: 1px solid #68d391; padding: 12px 15px; border-radius: 6px; margin: 15px 0; color: #22543d; }
+        .phase-header {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white; padding: 10px 15px; border-radius: 6px; margin: 20px 0 15px 0; font-weight: 600;
+        }
+        .phase-header-pre { background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); }
+        .phase-header-upgrade { background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); }
+        .phase-header-validate { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); }
+        .phase-header-rollback { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
+        .tbd { background-color: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-style: italic; }
+        .approval-box { border: 2px solid #e2e8f0; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        .signature-line { border-bottom: 1px solid #a0aec0; min-width: 200px; display: inline-block; margin: 0 10px; }
+        .toc { background-color: #f7fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 6px; margin: 20px 0; }
+        .toc ul { margin: 0; padding-left: 20px; }
+        .toc li { margin: 5px 0; }
+        .toc a { color: #3182ce; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .phase-header, .phase-header-pre, .phase-header-upgrade, .phase-header-validate, .phase-header-rollback {
+                -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>&#128274; [CR-4432419] Azure East FortiGate Firmware Upgrade</h1>
+        <p><strong>Change Request &amp; Implementation Plan - FortiGate FortiOS Upgrade (SAML Fix)</strong></p>
+
+        <div class="header-table">
+            <table>
+                <tr>
+                    <th>CR Number</th>
+                    <td>CR-4432419</td>
+                    <th>Request Date</th>
+                    <td>2026-02-24</td>
+                </tr>
+                <tr>
+                    <th>Requested By</th>
+                    <td>Olli Ojala</td>
+                    <th>Environment</th>
+                    <td>Azure - KD-Prod-RG (Australia East)</td>
+                </tr>
+                <tr>
+                    <th>Device</th>
+                    <td>ATE-AE-fgt (East FortiGate)</td>
+                    <th>Change Type</th>
+                    <td>Firmware Upgrade</td>
+                </tr>
+                <tr>
+                    <th>Risk Level</th>
+                    <td><span class="risk-medium">MEDIUM</span></td>
+                    <th>Maintenance Window</th>
+                    <td>25 Feb 2026, 20:00 AEST</td>
+                </tr>
+                <tr>
+                    <th>Current Firmware</th>
+                    <td><span class="tbd">TBD</span></td>
+                    <th>Target Firmware</th>
+                    <td><span class="tbd">TBD</span></td>
+                </tr>
+                <tr>
+                    <th>FortiGate Model</th>
+                    <td><span class="tbd">TBD</span></td>
+                    <th>Expected Downtime</th>
+                    <td>5-10 minutes (reboot cycle)</td>
+                </tr>
+                <tr>
+                    <th>Related CRs</th>
+                    <td>CR-4404660 (Public IP Migration)</td>
+                    <th>Rollback Method</th>
+                    <td>Revert to previous firmware image</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <strong>&#128203; Table of Contents</strong>
+            <ul>
+                <li><a href="#section1">1. Change Summary</a></li>
+                <li><a href="#section2">2. Justification &amp; Business Impact</a></li>
+                <li><a href="#section3">3. Device Details</a></li>
+                <li><a href="#section4">4. Pre-Change Checklist</a></li>
+                <li><a href="#section5">5. Implementation Steps</a></li>
+                <li><a href="#section6">6. Post-Upgrade Validation</a></li>
+                <li><a href="#section7">7. Rollback Plan</a></li>
+                <li><a href="#section8">8. Risk Assessment</a></li>
+                <li><a href="#section9">9. Approval</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Change Summary -->
+        <h2 id="section1">1. Change Summary</h2>
+        <p>Upgrade the FortiOS firmware on the <strong>Azure East FortiGate</strong> (ATE-AE-fgt) to resolve a <strong>SAML authentication issue</strong>. The Azure South East FortiGate (ATE-ASE-fgt) is already running the target firmware version, having been deployed from the updated Azure Marketplace image. This change brings the East FortiGate to the same firmware version to ensure consistency and resolve the SAML bug.</p>
+
+        <div class="section-note">
+            <strong>Note:</strong> The SE FortiGate (ATE-ASE-fgt) was deployed with the target firmware from the Azure image and does not require this upgrade.
+        </div>
+
+        <!-- Section 2: Justification -->
+        <h2 id="section2">2. Justification &amp; Business Impact</h2>
+
+        <h3>2.1 Reason for Change</h3>
+        <table>
+            <tr>
+                <th>Issue</th>
+                <td>SAML authentication bug in current FortiOS version affecting user authentication workflows</td>
+            </tr>
+            <tr>
+                <th>Fix</th>
+                <td>Target firmware version includes the SAML fix</td>
+            </tr>
+            <tr>
+                <th>Alignment</th>
+                <td>SE FortiGate already running target version - this brings East into parity</td>
+            </tr>
+        </table>
+
+        <h3>2.2 Impact Assessment</h3>
+        <table>
+            <tr>
+                <th>Impact Area</th>
+                <th>Description</th>
+                <th>Duration</th>
+            </tr>
+            <tr>
+                <td>VPN Tunnels</td>
+                <td>All IPsec/SSL VPN tunnels on East FortiGate will drop during reboot and auto-reconnect</td>
+                <td>5-10 min</td>
+            </tr>
+            <tr>
+                <td>Internet Access</td>
+                <td>Outbound internet traffic via East FortiGate will be interrupted during reboot</td>
+                <td>5-10 min</td>
+            </tr>
+            <tr>
+                <td>Service IPs</td>
+                <td>All 19 service public IPs (TIMS, Austrics, RDG, etc.) will be unreachable during reboot</td>
+                <td>5-10 min</td>
+            </tr>
+            <tr>
+                <td>SAML Auth</td>
+                <td>SAML authentication will be fixed after upgrade</td>
+                <td>Permanent fix</td>
+            </tr>
+        </table>
+
+        <div class="warning-note">
+            <strong>Scheduling Note:</strong> Change is scheduled for <strong>after 20:00 AEST</strong> on <strong>25 Feb 2026</strong> to minimise impact on business users.
+        </div>
+
+        <!-- Section 3: Device Details -->
+        <h2 id="section3">3. Device Details</h2>
+
+        <table>
+            <tr>
+                <th>Property</th>
+                <th>East FortiGate (Target)</th>
+                <th>SE FortiGate (Reference)</th>
+            </tr>
+            <tr>
+                <td>Hostname</td>
+                <td>ATE-AE-fgt</td>
+                <td>ATE-ASE-fgt</td>
+            </tr>
+            <tr>
+                <td>Model</td>
+                <td><span class="tbd">TBD</span></td>
+                <td><span class="tbd">TBD</span></td>
+            </tr>
+            <tr>
+                <td>Resource Group</td>
+                <td>KD-Prod-RG</td>
+                <td>KD-Prod-RG-asr</td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td>Australia East</td>
+                <td>Australia Southeast</td>
+            </tr>
+            <tr>
+                <td>External NIC</td>
+                <td>ATE-AE-fgt-nic1 (10.200.1.4)</td>
+                <td>ATE-ASE-fgt-nic1</td>
+            </tr>
+            <tr>
+                <td>Current Firmware</td>
+                <td><span class="tbd">TBD</span></td>
+                <td><span class="tbd">TBD (target version)</span></td>
+            </tr>
+            <tr>
+                <td>Target Firmware</td>
+                <td><span class="tbd">TBD</span></td>
+                <td>N/A (already at target)</td>
+            </tr>
+            <tr>
+                <td>Primary Public IP</td>
+                <td>52.237.241.132 (KD-UTM-PublicIP)</td>
+                <td>23.101.226.122 (Sophos-PublicIP)</td>
+            </tr>
+            <tr>
+                <td>Service IPs</td>
+                <td>19 service public IPs</td>
+                <td>VIPs mapped via East</td>
+            </tr>
+        </table>
+
+        <!-- Section 4: Pre-Change Checklist -->
+        <h2 id="section4">4. Pre-Change Checklist</h2>
+
+        <div class="phase-header phase-header-pre">Phase 0: Pre-Change Preparation</div>
+
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Confirm current firmware version on East FortiGate</div>
+            <div class="checklist-item"><span class="checkbox"></span> Confirm target firmware version (match SE FortiGate)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Download firmware image from Fortinet support / Azure Marketplace</div>
+            <div class="checklist-item"><span class="checkbox"></span> Take full configuration backup of East FortiGate</div>
+            <div class="checklist-item"><span class="checkbox"></span> Export current configuration (CLI: <code>execute backup full-config</code>)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Take Azure VM snapshot of OS disk</div>
+            <div class="checklist-item"><span class="checkbox"></span> Verify FortiGate upgrade path compatibility (Fortinet upgrade path tool)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Notify stakeholders of maintenance window</div>
+            <div class="checklist-item"><span class="checkbox"></span> Confirm rollback procedure is understood</div>
+            <div class="checklist-item"><span class="checkbox"></span> Verify Azure Serial Console access (fallback management)</div>
+        </div>
+
+        <!-- Section 5: Implementation Steps -->
+        <h2 id="section5">5. Implementation Steps</h2>
+
+        <div class="phase-header phase-header-pre">Step 1: Pre-Upgrade Backup &amp; Baseline (10 min)</div>
+
+        <h3>1.1 Configuration Backup</h3>
+        <div class="code-block"># FortiGate CLI - Take full config backup
+execute backup full-config ftp &lt;backup-server&gt; &lt;filename&gt;
+
+# OR via GUI: System > Backup > Backup Configuration</div>
+
+        <h3>1.2 Azure VM Snapshot</h3>
+        <div class="code-block"># Take snapshot of the East FortiGate OS disk before upgrade
+az snapshot create \
+  --resource-group KD-Prod-RG \
+  --name ATE-AE-fgt-pre-upgrade-snapshot-20260225 \
+  --source "/subscriptions/&lt;SUB_ID&gt;/resourceGroups/KD-Prod-RG/providers/Microsoft.Compute/disks/&lt;OS_DISK_NAME&gt;"</div>
+
+        <div class="section-note">
+            <strong>Tip:</strong> Get the OS disk name with: <code>az vm show --resource-group KD-Prod-RG --name ATE-AE-fgt --query "storageProfile.osDisk.name" -o tsv</code>
+        </div>
+
+        <h3>1.3 Record Baseline State</h3>
+        <div class="code-block"># Record current state for post-upgrade comparison
+get system status                    # Firmware version, uptime, serial
+get system interface physical        # Interface status
+get router info routing-table all    # Routing table
+get vpn ipsec tunnel summary         # VPN tunnel status
+get system ha status                 # HA status (if applicable)
+diagnose sys session stat            # Session count</div>
+
+        <div class="phase-header phase-header-upgrade">Step 2: Firmware Upgrade (5-10 min)</div>
+
+        <h3>2.1 Upload and Install Firmware</h3>
+
+        <div class="warning-note">
+            <strong>Warning:</strong> The FortiGate will reboot automatically after firmware installation. All active sessions, VPN tunnels, and traffic will be interrupted.
+        </div>
+
+        <div class="code-block"># Option A: CLI upgrade (upload firmware via TFTP/FTP)
+execute restore image ftp &lt;firmware-file&gt; &lt;ftp-server&gt;
+
+# Option B: GUI upgrade
+# System > Firmware > Upload firmware file > Confirm upgrade
+
+# Option C: FortiGuard upgrade (if available)
+execute upgrade image &lt;firmware-url&gt;</div>
+
+        <h3>2.2 Monitor Reboot</h3>
+        <div class="code-block"># Monitor via Azure Serial Console (if GUI/SSH unavailable during reboot)
+# Azure Portal > Virtual Machines > ATE-AE-fgt > Serial Console
+
+# After reboot, verify connectivity:
+# 1. Wait for FortiGate to come back online (typically 3-5 min)
+# 2. SSH or HTTPS to management IP
+# 3. Verify firmware version</div>
+
+        <div class="phase-header phase-header-validate">Step 3: Post-Upgrade Validation (10 min)</div>
+
+        <h3>3.1 Verify Firmware Version</h3>
+        <div class="code-block"># Confirm new firmware version
+get system status
+
+# Expected output should show target firmware version
+# Compare with SE FortiGate version for parity</div>
+
+        <h3>3.2 Verify Core Services</h3>
+        <div class="code-block"># Check interfaces are up
+get system interface physical
+
+# Check routing table restored
+get router info routing-table all
+
+# Check VPN tunnels re-established
+get vpn ipsec tunnel summary
+
+# Check session count recovering
+diagnose sys session stat
+
+# Check SAML configuration intact
+diagnose debug application saml -1
+diagnose debug enable</div>
+
+        <h3>3.3 Verify Public IP Connectivity</h3>
+        <div class="code-block"># Verify primary public IP is reachable
+# From external machine:
+curl.exe -sk https://&lt;east-fortigate-mgmt&gt; -w "%{http_code}"
+
+# Verify service IPs are responding (spot check)
+nslookup atesma01.kdbusgroup.com.au
+curl.exe -sk https://tims-qld.hornibrook.com.au -w "%{http_code}"
+
+# Verify PIP associations unchanged
+az network public-ip show --resource-group KD-Prod-RG --name KD-UTM-PublicIP --query "{ip:ipAddress, nic:ipConfiguration.id}" -o table</div>
+
+        <h3>3.4 Test SAML Authentication</h3>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Attempt SAML login through FortiGate</div>
+            <div class="checklist-item"><span class="checkbox"></span> Verify SAML assertion is processed correctly</div>
+            <div class="checklist-item"><span class="checkbox"></span> Confirm user authentication completes successfully</div>
+            <div class="checklist-item"><span class="checkbox"></span> Test from multiple browsers/clients if applicable</div>
+        </div>
+
+        <!-- Section 6: Post-Upgrade Validation Checklist -->
+        <h2 id="section6">6. Post-Upgrade Validation Checklist</h2>
+
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Firmware version matches target</div>
+            <div class="checklist-item"><span class="checkbox"></span> Firmware version matches SE FortiGate</div>
+            <div class="checklist-item"><span class="checkbox"></span> All physical interfaces are UP</div>
+            <div class="checklist-item"><span class="checkbox"></span> Default route (0.0.0.0/0) present and correct</div>
+            <div class="checklist-item"><span class="checkbox"></span> IPsec VPN tunnels re-established</div>
+            <div class="checklist-item"><span class="checkbox"></span> SSL VPN portal accessible</div>
+            <div class="checklist-item"><span class="checkbox"></span> Outbound internet connectivity working</div>
+            <div class="checklist-item"><span class="checkbox"></span> Service public IPs responding (TIMS, Austrics, RDG)</div>
+            <div class="checklist-item"><span class="checkbox"></span> SAML authentication working (primary fix validation)</div>
+            <div class="checklist-item"><span class="checkbox"></span> No unexpected errors in FortiGate event logs</div>
+            <div class="checklist-item"><span class="checkbox"></span> Azure VM health status: Healthy</div>
+        </div>
+
+        <!-- Section 7: Rollback Plan -->
+        <h2 id="section7">7. Rollback Plan</h2>
+
+        <div class="phase-header phase-header-rollback">Rollback: Revert to Previous Firmware</div>
+
+        <div class="danger-note">
+            <strong>Rollback triggers:</strong> FortiGate fails to come online after 15 min, critical services not restoring, SAML worse than before, or configuration corruption detected.
+        </div>
+
+        <h3>Option A: FortiGate Secondary Partition (Preferred)</h3>
+        <div class="code-block"># FortiGate keeps previous firmware on secondary partition
+# Boot into secondary partition with previous firmware:
+
+# Via Azure Serial Console during boot:
+# 1. Access Serial Console: Azure Portal > ATE-AE-fgt > Serial Console
+# 2. During boot menu, select secondary partition
+# 3. FortiGate boots with previous firmware + config
+
+# Via CLI (if accessible):
+execute set-next-reboot secondary
+execute reboot</div>
+
+        <h3>Option B: Restore from Azure Snapshot</h3>
+        <div class="code-block"># If FortiGate is unrecoverable, restore from pre-upgrade snapshot
+
+# 1. Stop the VM
+az vm stop --resource-group KD-Prod-RG --name ATE-AE-fgt
+
+# 2. Deallocate
+az vm deallocate --resource-group KD-Prod-RG --name ATE-AE-fgt
+
+# 3. Swap OS disk to snapshot-based disk
+# (Create managed disk from snapshot, then swap)
+az disk create --resource-group KD-Prod-RG \
+  --name ATE-AE-fgt-rollback-disk \
+  --source ATE-AE-fgt-pre-upgrade-snapshot-20260225
+
+az vm update --resource-group KD-Prod-RG --name ATE-AE-fgt \
+  --os-disk ATE-AE-fgt-rollback-disk
+
+# 4. Start VM
+az vm start --resource-group KD-Prod-RG --name ATE-AE-fgt</div>
+
+        <h3>Option C: Configuration Restore</h3>
+        <div class="code-block"># If firmware upgrade succeeds but config is corrupted:
+execute restore config ftp &lt;backup-file&gt; &lt;ftp-server&gt;</div>
+
+        <!-- Section 8: Risk Assessment -->
+        <h2 id="section8">8. Risk Assessment</h2>
+
+        <table>
+            <tr>
+                <th>Risk</th>
+                <th>Likelihood</th>
+                <th>Impact</th>
+                <th>Mitigation</th>
+            </tr>
+            <tr>
+                <td>FortiGate fails to boot after upgrade</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>Azure disk snapshot taken before upgrade; secondary partition rollback available</td>
+            </tr>
+            <tr>
+                <td>Configuration lost or corrupted</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>Full config backup exported before upgrade; can restore from backup</td>
+            </tr>
+            <tr>
+                <td>VPN tunnels fail to re-establish</td>
+                <td>Low</td>
+                <td>Medium</td>
+                <td>Tunnels auto-negotiate; manual bring-up if needed; rollback if persistent</td>
+            </tr>
+            <tr>
+                <td>SAML fix not effective</td>
+                <td>Low</td>
+                <td>Low</td>
+                <td>SE FortiGate already confirmed working on target version; same fix applies</td>
+            </tr>
+            <tr>
+                <td>Extended downtime beyond 10 min</td>
+                <td>Low</td>
+                <td>Medium</td>
+                <td>Scheduled after business hours (20:00 AEST); Azure Serial Console for recovery</td>
+            </tr>
+            <tr>
+                <td>Firmware upgrade path incompatibility</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>Verify upgrade path via Fortinet tool before starting; may need intermediate version</td>
+            </tr>
+        </table>
+
+        <!-- Section 9: Approval -->
+        <h2 id="section9">9. Approval</h2>
+
+        <div class="approval-box">
+            <h3>Change Approval</h3>
+            <table>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Signature</th>
+                    <th>Date</th>
+                </tr>
+                <tr>
+                    <td>Requestor</td>
+                    <td>Olli Ojala</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Technical Approver</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Change Manager</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="success-note">
+            <strong>Post-Change:</strong> Once upgrade is confirmed successful and SAML is verified working, update this CR with completion status and close.
+        </div>
+
+    </div>
+</body>
+</html>

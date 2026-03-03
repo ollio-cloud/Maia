@@ -1,0 +1,849 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.39.26.7824",
+      "templateHash": "5708793879533874060"
+    }
+  },
+  "parameters": {
+    "vmName": {
+      "type": "string",
+      "defaultValue": "pauseisavd-1",
+      "metadata": {
+        "description": "VM name for the session host"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "australiasoutheast",
+      "metadata": {
+        "description": "Azure region"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D4s_v5",
+      "allowedValues": [
+        "Standard_D2s_v3",
+        "Standard_D4s_v3",
+        "Standard_D2s_v5",
+        "Standard_D4s_v5",
+        "Standard_D8s_v5",
+        "Standard_E2s_v5",
+        "Standard_E4s_v5",
+        "Standard_E8s_v5",
+        "Standard_E16s_v5",
+        "Standard_B2ms",
+        "Standard_B2s"
+      ],
+      "metadata": {
+        "description": "VM size"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "avdadmin",
+      "metadata": {
+        "description": "Admin username"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password"
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet resource ID for the VM NIC"
+      }
+    },
+    "hostPoolName": {
+      "type": "string",
+      "defaultValue": "pauseisavdpool01",
+      "metadata": {
+        "description": "AVD Host Pool name"
+      }
+    },
+    "hostPoolToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "AVD Host Pool registration token (get from portal or generate)"
+      }
+    },
+    "osDiskType": {
+      "type": "string",
+      "defaultValue": "Premium_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "StandardSSD_LRS",
+        "Premium_LRS"
+      ],
+      "metadata": {
+        "description": "OS disk type"
+      }
+    },
+    "osDiskSizeGB": {
+      "type": "int",
+      "defaultValue": 128,
+      "metadata": {
+        "description": "OS disk size in GB"
+      }
+    },
+    "enableAzureADJoin": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable Azure AD join"
+      }
+    },
+    "enableIntune": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable Intune enrollment"
+      }
+    },
+    "availabilityZone": {
+      "type": "string",
+      "defaultValue": "1",
+      "allowedValues": [
+        "1",
+        "2",
+        "3"
+      ],
+      "metadata": {
+        "description": "Availability Zone"
+      }
+    },
+    "imageReference": {
+      "type": "object",
+      "defaultValue": {
+        "publisher": "MicrosoftWindowsDesktop",
+        "offer": "Windows-11",
+        "sku": "win11-23h2-avd",
+        "version": "latest"
+      },
+      "metadata": {
+        "description": "Windows image reference"
+      }
+    },
+    "enableFSLogix": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable FSLogix configuration"
+      }
+    },
+    "fslogixStorageAccountName": {
+      "type": "string",
+      "defaultValue": "pauseisfslogix001",
+      "metadata": {
+        "description": "Storage account name for FSLogix"
+      }
+    },
+    "fslogixFileShareName": {
+      "type": "string",
+      "defaultValue": "fslogix-profiles",
+      "metadata": {
+        "description": "File share name for profiles"
+      }
+    },
+    "fslogixProfileSizeMB": {
+      "type": "int",
+      "defaultValue": 30720,
+      "metadata": {
+        "description": "Profile size in MB"
+      }
+    },
+    "fslogixEnableOfficeContainer": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable Office Container"
+      }
+    },
+    "fslogixDeleteLocalProfile": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Delete local profile when VHD applies"
+      }
+    },
+    "fslogixPreventTempProfile": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Prevent login with temp profile"
+      }
+    },
+    "fslogixPreventLoginOnFailure": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Prevent login on failure"
+      }
+    },
+    "fslogixUseStorageKey": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Use storage account key instead of Azure AD Kerberos"
+      }
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {
+        "Environment": "Production",
+        "Application": "AVD",
+        "HostPool": "pauseisavdpool01",
+        "Component": "SessionHost",
+        "ManagedBy": "Bicep"
+      },
+      "metadata": {
+        "description": "Tags for all resources"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "[format('deploy-session-host-{0}', parameters('vmName'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vmName": {
+            "value": "[parameters('vmName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmSize": {
+            "value": "[parameters('vmSize')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "subnetId": {
+            "value": "[parameters('subnetId')]"
+          },
+          "osDiskType": {
+            "value": "[parameters('osDiskType')]"
+          },
+          "osDiskSizeGB": {
+            "value": "[parameters('osDiskSizeGB')]"
+          },
+          "imageReference": {
+            "value": "[parameters('imageReference')]"
+          },
+          "hostPoolName": {
+            "value": "[parameters('hostPoolName')]"
+          },
+          "hostPoolToken": {
+            "value": "[parameters('hostPoolToken')]"
+          },
+          "enableAzureADJoin": {
+            "value": "[parameters('enableAzureADJoin')]"
+          },
+          "enableIntune": {
+            "value": "[parameters('enableIntune')]"
+          },
+          "availabilityZone": {
+            "value": "[parameters('availabilityZone')]"
+          },
+          "tags": {
+            "value": "[parameters('tags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.39.26.7824",
+              "templateHash": "6883977852086993831"
+            }
+          },
+          "parameters": {
+            "vmName": {
+              "type": "string",
+              "metadata": {
+                "description": "VM name"
+              }
+            },
+            "location": {
+              "type": "string",
+              "metadata": {
+                "description": "Azure region"
+              }
+            },
+            "vmSize": {
+              "type": "string",
+              "defaultValue": "Standard_D2s_v3",
+              "allowedValues": [
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D2s_v5",
+                "Standard_D4s_v5",
+                "Standard_D8s_v5",
+                "Standard_E2s_v5",
+                "Standard_E4s_v5",
+                "Standard_E8s_v5",
+                "Standard_E16s_v5",
+                "Standard_B2ms",
+                "Standard_B2s"
+              ],
+              "metadata": {
+                "description": "VM size"
+              }
+            },
+            "adminUsername": {
+              "type": "string",
+              "metadata": {
+                "description": "Admin username"
+              }
+            },
+            "adminPassword": {
+              "type": "securestring",
+              "metadata": {
+                "description": "Admin password"
+              }
+            },
+            "subnetId": {
+              "type": "string",
+              "metadata": {
+                "description": "Subnet resource ID"
+              }
+            },
+            "osDiskType": {
+              "type": "string",
+              "defaultValue": "Premium_LRS",
+              "allowedValues": [
+                "Standard_LRS",
+                "StandardSSD_LRS",
+                "Premium_LRS"
+              ],
+              "metadata": {
+                "description": "OS disk type"
+              }
+            },
+            "osDiskSizeGB": {
+              "type": "int",
+              "defaultValue": 128,
+              "metadata": {
+                "description": "OS disk size in GB"
+              }
+            },
+            "imageReference": {
+              "type": "object",
+              "defaultValue": {
+                "publisher": "MicrosoftWindowsDesktop",
+                "offer": "Windows-11",
+                "sku": "win11-23h2-avd",
+                "version": "latest"
+              },
+              "metadata": {
+                "description": "Image reference"
+              }
+            },
+            "hostPoolName": {
+              "type": "string",
+              "metadata": {
+                "description": "AVD Host Pool name"
+              }
+            },
+            "hostPoolToken": {
+              "type": "securestring",
+              "metadata": {
+                "description": "AVD Host Pool registration token"
+              }
+            },
+            "enableAzureADJoin": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Enable Azure AD join"
+              }
+            },
+            "enableIntune": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Enable Intune enrollment"
+              }
+            },
+            "availabilityZone": {
+              "type": "string",
+              "defaultValue": "1",
+              "allowedValues": [
+                "1",
+                "2",
+                "3"
+              ],
+              "metadata": {
+                "description": "Availability Zone (1, 2, or 3)"
+              }
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {},
+              "metadata": {
+                "description": "Tags for the VM"
+              }
+            }
+          },
+          "variables": {
+            "nicName": "[format('{0}-nic', parameters('vmName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2023-05-01",
+              "name": "[variables('nicName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipconfig1",
+                    "properties": {
+                      "privateIPAllocationMethod": "Dynamic",
+                      "subnet": {
+                        "id": "[parameters('subnetId')]"
+                      }
+                    }
+                  }
+                ],
+                "enableAcceleratedNetworking": true
+              }
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2023-07-01",
+              "name": "[parameters('vmName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "zones": [
+                "[parameters('availabilityZone')]"
+              ],
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "properties": {
+                "hardwareProfile": {
+                  "vmSize": "[parameters('vmSize')]"
+                },
+                "storageProfile": {
+                  "imageReference": "[parameters('imageReference')]",
+                  "osDisk": {
+                    "name": "[format('{0}-osdisk', parameters('vmName'))]",
+                    "createOption": "FromImage",
+                    "managedDisk": {
+                      "storageAccountType": "[parameters('osDiskType')]"
+                    },
+                    "diskSizeGB": "[parameters('osDiskSizeGB')]",
+                    "deleteOption": "Delete"
+                  }
+                },
+                "osProfile": {
+                  "computerName": "[parameters('vmName')]",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]",
+                  "windowsConfiguration": {
+                    "provisionVMAgent": true,
+                    "enableAutomaticUpdates": true,
+                    "patchSettings": {
+                      "patchMode": "AutomaticByOS"
+                    }
+                  }
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]",
+                      "properties": {
+                        "deleteOption": "Delete"
+                      }
+                    }
+                  ]
+                },
+                "licenseType": "Windows_Client",
+                "securityProfile": {
+                  "securityType": "TrustedLaunch",
+                  "uefiSettings": {
+                    "secureBootEnabled": true,
+                    "vTpmEnabled": true
+                  }
+                },
+                "diagnosticsProfile": {
+                  "bootDiagnostics": {
+                    "enabled": true
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+              ]
+            },
+            {
+              "condition": "[parameters('enableAzureADJoin')]",
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2023-07-01",
+              "name": "[format('{0}/{1}', parameters('vmName'), 'AADLoginForWindows')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "Microsoft.Azure.ActiveDirectory",
+                "type": "AADLoginForWindows",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": "[if(parameters('enableIntune'), createObject('mdmId', '0000000a-0000-0000-c000-000000000000'), createObject())]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2023-07-01",
+              "name": "[format('{0}/{1}', parameters('vmName'), 'Microsoft.PowerShell.DSC')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.73",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "modulesUrl": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_1.0.02714.342.zip",
+                  "configurationFunction": "Configuration.ps1\\AddSessionHost",
+                  "properties": {
+                    "hostPoolName": "[parameters('hostPoolName')]",
+                    "registrationInfoTokenCredential": {
+                      "UserName": "YOURPLACEHODLER",
+                      "Password": "PrivateSettingsRef:RegistrationInfoToken"
+                    },
+                    "aadJoin": "[parameters('enableAzureADJoin')]",
+                    "UseAgentDownloadEndpoint": true,
+                    "aadJoinPreview": false
+                  }
+                },
+                "protectedSettings": {
+                  "Items": {
+                    "RegistrationInfoToken": "[parameters('hostPoolToken')]"
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'AADLoginForWindows')]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "vmId": {
+              "type": "string",
+              "metadata": {
+                "description": "VM resource ID"
+              },
+              "value": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            },
+            "vmName": {
+              "type": "string",
+              "metadata": {
+                "description": "VM name"
+              },
+              "value": "[parameters('vmName')]"
+            },
+            "privateIpAddress": {
+              "type": "string",
+              "metadata": {
+                "description": "VM private IP"
+              },
+              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', variables('nicName')), '2023-05-01').ipConfigurations[0].properties.privateIPAddress]"
+            },
+            "principalId": {
+              "type": "string",
+              "metadata": {
+                "description": "VM principal ID (for RBAC)"
+              },
+              "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName')), '2023-07-01', 'full').identity.principalId]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "condition": "[parameters('enableFSLogix')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "[format('deploy-fslogix-{0}', parameters('vmName'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vmName": {
+            "value": "[parameters('vmName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('fslogixStorageAccountName')]"
+          },
+          "fileShareName": {
+            "value": "[parameters('fslogixFileShareName')]"
+          },
+          "profileSizeMB": {
+            "value": "[parameters('fslogixProfileSizeMB')]"
+          },
+          "enableOfficeContainer": {
+            "value": "[parameters('fslogixEnableOfficeContainer')]"
+          },
+          "deleteLocalProfile": {
+            "value": "[parameters('fslogixDeleteLocalProfile')]"
+          },
+          "preventTempProfile": {
+            "value": "[parameters('fslogixPreventTempProfile')]"
+          },
+          "preventLoginOnFailure": {
+            "value": "[parameters('fslogixPreventLoginOnFailure')]"
+          },
+          "useStorageKey": {
+            "value": "[parameters('fslogixUseStorageKey')]"
+          },
+          "tags": {
+            "value": "[parameters('tags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.39.26.7824",
+              "templateHash": "5006943627957386048"
+            }
+          },
+          "parameters": {
+            "vmName": {
+              "type": "string",
+              "metadata": {
+                "description": "VM name to configure"
+              }
+            },
+            "location": {
+              "type": "string",
+              "metadata": {
+                "description": "Azure region"
+              }
+            },
+            "storageAccountName": {
+              "type": "string",
+              "metadata": {
+                "description": "Storage account name for FSLogix"
+              }
+            },
+            "fileShareName": {
+              "type": "string",
+              "metadata": {
+                "description": "File share name"
+              }
+            },
+            "profileSizeMB": {
+              "type": "int",
+              "defaultValue": 30720,
+              "metadata": {
+                "description": "Profile size in MB"
+              }
+            },
+            "enableOfficeContainer": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Enable Office Container"
+              }
+            },
+            "deleteLocalProfile": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Delete local profile when VHD applies"
+              }
+            },
+            "preventTempProfile": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Prevent login with temp profile"
+              }
+            },
+            "preventLoginOnFailure": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Prevent login on failure"
+              }
+            },
+            "storageAccountKey": {
+              "type": "securestring",
+              "defaultValue": "",
+              "metadata": {
+                "description": "Storage account key (only if not using Azure AD Kerberos)"
+              }
+            },
+            "useStorageKey": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Use storage key instead of Azure AD Kerberos"
+              }
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {},
+              "metadata": {
+                "description": "Tags for the extension"
+              }
+            }
+          },
+          "variables": {
+            "storageEndpointSuffix": "[environment().suffixes.storage]",
+            "fslogixSharePath": "[format('\\\\{0}.file.{1}\\{2}', parameters('storageAccountName'), variables('storageEndpointSuffix'), parameters('fileShareName'))]",
+            "delValue": "[if(parameters('deleteLocalProfile'), '1', '0')]",
+            "tempValue": "[if(parameters('preventTempProfile'), '1', '0')]",
+            "failValue": "[if(parameters('preventLoginOnFailure'), '1', '0')]",
+            "scriptCommands": [
+              "New-Item C:\\Temp -ItemType Directory -Force | Out-Null",
+              "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12",
+              "Invoke-WebRequest -Uri https://aka.ms/fslogix_download -OutFile C:\\Temp\\FSLogix.zip -UseBasicParsing",
+              "Expand-Archive C:\\Temp\\FSLogix.zip C:\\Temp\\FSLogix -Force",
+              "Start-Process C:\\Temp\\FSLogix\\x64\\Release\\FSLogixAppsSetup.exe -ArgumentList /install,/quiet,/norestart -Wait",
+              "Start-Sleep 10",
+              "$p='HKLM:\\SOFTWARE\\FSLogix\\Profiles'",
+              "New-Item $p -Force | Out-Null",
+              "Set-ItemProperty $p Enabled 1 -Type DWord",
+              "[format('Set-ItemProperty $p VHDLocations ''{0}'' -Type MultiString', variables('fslogixSharePath'))]",
+              "[format('Set-ItemProperty $p SizeInMBs {0} -Type DWord', parameters('profileSizeMB'))]",
+              "Set-ItemProperty $p IsDynamic 1 -Type DWord",
+              "Set-ItemProperty $p VolumeType VHDX -Type String",
+              "Set-ItemProperty $p FlipFlopProfileDirectoryName 1 -Type DWord",
+              "[format('Set-ItemProperty $p DeleteLocalProfileWhenVHDShouldApply {0} -Type DWord', variables('delValue'))]",
+              "[format('Set-ItemProperty $p PreventLoginWithTempProfile {0} -Type DWord', variables('tempValue'))]",
+              "[format('Set-ItemProperty $p PreventLoginWithFailure {0} -Type DWord', variables('failValue'))]",
+              "Set-ItemProperty $p LockedRetryCount 3 -Type DWord",
+              "Set-ItemProperty $p LockedRetryInterval 15 -Type DWord",
+              "Set-ItemProperty $p ProfileType 0 -Type DWord",
+              "Set-ItemProperty $p ReAttachIntervalSeconds 15 -Type DWord",
+              "Set-ItemProperty $p ReAttachRetryCount 3 -Type DWord",
+              "Set-ItemProperty $p AccessNetworkAsComputerObject 0 -Type DWord"
+            ],
+            "officeCommands": "[if(parameters('enableOfficeContainer'), createArray('$o=''HKLM:\\SOFTWARE\\Policies\\FSLogix\\ODFC''', 'New-Item $o -Force | Out-Null', 'Set-ItemProperty $o Enabled 1 -Type DWord', format('Set-ItemProperty $o VHDLocations ''{0}'' -Type MultiString', variables('fslogixSharePath')), 'Set-ItemProperty $o SizeInMBs 30720 -Type DWord', 'Set-ItemProperty $o IsDynamic 1 -Type DWord', 'Set-ItemProperty $o VolumeType VHDX -Type String', 'Set-ItemProperty $o FlipFlopProfileDirectoryName 1 -Type DWord', 'Set-ItemProperty $o IncludeOfficeActivation 1 -Type DWord', 'Set-ItemProperty $o IncludeOneDrive 1 -Type DWord', 'Set-ItemProperty $o IncludeOutlook 1 -Type DWord', 'Set-ItemProperty $o IncludeTeams 1 -Type DWord'), createArray())]",
+            "credCommands": "[if(parameters('useStorageKey'), createArray(format('cmdkey /add:{0}.file.{1} /user:Azure\\{2} /pass:{3}', parameters('storageAccountName'), variables('storageEndpointSuffix'), parameters('storageAccountName'), parameters('storageAccountKey'))), createArray())]",
+            "cleanupCommands": [
+              "Remove-Item C:\\Temp\\FSLogix* -Recurse -Force -ErrorAction SilentlyContinue"
+            ],
+            "allCommands": "[concat(variables('scriptCommands'), variables('officeCommands'), variables('credCommands'), variables('cleanupCommands'))]",
+            "finalScript": "[join(variables('allCommands'), '; ')]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2023-03-01",
+              "name": "[format('{0}/FSLogixConfig', parameters('vmName'))]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "protectedSettings": {
+                  "commandToExecute": "[format('powershell -ExecutionPolicy Bypass -Command \"{0}\"', variables('finalScript'))]"
+                }
+              }
+            }
+          ],
+          "outputs": {
+            "provisioningState": {
+              "type": "string",
+              "metadata": {
+                "description": "Extension provisioning state"
+              },
+              "value": "[reference(resourceId('Microsoft.Compute/virtualMachines/extensions', split(format('{0}/FSLogixConfig', parameters('vmName')), '/')[0], split(format('{0}/FSLogixConfig', parameters('vmName')), '/')[1]), '2023-03-01').provisioningState]"
+            },
+            "configuredVmName": {
+              "type": "string",
+              "metadata": {
+                "description": "Configured VM name"
+              },
+              "value": "[parameters('vmName')]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', format('deploy-session-host-{0}', parameters('vmName')))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "vmId": {
+      "type": "string",
+      "metadata": {
+        "description": "VM resource ID"
+      },
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-session-host-{0}', parameters('vmName'))), '2025-04-01').outputs.vmId.value]"
+    },
+    "vmName": {
+      "type": "string",
+      "metadata": {
+        "description": "VM name"
+      },
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-session-host-{0}', parameters('vmName'))), '2025-04-01').outputs.vmName.value]"
+    },
+    "privateIpAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "VM private IP"
+      },
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-session-host-{0}', parameters('vmName'))), '2025-04-01').outputs.privateIpAddress.value]"
+    },
+    "principalId": {
+      "type": "string",
+      "metadata": {
+        "description": "VM principal ID"
+      },
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-session-host-{0}', parameters('vmName'))), '2025-04-01').outputs.principalId.value]"
+    },
+    "hostPoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "Host pool name"
+      },
+      "value": "[parameters('hostPoolName')]"
+    },
+    "fslogixConfigured": {
+      "type": "bool",
+      "metadata": {
+        "description": "FSLogix configured"
+      },
+      "value": "[parameters('enableFSLogix')]"
+    }
+  }
+}

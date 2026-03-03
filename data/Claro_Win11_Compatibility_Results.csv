@@ -1,0 +1,91 @@
+Device,Status,Memory (GB),Storage (GB),CPU Cores,TPM Version,SecureBoot,Processor
+OCC1008,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1020,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1029,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1030,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1031,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1032,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1033,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1034,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1035,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 10
+OCC1036,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1037,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1039,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1040,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1041,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1042,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1043,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1044,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1045,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1046,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1047,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1048,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1049,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1050,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1051,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1052,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1054,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1056,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1057,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1058,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1059,CAPABLE,16,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1060,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1061,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1062,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1064,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1065,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1066,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1068,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1070,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1073,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1074,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1075,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1076,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1077,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1084,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1086,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1087,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1089,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 11
+OCC1090,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 11
+OCC1091,CAPABLE,16,472,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1093,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1095,CAPABLE,16,472,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1096,CAPABLE,16,472,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1097,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1098,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1099,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1100,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1101,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1102,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1103,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1105,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1107,CAPABLE,8,235,12,2.0,Yes,Intel64 Family 6 Model 165 Stepping 3
+OCC1108,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1109,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1110,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1114,CAPABLE,8,235,12,2.0,Yes,Intel64 Family 6 Model 165 Stepping 3
+OCC1115,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1116,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1118,CAPABLE,16,237,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1120,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1121,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1122,CAPABLE,8,237,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1123,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1124,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1125,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 11
+OCC1126,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1128,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1129,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 186 Stepping 3
+OCC1130,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1133,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1134,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1135,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1136,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1138,CAPABLE,8,211,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 10
+OCC1140,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1141,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1143,CAPABLE,16,235,12,2.0,Yes,Intel64 Family 6 Model 154 Stepping 4
+OCC1144,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12
+OCC1146,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 140 Stepping 1
+OCC1147,NO RESULTS,-,-,-,-,-,Offline/Unreachable
+OCC1148,CAPABLE,8,235,8,2.0,Yes,Intel64 Family 6 Model 142 Stepping 12

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CR-4404660 - Pre/Post Cutover Test Plan</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; line-height: 1.4; margin: 15px; }
+        h1 { font-size: 16px; color: #1a365d; border-bottom: 2px solid #3182ce; padding-bottom: 5px; }
+        h2 { font-size: 14px; color: #2c5282; margin: 20px 0 8px 0; border-left: 3px solid #3182ce; padding-left: 8px; }
+        h3 { font-size: 13px; color: #2d3748; margin: 15px 0 5px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 11px; }
+        th, td { border: 1px solid #e2e8f0; padding: 5px 6px; text-align: left; vertical-align: top; }
+        th { background-color: #edf2f7; font-weight: 600; white-space: nowrap; }
+        .ip { font-family: 'Consolas', monospace; font-size: 0.95em; white-space: nowrap; }
+        .cmd { font-family: 'Consolas', monospace; font-size: 0.9em; background: #f7fafc; padding: 2px 4px; border-radius: 2px; }
+        .pass { width: 30px; text-align: center; }
+        .group-header { background: #667eea; color: white; font-weight: 600; }
+        .group-header td { border-color: #5a67d8; }
+        .restricted { background: #fffbeb; }
+        .no-rules { background: #fed7d7; }
+        .public { background: #f0fff4; }
+        .dr-row { background: #f7fafc; color: #a0aec0; }
+        .note { background: #ebf8ff; border-left: 3px solid #3182ce; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .warning { background: #fffbeb; border-left: 3px solid #f6e05e; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .section { margin-bottom: 20px; }
+        code { font-family: 'Consolas', monospace; background: #edf2f7; padding: 1px 4px; border-radius: 2px; }
+        .result-cell { min-width: 30px; }
+        @media print { body { font-size: 10px; } table { font-size: 9px; } }
+    </style>
+</head>
+<body>
+
+<h1>CR-4404660: Pre/Post Cutover Test Plan</h1>
+
+<div class="note">
+    <strong>Test methodology:</strong> The public IP address does not change &mdash; only the backend NIC changes (SonicWall &rarr; FortiGate). Most services are source-IP restricted or have no inbound FW rules, so external port tests (Test-NetConnection) are <strong>not possible</strong> from a standard workstation. Instead we verify:<br>
+    <strong>Pre-cutover:</strong> PIP is associated to SonicWall NIC (<code>az network public-ip show</code>)<br>
+    <strong>Post-cutover:</strong> PIP is associated to FortiGate NIC (<code>az network public-ip show</code>) + FortiGate session/log verification<br>
+    <strong>DNS services:</strong> Additionally verified with <code>nslookup</code> + <code>curl.exe</code> (works from anywhere)
+</div>
+
+<h2>1. Test Tools</h2>
+<div class="section">
+    <table>
+        <tr><th>Test</th><th>Command (PowerShell)</th><th>What it proves</th></tr>
+        <tr><td>PIP Association</td><td class="cmd">az network public-ip show -g KD-Prod-RG -n &lt;PIP-NAME&gt; --query "ipConfiguration.id" -o tsv</td><td>PIP is on correct NIC (SonicWall pre / FortiGate post)</td></tr>
+        <tr><td>HTTPS Response</td><td class="cmd">curl.exe -sk https://&lt;FQDN&gt; -o NUL -w "%{http_code}"</td><td>Web service responds via DNS (services with FQDN only)</td></tr>
+        <tr><td>DNS Resolution</td><td class="cmd">nslookup &lt;FQDN&gt;</td><td>DNS resolves to correct public IP</td></tr>
+        <tr><td>FortiGate Session</td><td class="cmd">diagnose sys session filter dip &lt;PRIVATE_IP&gt;<br>diagnose sys session list</td><td>Traffic is flowing through FortiGate VIP (post-cutover only)</td></tr>
+    </table>
+</div>
+
+<h2>2. Azure East &mdash; Service IP Tests</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Public IP</th>
+        <th>Old Private</th>
+        <th>New Private</th>
+        <th>DNS</th>
+        <th>Access</th>
+        <th>Pre-Cutover Test</th>
+        <th>Pre<br>Pass</th>
+        <th>Post-Cutover Test</th>
+        <th>Post<br>Pass</th>
+    </tr>
+
+    <!-- KD TIMS Group -->
+    <tr class="group-header"><td colspan="10">KD TIMS (4 IPs)</td></tr>
+    <tr class="restricted">
+        <td>KD-QLD-TIMS-PublicIP</td>
+        <td class="ip">52.187.240.188</td>
+        <td class="ip">10.200.254.6</td>
+        <td class="ip">10.200.1.6</td>
+        <td>&mdash;</td>
+        <td>No ext. test</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-QLD-TIMS-PublicIP --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-QLD-TIMS-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KD-SA-TIMS-PublicIP</td>
+        <td class="ip">52.187.246.55</td>
+        <td class="ip">10.200.254.7</td>
+        <td class="ip">10.200.1.7</td>
+        <td>&mdash;</td>
+        <td>No ext. test</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-SA-TIMS-PublicIP --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-SA-TIMS-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KD-WA-TIMS-PublicIP</td>
+        <td class="ip">52.187.244.82</td>
+        <td class="ip">10.200.254.8</td>
+        <td class="ip">10.200.1.8</td>
+        <td>&mdash;</td>
+        <td>No ext. test</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-WA-TIMS-PublicIP --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-WA-TIMS-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KD-NSW-TIMS-PublicIP</td>
+        <td class="ip">13.75.135.21</td>
+        <td class="ip">10.200.254.9</td>
+        <td class="ip">10.200.1.9</td>
+        <td>&mdash;</td>
+        <td>No ext. test</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-NSW-TIMS-PublicIP --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KD-NSW-TIMS-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+
+    <!-- KD Other -->
+    <tr class="group-header"><td colspan="10">KD Other Services (3 IPs)</td></tr>
+    <tr class="public">
+        <td>KD-ATESMA01-PublicIP</td>
+        <td class="ip">40.126.228.221</td>
+        <td class="ip">10.200.254.12</td>
+        <td class="ip">10.200.1.12</td>
+        <td class="ip">tims-qld.hornibrook.com.au</td>
+        <td>Public + DNS</td>
+        <td class="cmd">nslookup tims-qld.hornibrook.com.au<br>curl.exe -sk https://tims-qld.hornibrook.com.au -o NUL -w "%{http_code}"</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">nslookup tims-qld.hornibrook.com.au<br>curl.exe -sk https://tims-qld.hornibrook.com.au -o NUL -w "%{http_code}"<br>az network public-ip show -g KD-Prod-RG -n KD-ATESMA01-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="no-rules">
+        <td>KD-ConnX-PublicIP</td>
+        <td class="ip">13.75.229.11</td>
+        <td class="ip">10.200.254.13</td>
+        <td class="ip">10.200.1.13</td>
+        <td class="ip">kdb-connx.keolisdowner.com.au<br>kdb-connx-sandbox.keolisdowner.com.au</td>
+        <td>No FW rules</td>
+        <td class="cmd">nslookup kdb-connx.keolisdowner.com.au</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">nslookup kdb-connx.keolisdowner.com.au<br>az network public-ip show -g KD-Prod-RG -n KD-ConnX-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KD-KDBMEX01-PublicIP</td>
+        <td class="ip">52.156.166.57</td>
+        <td class="ip">10.200.254.14</td>
+        <td class="ip">10.200.1.14</td>
+        <td class="ip">kdb-mex.keolisdowner.com.au</td>
+        <td>Restricted</td>
+        <td class="cmd">nslookup kdb-mex.keolisdowner.com.au</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">nslookup kdb-mex.keolisdowner.com.au<br>az network public-ip show -g KD-Prod-RG -n KD-KDBMEX01-PublicIP --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+
+    <!-- KAB Austrics -->
+    <tr class="group-header"><td colspan="10">KAB Austrics (3 IPs &mdash; TrapezeeGroup restricted)</td></tr>
+    <tr class="restricted">
+        <td>KAB-Az-Austrics-WA-pip</td>
+        <td class="ip">13.75.136.76</td>
+        <td class="ip">10.200.254.5</td>
+        <td class="ip">10.200.1.5</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-Az-Austrics-WA-pip --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-Az-Austrics-WA-pip --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="no-rules">
+        <td>KAB-Az-Austrics-NSW</td>
+        <td class="ip">52.156.182.48</td>
+        <td class="ip">10.200.254.10</td>
+        <td class="ip">10.200.1.10</td>
+        <td>&mdash;</td>
+        <td>No FW rules</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-Az-Austrics-NSW --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-Az-Austrics-NSW --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-Az-Austrics-SA</td>
+        <td class="ip">20.191.198.18</td>
+        <td class="ip">10.200.254.15</td>
+        <td class="ip">10.200.1.15</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-Az-Austrics-SA --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-Az-Austrics-SA --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+
+    <!-- KAB TIMS Prod -->
+    <tr class="group-header"><td colspan="10">KAB TIMS Production (4 IPs &mdash; TrapezeeGroup restricted)</td></tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-NSW</td>
+        <td class="ip">52.237.233.233</td>
+        <td class="ip">10.200.254.11</td>
+        <td class="ip">10.200.1.11</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-NSW --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-NSW --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-QLD</td>
+        <td class="ip">40.126.224.167</td>
+        <td class="ip">10.200.254.16</td>
+        <td class="ip">10.200.1.16</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-QLD --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-QLD --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-SA</td>
+        <td class="ip">20.188.250.100</td>
+        <td class="ip">10.200.254.17</td>
+        <td class="ip">10.200.1.17</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-SA --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-SA --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-WA</td>
+        <td class="ip">20.188.255.96</td>
+        <td class="ip">10.200.254.18</td>
+        <td class="ip">10.200.1.18</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-WA --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-WA --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+
+    <!-- KAB TIMS UAT -->
+    <tr class="group-header"><td colspan="10">KAB TIMS UAT (4 IPs &mdash; TrapezeeGroup restricted)</td></tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-NSW-UAT</td>
+        <td class="ip">20.188.255.62</td>
+        <td class="ip">10.200.254.19</td>
+        <td class="ip">10.200.1.19</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-NSW-UAT --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-NSW-UAT --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-QLD-UAT</td>
+        <td class="ip">20.191.207.10</td>
+        <td class="ip">10.200.254.20</td>
+        <td class="ip">10.200.1.20</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-QLD-UAT --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-QLD-UAT --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-WA-UAT</td>
+        <td class="ip">20.191.201.167</td>
+        <td class="ip">10.200.254.21</td>
+        <td class="ip">10.200.1.21</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-WA-UAT --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-WA-UAT --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+    <tr class="restricted">
+        <td>KAB-AZ-TIMS-SA-UAT</td>
+        <td class="ip">52.156.180.207</td>
+        <td class="ip">10.200.254.22</td>
+        <td class="ip">10.200.1.22</td>
+        <td>&mdash;</td>
+        <td>TrapezeeGroup</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-SA-UAT --query "ipConfiguration.id" -o tsv</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">az network public-ip show -g KD-Prod-RG -n KAB-AZ-TIMS-SA-UAT --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+
+    <!-- KAB RDG -->
+    <tr class="group-header"><td colspan="10">KAB RDG (1 IP)</td></tr>
+    <tr class="public">
+        <td>KAB-AZ-RDG01</td>
+        <td class="ip">4.254.88.95</td>
+        <td class="ip">10.200.254.23</td>
+        <td class="ip">10.200.1.23</td>
+        <td class="ip">rdg.keolisdowner.com.au</td>
+        <td>Public + DNS</td>
+        <td class="cmd">nslookup rdg.keolisdowner.com.au<br>curl.exe -sk https://rdg.keolisdowner.com.au -o NUL -w "%{http_code}"</td>
+        <td class="pass">&#9744;</td>
+        <td class="cmd">nslookup rdg.keolisdowner.com.au<br>curl.exe -sk https://rdg.keolisdowner.com.au -o NUL -w "%{http_code}"<br>az network public-ip show -g KD-Prod-RG -n KAB-AZ-RDG01 --query "ipConfiguration.id" -o tsv<br><em>Expect: ATE-AE-fgt-nic1</em></td>
+        <td class="pass">&#9744;</td>
+    </tr>
+</table>
+
+<h2>3. Azure South East &mdash; DR IPs (Not Implemented)</h2>
+<div class="warning">
+    <strong>No testing required.</strong> These SE/DR IPs do not have firewall rules on the current SonicWall either. They are out of scope for this CR and will be configured as a follow-up task. Listing for reference only.
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Public IP</th>
+        <th>Old Private</th>
+        <th>New Private</th>
+        <th>Status</th>
+    </tr>
+    <tr class="dr-row"><td>KD-NSW-TIMS-PublicIP-DR</td><td class="ip">40.115.65.170</td><td class="ip">10.201.254.6</td><td class="ip">10.201.1.6</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KD-SA-TIMS-PublicIP-DR</td><td class="ip">23.101.232.239</td><td class="ip">10.201.254.8</td><td class="ip">10.201.1.8</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KD-QLD-TIMS-PublicIP-DR</td><td class="ip">40.115.66.153</td><td class="ip">10.201.254.7</td><td class="ip">10.201.1.7</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KD-WA-TIMS-PublicIP-DR</td><td class="ip">40.115.67.47</td><td class="ip">10.201.254.9</td><td class="ip">10.201.1.9</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KD-ConnX-PublicIP-DR</td><td class="ip">52.243.67.225</td><td class="ip">10.201.254.13</td><td class="ip">10.201.1.13</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KD-SMA-PublicIP-DR</td><td class="ip">13.70.158.180</td><td class="ip">10.201.254.12</td><td class="ip">10.201.1.12</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KD-KDBMEX01-PublicIP-DR</td><td class="ip">13.77.2.8</td><td class="ip">10.201.254.14</td><td class="ip">10.201.1.14</td><td>Not implemented</td></tr>
+    <tr class="dr-row"><td>KAB-Az-Austrics-WA-PIP</td><td class="ip">&mdash;</td><td class="ip">10.201.254.5</td><td class="ip">10.201.1.5</td><td>Not implemented</td></tr>
+</table>
+
+<h2>4. Post-Cutover FortiGate Verification (Per IP)</h2>
+<div class="section">
+    <p>After each service IP is migrated, run these on the <strong>FortiGate East CLI</strong>:</p>
+    <table>
+        <tr><th>Check</th><th>Command</th><th>Expected</th><th>Pass</th></tr>
+        <tr>
+            <td>PIP associated to FortiGate NIC</td>
+            <td class="cmd">az network public-ip show --resource-group KD-Prod-RG --name &lt;PIP-NAME&gt; --query "ipConfiguration.id"</td>
+            <td>Path contains <code>ATE-AE-fgt-nic1</code></td>
+            <td class="pass">&#9744;</td>
+        </tr>
+        <tr>
+            <td>VIP session visible</td>
+            <td class="cmd">diagnose sys session filter dip &lt;NEW-PRIVATE-IP&gt;<br>diagnose sys session list</td>
+            <td>Active sessions to backend IP</td>
+            <td class="pass">&#9744;</td>
+        </tr>
+        <tr>
+            <td>Traffic log</td>
+            <td class="cmd">execute log filter field dstip &lt;NEW-PRIVATE-IP&gt;<br>execute log display</td>
+            <td>action=accept entries</td>
+            <td class="pass">&#9744;</td>
+        </tr>
+    </table>
+</div>
+
+<h2>5. Test Legend</h2>
+<table>
+    <tr><td class="public" style="width:120px;"><strong>Green</strong></td><td>Public + DNS &mdash; testable from anywhere via <code>nslookup</code> + <code>curl.exe</code></td></tr>
+    <tr><td class="restricted"><strong>Yellow</strong></td><td>Restricted / no DNS &mdash; verify via <code>az network public-ip show</code> (PIP association check)</td></tr>
+    <tr><td class="no-rules"><strong>Red</strong></td><td>No firewall rules &mdash; verify via <code>az network public-ip show</code> only</td></tr>
+    <tr><td class="dr-row"><strong>Grey</strong></td><td>DR / Not implemented &mdash; no testing needed for this CR</td></tr>
+</table>
+
+<div class="note">
+    <strong>Key point:</strong> The public IP address does not change during migration. <strong>Pre-cutover:</strong> <code>az network public-ip show</code> should return <code>ATEUTM05-interface-X1</code> (SonicWall NIC). <strong>Post-cutover:</strong> same command should return <code>ATE-AE-fgt-nic1</code> (FortiGate NIC). DNS services additionally verified with <code>curl.exe</code>.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0" version="29.3.7">
+  <diagram name="Network Topology - Overview" id="network-topology-main">
+    <mxGraphModel dx="2058" dy="1146" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=20;" value="&lt;b&gt;Oculus Network Infrastructure - Complete Topology&lt;/b&gt;&lt;br&gt;Generated: 2026-02-06" vertex="1">
+          <mxGeometry height="40" width="600" x="500" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="azure-cloud" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=3;dashed=1;" value="" vertex="1">
+          <mxGeometry height="520" width="720" x="440" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="azure-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=14;" value="&lt;b&gt;Microsoft Azure&lt;/b&gt;&lt;br&gt;Australia East / Southeast&lt;br&gt;Subscription: 9479a5ce-4ae2-46ee-a3e1-55abf834df93" vertex="1">
+          <mxGeometry height="50" width="300" x="650" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="rdg-vnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="320" width="480" x="460" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="rdg-vnet-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=12;" value="&lt;b&gt;RDG-vnet&lt;/b&gt;&lt;br&gt;10.193.0.0/16" vertex="1">
+          <mxGeometry height="30" width="150" x="470" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-subnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="" vertex="1">
+          <mxGeometry height="120" width="140" x="480" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway-subnet-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=10;" value="&lt;b&gt;GatewaySubnet&lt;/b&gt;&lt;br&gt;10.193.1.0/24" vertex="1">
+          <mxGeometry height="30" width="130" x="485" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="vpn-gateway" parent="1" style="shape=mxgraph.azure.vpn_gateway;fillColor=#0078D4;strokeColor=#ffffff;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;AzureUniFiGateway&lt;/b&gt;&lt;br&gt;VPN Gateway&lt;br&gt;Standard SKU&lt;br&gt;10.193.1.254&lt;br&gt;&lt;font color=&quot;#0066cc&quot;&gt;20.213.90.41&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="80" x="510" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="rdg-subnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="120" width="280" x="640" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rdg-subnet-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=10;" value="&lt;b&gt;RDG-subnet&lt;/b&gt; 10.193.0.0/24&lt;br&gt;NSG: Various" vertex="1">
+          <mxGeometry height="25" width="270" x="645" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="vm-rdg" parent="1" style="shape=mxgraph.azure.virtual_machine;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;OCU-AZ-RDG&lt;/b&gt;&lt;br&gt;Win Server 2019&lt;br&gt;D2s v3 (2 vCPU/8GB)&lt;br&gt;10.193.0.4&lt;br&gt;&lt;font color=&quot;#0066cc&quot;&gt;20.211.125.91&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="75" x="655" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="vm-print" parent="1" style="shape=mxgraph.azure.virtual_machine;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;PrintToServer-VM&lt;/b&gt;&lt;br&gt;Win Server 2022&lt;br&gt;B2s (2 vCPU/4GB)&lt;br&gt;10.193.0.7&lt;br&gt;&lt;font color=&quot;#0066cc&quot;&gt;20.211.191.82&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="75" x="745" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="pe-mel" parent="1" style="shape=mxgraph.azure.private_endpoint;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;PE-Melbourne&lt;/b&gt;&lt;br&gt;10.193.0.5" vertex="1">
+          <mxGeometry height="30" width="60" x="835" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="pe-syd" parent="1" style="shape=mxgraph.azure.private_endpoint;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;PE-Sydney&lt;/b&gt;&lt;br&gt;10.193.0.6" vertex="1">
+          <mxGeometry height="30" width="60" x="835" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="3cx-subnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="" vertex="1">
+          <mxGeometry height="100" width="140" x="640" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="3cx-subnet-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=10;" value="&lt;b&gt;3CX-subnet&lt;/b&gt;&lt;br&gt;10.193.2.0/24" vertex="1">
+          <mxGeometry height="25" width="130" x="645" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="vm-3cx" parent="1" style="shape=mxgraph.azure.virtual_machine;fillColor=#FF6600;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;OCU-3CX&lt;/b&gt;&lt;br&gt;Debian 12 (3CX PBX)&lt;br&gt;D2ls v5 (2 vCPU/4GB)&lt;br&gt;10.193.2.4&lt;br&gt;&lt;font color=&quot;#0066cc&quot;&gt;4.196.149.36&lt;/font&gt;" vertex="1">
+          <mxGeometry height="55" width="90" x="665" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="aadds-vnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="200" width="180" x="960" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="aadds-vnet-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;" value="&lt;b&gt;AADDS-vnet&lt;/b&gt;&lt;br&gt;10.192.0.0/23" vertex="1">
+          <mxGeometry height="30" width="160" x="970" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="aadds-subnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="" vertex="1">
+          <mxGeometry height="140" width="160" x="970" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="aadds-subnet-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=10;" value="&lt;b&gt;AADDS-subnet&lt;/b&gt;&lt;br&gt;10.192.0.0/24" vertex="1">
+          <mxGeometry height="25" width="150" x="975" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="aadds" parent="1" style="shape=mxgraph.azure.active_directory;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;Azure AD DS&lt;/b&gt;&lt;br&gt;aadds.oculus.info&lt;br&gt;DNS: 10.192.0.4&lt;br&gt;DNS: 10.192.0.5&lt;br&gt;DNS: 10.192.0.6" vertex="1">
+          <mxGeometry height="80" width="80" x="1010" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="vnet-peering" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#9673a6;dashed=1;" value="VNet Peering">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="940" y="270" as="sourcePoint" />
+            <mxPoint x="970" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="storage-group" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f2ff;strokeColor=#6c8ebf;dashed=1;" value="" vertex="1">
+          <mxGeometry height="130" width="340" x="800" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="storage-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=11;" value="&lt;b&gt;Azure Storage Accounts&lt;/b&gt;" vertex="1">
+          <mxGeometry height="20" width="150" x="900" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="storage-syd" parent="1" style="shape=mxgraph.azure.storage;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;oculussydney&lt;/b&gt;&lt;br&gt;25.6 TB&lt;br&gt;Australia East" vertex="1">
+          <mxGeometry height="50" width="70" x="815" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="storage-mel" parent="1" style="shape=mxgraph.azure.storage;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;oculusmelbourne&lt;/b&gt;&lt;br&gt;7.9 TB&lt;br&gt;Australia SE" vertex="1">
+          <mxGeometry height="50" width="70" x="895" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="storage-proj" parent="1" style="shape=mxgraph.azure.storage;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;oculusproject&lt;/b&gt;&lt;br&gt;108.9 GB&lt;br&gt;Australia SE" vertex="1">
+          <mxGeometry height="50" width="70" x="975" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="storage-ext" parent="1" style="shape=mxgraph.azure.storage;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;oculusexternal&lt;/b&gt;&lt;br&gt;67.1 GB&lt;br&gt;Australia East" vertex="1">
+          <mxGeometry height="50" width="70" x="1055" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="vault-617" parent="1" style="shape=mxgraph.azure.recovery_services_vault;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="vault617" vertex="1">
+          <mxGeometry height="30" width="50" x="815" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="vault-syd" parent="1" style="shape=mxgraph.azure.recovery_services_vault;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="vault-oculussydney" vertex="1">
+          <mxGeometry height="30" width="50" x="875" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="vault-mel" parent="1" style="shape=mxgraph.azure.recovery_services_vault;fillColor=#0078D4;strokeColor=#ffffff;html=1;fontSize=8;fontColor=#333333;" value="vault-oculusmelbourne" vertex="1">
+          <mxGeometry height="30" width="50" x="935" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="internet" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;" value="&lt;b&gt;Internet&lt;/b&gt;" vertex="1">
+          <mxGeometry height="80" width="200" x="530" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="azure-to-internet" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=3;strokeColor=#0066cc;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="550" y="320" as="sourcePoint" />
+            <mxPoint x="550" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="melbourne-site" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="320" width="360" x="40" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="melbourne-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;" value="&lt;b&gt;Melbourne Office&lt;/b&gt;&lt;br&gt;Network: 10.0.0.0/24&lt;br&gt;VPN: Azure_Oculus_Melbourne (Connected)&lt;br&gt;Traffic: ↓16.1 TB ↑4.55 TB" vertex="1">
+          <mxGeometry height="50" width="340" x="50" y="719" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-gateway" parent="1" style="shape=mxgraph.cisco.routers.router;fillColor=#00CC66;strokeColor=#006633;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;OCU-MEL-UXG&lt;/b&gt;&lt;br&gt;UniFi UXG Gateway&lt;br&gt;10.0.0.2&lt;br&gt;60 clients" vertex="1">
+          <mxGeometry height="60" width="80" x="170" y="785" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-switch" parent="1" style="shape=mxgraph.cisco.switches.workgroup_switch;fillColor=#00CC66;strokeColor=#006633;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;OCU-MEL-USWPro48&lt;/b&gt;&lt;br&gt;UniFi Switch Pro 48&lt;br&gt;10.0.0.3&lt;br&gt;44 ports used" vertex="1">
+          <mxGeometry height="50" width="100" x="160" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap2" parent="1" style="shape=mxgraph.cisco.wireless.access_point;fillColor=#00CC66;strokeColor=#006633;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;Melbourne AP2&lt;/b&gt;&lt;br&gt;10.0.0.111&lt;br&gt;10 clients&lt;br&gt;↓133GB ↑38GB" vertex="1">
+          <mxGeometry height="70" width="80" x="70" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-ap3" parent="1" style="shape=mxgraph.cisco.wireless.access_point;fillColor=#00CC66;strokeColor=#006633;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;Melbourne AP3&lt;/b&gt;&lt;br&gt;10.0.0.104&lt;br&gt;7 clients&lt;br&gt;↓92.3GB ↑13.8GB" vertex="1">
+          <mxGeometry height="70" width="80" x="270" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-clients" parent="1" style="shape=mxgraph.cisco.computers_and_peripherals.pc;fillColor=#f5f5f5;strokeColor=#666666;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;60+ Clients&lt;/b&gt;&lt;br&gt;Workstations&lt;br&gt;Phones&lt;br&gt;IoT Devices" vertex="1">
+          <mxGeometry height="60" width="60" x="170" y="955" as="geometry" />
+        </mxCell>
+        <mxCell id="mel-gw-sw" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#006633;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="210" y="845" as="sourcePoint" />
+            <mxPoint x="210" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mel-sw-ap2" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#006633;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="180" y="920" as="sourcePoint" />
+            <mxPoint x="110" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mel-sw-ap3" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#006633;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="240" y="920" as="sourcePoint" />
+            <mxPoint x="310" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mel-sw-clients" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#006633;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="210" y="920" as="sourcePoint" />
+            <mxPoint x="200" y="955" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sydney-site" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="320" width="360" x="620" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="sydney-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;" value="&lt;b&gt;Sydney Office&lt;/b&gt;&lt;br&gt;Network: 10.110.106.0/24&lt;br&gt;VPN: Azure_Oculus_Sydney (Connected)&lt;br&gt;Traffic: ↓31.8 TB ↑22.4 TB" vertex="1">
+          <mxGeometry height="50" width="340" x="630" y="721" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-router" parent="1" style="shape=mxgraph.cisco.routers.router;fillColor=#FFB366;strokeColor=#CC6600;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;Sydney-Router&lt;/b&gt;&lt;br&gt;UniFi Router&lt;br&gt;10.110.106.2&lt;br&gt;37 clients" vertex="1">
+          <mxGeometry height="60" width="80" x="760" y="785" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap1" parent="1" style="shape=mxgraph.cisco.wireless.access_point;fillColor=#FFB366;strokeColor=#CC6600;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;Oculus Sydney&lt;/b&gt;&lt;br&gt;10.110.106.17&lt;br&gt;0 clients&lt;br&gt;↓12.3GB ↑1.49GB" vertex="1">
+          <mxGeometry height="70" width="80" x="660" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-ap2" parent="1" style="shape=mxgraph.cisco.wireless.access_point;fillColor=#FFB366;strokeColor=#CC6600;html=1;fontSize=8;fontColor=#333333;" value="&lt;b&gt;Oculus Sydney Front&lt;/b&gt;&lt;br&gt;10.110.106.244&lt;br&gt;14 clients&lt;br&gt;↓149GB ↑41.3GB" vertex="1">
+          <mxGeometry height="70" width="80" x="860" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-clients" parent="1" style="shape=mxgraph.cisco.computers_and_peripherals.pc;fillColor=#f5f5f5;strokeColor=#666666;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;37+ Clients&lt;/b&gt;&lt;br&gt;Workstations&lt;br&gt;Phones&lt;br&gt;IoT Devices" vertex="1">
+          <mxGeometry height="60" width="60" x="770" y="955" as="geometry" />
+        </mxCell>
+        <mxCell id="syd-rt-ap1" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#CC6600;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="770" y="845" as="sourcePoint" />
+            <mxPoint x="700" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="syd-rt-ap2" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#CC6600;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="830" y="845" as="sourcePoint" />
+            <mxPoint x="900" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="syd-rt-clients" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#CC6600;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="800" y="845" as="sourcePoint" />
+            <mxPoint x="800" y="955" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="canberra-site" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="280" width="280" x="1200" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="canberra-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;" value="&lt;b&gt;Canberra Office&lt;/b&gt;&lt;br&gt;Network: 10.120.106.0/24&lt;br&gt;VPN: Azure_Oculus_Canberra (Connected)&lt;br&gt;Traffic: ↓479 GB ↑303 GB" vertex="1">
+          <mxGeometry height="50" width="260" x="1210" y="723" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-gateway" parent="1" style="shape=mxgraph.cisco.routers.router;fillColor=#B399CC;strokeColor=#663399;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;NeXt-Gen Gateway PRO&lt;/b&gt;&lt;br&gt;UniFi Gateway&lt;br&gt;10.120.106.1&lt;br&gt;2 clients" vertex="1">
+          <mxGeometry height="60" width="80" x="1300" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-clients" parent="1" style="shape=mxgraph.cisco.computers_and_peripherals.pc;fillColor=#f5f5f5;strokeColor=#666666;html=1;fontSize=9;fontColor=#333333;" value="&lt;b&gt;2 Clients&lt;/b&gt;&lt;br&gt;Workstations" vertex="1">
+          <mxGeometry height="60" width="60" x="1310" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="cbr-gw-clients" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#663399;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1340" y="860" as="sourcePoint" />
+            <mxPoint x="1340" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vpn-mel" edge="1" parent="1" source="mel-gateway" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#00CC66;dashed=1;dashPattern=5 5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" value="IPsec/IKEv2&lt;br&gt;↓1.5 PB ↑16.8 TB">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="210" y="785" as="sourcePoint" />
+            <mxPoint x="530" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vpn-cbr" edge="1" parent="1" source="cbr-gateway" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#B399CC;dashed=1;dashPattern=5 5;" target="internet" value="IPsec/IKEv2&lt;br&gt;↓2.2 PB ↑2.4 PB">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="1090" y="690" />
+            </Array>
+            <mxPoint x="1340" y="800" as="sourcePoint" />
+            <mxPoint x="1340" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="280" width="280" x="1200" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;" value="&lt;b&gt;Legend&lt;/b&gt;" vertex="1">
+          <mxGeometry height="20" width="80" x="1300" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-azure" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;" value="Azure Cloud" vertex="1">
+          <mxGeometry height="20" width="80" x="1210" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-vnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" value="Virtual Network" vertex="1">
+          <mxGeometry height="20" width="80" x="1300" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-subnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" value="Subnet" vertex="1">
+          <mxGeometry height="20" width="80" x="1390" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-mel" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontSize=9;" value="Melbourne Site" vertex="1">
+          <mxGeometry height="20" width="80" x="1210" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-syd" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=9;" value="Sydney Site" vertex="1">
+          <mxGeometry height="20" width="80" x="1300" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-cbr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=9;" value="Canberra Site" vertex="1">
+          <mxGeometry height="20" width="80" x="1390" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-vpn-line" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#00CC66;dashed=1;fontSize=9;" value="VPN Tunnel (IPsec)">
+          <mxGeometry height="50" relative="1" width="50" x="-0.5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1223" y="180" as="sourcePoint" />
+            <mxPoint x="1303" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-vpn-text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="VPN Tunnel" vertex="1">
+          <mxGeometry height="20" width="80" x="1313" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-peering" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#9673a6;dashed=1;fontSize=9;" value="VNet Peering">
+          <mxGeometry height="50" relative="1" width="50" x="-0.5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1210" y="210" as="sourcePoint" />
+            <mxPoint x="1290" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-peering-text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="VNet Peering" vertex="1">
+          <mxGeometry height="20" width="80" x="1300" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ip-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" value="&lt;b&gt;IP Address Summary:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="20" width="150" x="1210" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="vpn-syd" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;strokeColor=#FFB366;dashed=1;dashPattern=5 5;" value="IPsec/IKEv2&lt;br&gt;↓1.0 PB ↑7.0 TB">
+          <mxGeometry height="50" relative="1" width="50" x="0.2825" y="-32" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="800" y="785" as="sourcePoint" />
+            <mxPoint x="730" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-ip1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="Azure RDG-vnet: 10.193.0.0/16" vertex="1">
+          <mxGeometry height="15" width="180" x="1210" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ip2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="Azure AADDS-vnet: 10.192.0.0/23" vertex="1">
+          <mxGeometry height="15" width="180" x="1210" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ip3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="Melbourne: 10.0.0.0/24" vertex="1">
+          <mxGeometry height="15" width="180" x="1210" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ip4" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="Sydney: 10.110.106.0/24" vertex="1">
+          <mxGeometry height="15" width="180" x="1210" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ip5" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="Canberra: 10.120.106.0/24" vertex="1">
+          <mxGeometry height="15" width="180" x="1210" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-ip6" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" value="Client VPN: 192.168.5.0/24" vertex="1">
+          <mxGeometry height="15" width="180" x="1210" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="TgY4xxfwIT5vGVIn7KGa-1" edge="1" parent="1" source="melbourne-site" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="melbourne-site">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,104 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets and credentials
+*.pem
+*.key
+credentials.json
+token.json
+.credentials/
+
+# Local data
+claude/data/context_state.json
+claude/data/*.db
+*.sqlite
+
+# Session and analysis artifacts (can get very large)
+claude/context/session/governance_analysis/dependency_scan_*.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+claude/data/model_usage_log.txt
+claude/data/dashboard_service.pid
+claude/infrastructure/servicedesk-dashboard/.env
+
+# Personal/Sensitive Data (added by team prep script)
+claude/tools/production_api_credentials.py
+credentials.vault.enc
+.env
+claude/infrastructure/**/.env
+*.pem
+*.key
+
+# Personal Configurations
+.claude/settings.local.json
+.claude/hooks.local.json
+
+# Databases
+claude/data/*.db
+claude/data/*.db-shm
+claude/data/*.db-wal
+
+# Logs
+claude/logs/**/*.log
+claude/logs/**/*.json
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+get_path_manager*
+nul
+
+# Sample data with encoded URLs (triggers GitHub secret scanner false positives)
+claude/data/servicedesk_comment_sample.json

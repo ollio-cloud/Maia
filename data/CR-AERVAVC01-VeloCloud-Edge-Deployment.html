@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Request: VeloCloud Virtual Edge Deployment - AERVAVC01</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --secondary-color: #106ebe;
+            --success-color: #107c10;
+            --warning-color: #ff8c00;
+            --danger-color: #d13438;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .cr-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin: 30px 0 20px 0;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--light-bg);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .info-box {
+            background: var(--light-bg);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff4e5;
+            border-left: 4px solid var(--warning-color);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #e6f4ea;
+            border-left: 4px solid var(--success-color);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .danger-box {
+            background: #fde7e9;
+            border-left: 4px solid var(--danger-color);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .risk-low { color: var(--success-color); font-weight: bold; }
+        .risk-medium { color: var(--warning-color); font-weight: bold; }
+        .risk-high { color: var(--danger-color); font-weight: bold; }
+
+        .status-pending {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+
+        .checkbox {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ccc;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+
+        .phase-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            margin-top: 20px;
+        }
+
+        .phase-content {
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 0;
+        }
+
+        .phase-content table {
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        .approval-section {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #333;
+            min-width: 200px;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .toc {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            padding: 5px 0;
+        }
+
+        .toc a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                font-size: 11pt;
+            }
+
+            .header {
+                background: var(--primary-color) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+
+            pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Change Request: CR-2025-XXXX</h1>
+        <div class="subtitle">Deploy VeloCloud SD-WAN Virtual Edge in Azure Australia East</div>
+        <div class="cr-badge">Normal Change | Medium Risk | Low Impact</div>
+    </div>
+
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#details">1. Change Request Details</a></li>
+            <li><a href="#description">2. Change Description</a></li>
+            <li><a href="#risk">3. Risk Assessment</a></li>
+            <li><a href="#implementation">4. Implementation Plan</a></li>
+            <li><a href="#test">5. Test Plan</a></li>
+            <li><a href="#rollback">6. Rollback Plan</a></li>
+            <li><a href="#communication">7. Communication Plan</a></li>
+            <li><a href="#resources">8. Resource Requirements</a></li>
+            <li><a href="#prerequisites">9. Prerequisites Checklist</a></li>
+            <li><a href="#approvals">10. Approvals</a></li>
+            <li><a href="#pir">11. Post-Implementation Review</a></li>
+        </ul>
+    </div>
+
+    <h2 id="details">1. Change Request Details</h2>
+
+    <table>
+        <tr><th style="width: 30%;">Field</th><th>Value</th></tr>
+        <tr><td><strong>CR Number</strong></td><td>CR-2025-XXXX (Assign on submission)</td></tr>
+        <tr><td><strong>Title</strong></td><td>Deploy VeloCloud SD-WAN Virtual Edge AERVAVC01 in Azure Australia East</td></tr>
+        <tr><td><strong>Requestor</strong></td><td>TBD</td></tr>
+        <tr><td><strong>Date Submitted</strong></td><td>2025-XX-XX</td></tr>
+        <tr><td><strong>Target Implementation Date</strong></td><td>TBD</td></tr>
+        <tr><td><strong>Change Type</strong></td><td>Normal</td></tr>
+        <tr><td><strong>Priority</strong></td><td>Medium</td></tr>
+        <tr><td><strong>Risk Level</strong></td><td><span class="risk-medium">Medium</span></td></tr>
+        <tr><td><strong>Impact Level</strong></td><td><span class="risk-low">Low</span></td></tr>
+        <tr><td><strong>Category</strong></td><td>Network Infrastructure</td></tr>
+        <tr><td><strong>Service</strong></td><td>SD-WAN / Azure Networking</td></tr>
+        <tr><td><strong>CI Affected</strong></td><td>AER-hub-australiaeast VNet, SD-WAN Overlay</td></tr>
+    </table>
+
+    <h2 id="description">2. Change Description</h2>
+
+    <h3>2.1 Summary</h3>
+    <div class="info-box">
+        Deploy a VMware VeloCloud SD-WAN Virtual Edge (AERVAVC01) in Azure Australia East region to extend SD-WAN connectivity to Azure-hosted workloads. This deployment enables optimized, policy-based routing between branch locations and Azure resources via the SD-WAN overlay.
+    </div>
+
+    <h3>2.2 Business Justification</h3>
+    <table>
+        <tr><th>Benefit</th><th>Description</th></tr>
+        <tr><td><strong>SD-WAN Extension</strong></td><td>Extend SD-WAN overlay to Azure for consistent network policies across all locations</td></tr>
+        <tr><td><strong>DMPO Optimization</strong></td><td>Enable Dynamic Multipath Optimization for Azure traffic, improving application performance</td></tr>
+        <tr><td><strong>Failover Capability</strong></td><td>Provide resilient branch-to-Azure connectivity with automatic failover</td></tr>
+        <tr><td><strong>Centralized Management</strong></td><td>Single pane of glass management via VeloCloud Orchestrator</td></tr>
+        <tr><td><strong>Cost Optimization</strong></td><td>Optimize bandwidth usage through intelligent path selection</td></tr>
+    </table>
+
+    <h3>2.3 Technical Scope</h3>
+    <table>
+        <tr><th>Component</th><th>Details</th></tr>
+        <tr><td><strong>Edge Name</strong></td><td>AERVAVC01</td></tr>
+        <tr><td><strong>Location</strong></td><td>Azure Australia East</td></tr>
+        <tr><td><strong>Target VNet</strong></td><td>AER-hub-australiaeast (10.139.0.0/18)</td></tr>
+        <tr><td><strong>VM Size</strong></td><td>Standard_D2d_v4 (2 vCPU, 8GB RAM)</td></tr>
+        <tr><td><strong>Edge Version</strong></td><td>Virtual Edge 4.5.2</td></tr>
+        <tr><td><strong>Orchestrator</strong></td><td>vco312-syd1.velocloud.net</td></tr>
+        <tr><td><strong>Availability Zone</strong></td><td>Zone 1</td></tr>
+        <tr><td><strong>Public Subnet</strong></td><td>velocloud-public-subnet (10.139.2.0/24)</td></tr>
+        <tr><td><strong>Private Subnet</strong></td><td>velocloud-private-subnet (10.139.3.0/24)</td></tr>
+        <tr><td><strong>LAN IP Address</strong></td><td>10.139.3.4</td></tr>
+    </table>
+
+    <h3>2.4 Resources Created</h3>
+    <table>
+        <tr><th>Resource</th><th>Name</th><th>Resource Group</th></tr>
+        <tr><td>Virtual Machine</td><td>AERVAVC01</td><td>rg-velocloud-aue</td></tr>
+        <tr><td>OS Disk</td><td>AERVAVC01-osdisk</td><td>rg-velocloud-aue</td></tr>
+        <tr><td>WAN NIC</td><td>AERVAVC01-nic-wan</td><td>rg-velocloud-aue</td></tr>
+        <tr><td>LAN NIC</td><td>AERVAVC01-nic-lan</td><td>rg-velocloud-aue</td></tr>
+        <tr><td>Public IP</td><td>AERVAVC01-pip</td><td>rg-velocloud-aue</td></tr>
+        <tr><td>NSG</td><td>AERVAVC01-nsg</td><td>rg-velocloud-aue</td></tr>
+        <tr><td>Subnets (if new)</td><td>velocloud-public-subnet, velocloud-private-subnet</td><td>rg-network-aue</td></tr>
+    </table>
+
+    <h2 id="risk">3. Risk Assessment</h2>
+
+    <h3>3.1 Risk Matrix</h3>
+    <table>
+        <tr><th>Risk ID</th><th>Risk Description</th><th>Likelihood</th><th>Impact</th><th>Risk Score</th><th>Mitigation</th></tr>
+        <tr>
+            <td>R1</td>
+            <td>VM deployment failure</td>
+            <td>Low</td>
+            <td>Low</td>
+            <td><span class="risk-low">Low</span></td>
+            <td>Template pre-validated; rollback = delete resource group</td>
+        </tr>
+        <tr>
+            <td>R2</td>
+            <td>Edge activation failure</td>
+            <td>Low</td>
+            <td>Medium</td>
+            <td><span class="risk-low">Low</span></td>
+            <td>Verify VCO connectivity and activation key before deployment</td>
+        </tr>
+        <tr>
+            <td>R3</td>
+            <td>Network connectivity disruption</td>
+            <td>Medium</td>
+            <td>Medium</td>
+            <td><span class="risk-medium">Medium</span></td>
+            <td>Test in isolation first; gradual route migration</td>
+        </tr>
+        <tr>
+            <td>R4</td>
+            <td>Performance degradation</td>
+            <td>Low</td>
+            <td>Low</td>
+            <td><span class="risk-low">Low</span></td>
+            <td>Start with non-critical traffic; monitor DMPO metrics</td>
+        </tr>
+        <tr>
+            <td>R5</td>
+            <td>Cost overrun</td>
+            <td>Low</td>
+            <td>Low</td>
+            <td><span class="risk-low">Low</span></td>
+            <td>Known VM size with predictable monthly costs (~$215 AUD)</td>
+        </tr>
+        <tr>
+            <td>R6</td>
+            <td>Security vulnerability</td>
+            <td>Low</td>
+            <td>High</td>
+            <td><span class="risk-medium">Medium</span></td>
+            <td>Template security reviewed; NSG deny-all default</td>
+        </tr>
+    </table>
+
+    <h3>3.2 Overall Risk Assessment</h3>
+    <div class="warning-box">
+        <strong>Overall Risk Level: Medium</strong><br>
+        <strong>Rationale:</strong> New deployment with no impact to existing services. Template validated and security reviewed. Rollback plan tested and documented.
+    </div>
+
+    <h2 id="implementation">4. Implementation Plan</h2>
+
+    <div class="phase-header">Phase 1: Preparation (Day -3 to Day -1)</div>
+    <div class="phase-content">
+        <table>
+            <tr><th>Step</th><th>Task</th><th>Owner</th><th>Duration</th><th>Status</th></tr>
+            <tr><td>1.1</td><td>Obtain Change Approval (CAB)</td><td>Change Manager</td><td>1 day</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>1.2</td><td>Verify Azure prerequisites (quota, VNet, subnets)</td><td>Cloud Engineer</td><td>2 hours</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>1.3</td><td>Accept Azure Marketplace terms for VMware SD-WAN</td><td>Cloud Engineer</td><td>15 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>1.4</td><td>Create Edge record in VCO, obtain activation key</td><td>Network Engineer</td><td>30 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>1.5</td><td>Configure Edge profile in VCO (interfaces, policies)</td><td>Network Engineer</td><td>1 hour</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>1.6</td><td>Prepare secure parameter file</td><td>Cloud Engineer</td><td>30 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>1.7</td><td>Validate ARM template deployment</td><td>Cloud Engineer</td><td>15 min</td><td><span class="status-pending">Pending</span></td></tr>
+        </table>
+    </div>
+
+    <div class="phase-header">Phase 2: Deployment (Day 0)</div>
+    <div class="phase-content">
+        <table>
+            <tr><th>Step</th><th>Task</th><th>Owner</th><th>Duration</th><th>Status</th></tr>
+            <tr><td>2.1</td><td>Open maintenance window, notify stakeholders</td><td>Change Manager</td><td>15 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>2.2</td><td>Deploy ARM template to Azure</td><td>Cloud Engineer</td><td>15 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>2.3</td><td>Verify VM provisioning in Azure Portal</td><td>Cloud Engineer</td><td>5 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>2.4</td><td>Verify Edge activation in VCO</td><td>Network Engineer</td><td>10 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>2.5</td><td>Configure BGP peering (if required)</td><td>Network Engineer</td><td>30 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>2.6</td><td>Configure UDRs for branch route steering</td><td>Cloud Engineer</td><td>30 min</td><td><span class="status-pending">Pending</span></td></tr>
+        </table>
+    </div>
+
+    <div class="phase-header">Phase 3: Validation (Day 0)</div>
+    <div class="phase-content">
+        <table>
+            <tr><th>Step</th><th>Task</th><th>Owner</th><th>Duration</th><th>Status</th></tr>
+            <tr><td>3.1</td><td>Verify Edge status = CONNECTED in VCO</td><td>Network Engineer</td><td>5 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>3.2</td><td>Verify tunnel establishment (VPN test)</td><td>Network Engineer</td><td>10 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>3.3</td><td>Test connectivity to branch networks</td><td>Network Engineer</td><td>15 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>3.4</td><td>Verify business application access</td><td>App Owner</td><td>30 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>3.5</td><td>Review DMPO link quality metrics</td><td>Network Engineer</td><td>10 min</td><td><span class="status-pending">Pending</span></td></tr>
+        </table>
+    </div>
+
+    <div class="phase-header">Phase 4: Documentation (Day +1)</div>
+    <div class="phase-content">
+        <table>
+            <tr><th>Step</th><th>Task</th><th>Owner</th><th>Duration</th><th>Status</th></tr>
+            <tr><td>4.1</td><td>Update network diagrams</td><td>Network Engineer</td><td>1 hour</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>4.2</td><td>Update IPAM with new IP allocations</td><td>Cloud Engineer</td><td>30 min</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>4.3</td><td>Update operational runbooks</td><td>Network Engineer</td><td>1 hour</td><td><span class="status-pending">Pending</span></td></tr>
+            <tr><td>4.4</td><td>Close change request</td><td>Change Manager</td><td>15 min</td><td><span class="status-pending">Pending</span></td></tr>
+        </table>
+    </div>
+
+    <h2 id="test">5. Test Plan</h2>
+
+    <h3>5.1 Validation Tests</h3>
+    <table>
+        <tr><th>Test ID</th><th>Test Case</th><th>Expected Result</th><th>Actual Result</th><th>Pass/Fail</th></tr>
+        <tr><td>T1</td><td>VM deploys successfully</td><td>VM status = Running in Azure Portal</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T2</td><td>Edge activates in VCO</td><td>Edge status = CONNECTED</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T3</td><td>WAN link UP</td><td>Link status healthy, metrics normal</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T4</td><td>SD-WAN tunnels established</td><td>VPN test shows all peer tunnels UP</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T5</td><td>Ping from branch to Azure VM</td><td>&lt;50ms latency, 0% packet loss</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T6</td><td>Ping from Azure VM to branch</td><td>&lt;50ms latency, 0% packet loss</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T7</td><td>Business application access</td><td>Application accessible from branch</td><td></td><td><span class="checkbox"></span></td></tr>
+        <tr><td>T8</td><td>DMPO path optimization active</td><td>Link steering functional</td><td></td><td><span class="checkbox"></span></td></tr>
+    </table>
+
+    <h3>5.2 Test Commands</h3>
+    <pre><code># Azure validation
+az vm show -g rg-velocloud-aue -n AERVAVC01 --query powerState -o tsv
+az network public-ip show -g rg-velocloud-aue -n AERVAVC01-pip --query ipAddress -o tsv
+
+# Connectivity tests (from Azure VM)
+ping 192.168.10.1    # Branch A gateway
+traceroute 192.168.10.1  # Verify path via 10.139.3.4</code></pre>
+
+    <h2 id="rollback">6. Rollback Plan</h2>
+
+    <h3>6.1 Rollback Triggers</h3>
+    <div class="danger-box">
+        <table style="margin: 0; box-shadow: none;">
+            <tr><th>Trigger</th><th>Threshold</th></tr>
+            <tr><td>Edge fails to activate</td><td>After 30 minutes of troubleshooting</td></tr>
+            <tr><td>Critical application connectivity broken</td><td>Any production impact</td></tr>
+            <tr><td>Unacceptable network performance</td><td>&gt;5% packet loss OR &gt;100ms latency</td></tr>
+            <tr><td>Security incident detected</td><td>Any severity</td></tr>
+        </table>
+    </div>
+
+    <h3>6.2 Rollback Procedure</h3>
+    <table>
+        <tr><th>Step</th><th>Action</th><th>Owner</th><th>Duration</th></tr>
+        <tr><td>R1</td><td>Remove UDRs pointing to Edge LAN IP (10.139.3.4)</td><td>Cloud Engineer</td><td>5 min</td></tr>
+        <tr><td>R2</td><td>Deactivate Edge in VCO (Configure > Edges > Deactivate)</td><td>Network Engineer</td><td>2 min</td></tr>
+        <tr><td>R3</td><td>Delete Azure resource group</td><td>Cloud Engineer</td><td>5 min</td></tr>
+        <tr><td>R4</td><td>Verify original routing restored</td><td>Network Engineer</td><td>3 min</td></tr>
+        <tr><td>R5</td><td>Document rollback reason</td><td>Change Manager</td><td>-</td></tr>
+        <tr><td>R6</td><td>Schedule post-incident review</td><td>Change Manager</td><td>-</td></tr>
+    </table>
+
+    <h3>6.3 Rollback Commands</h3>
+    <pre><code># Remove UDRs (immediate traffic restoration)
+az network route-table route delete \
+  --name route-to-branch-a \
+  --route-table-name rt-workloads-via-velocloud \
+  --resource-group rg-network-aue
+
+# Delete all deployed resources
+az group delete --name rg-velocloud-aue --yes --no-wait</code></pre>
+
+    <h3>6.4 Rollback Duration</h3>
+    <table>
+        <tr><th>Phase</th><th>Duration</th></tr>
+        <tr><td>Traffic restoration (UDR removal)</td><td>5 minutes</td></tr>
+        <tr><td>Complete rollback</td><td>15 minutes</td></tr>
+    </table>
+
+    <h2 id="communication">7. Communication Plan</h2>
+    <table>
+        <tr><th>Timing</th><th>Audience</th><th>Message</th><th>Channel</th></tr>
+        <tr><td>Day -3</td><td>All Stakeholders</td><td>Change notification and schedule</td><td>Email</td></tr>
+        <tr><td>Day -1</td><td>Network & Cloud Teams</td><td>Final preparation briefing</td><td>Teams Meeting</td></tr>
+        <tr><td>Day 0 (Start)</td><td>Operations Team</td><td>Maintenance window started</td><td>Teams/Slack</td></tr>
+        <tr><td>Day 0 (Complete)</td><td>All Stakeholders</td><td>Deployment successful</td><td>Email</td></tr>
+        <tr><td>Day 0 (Issue)</td><td>All Stakeholders</td><td>Rollback initiated</td><td>Email + Phone</td></tr>
+        <tr><td>Day +1</td><td>All Stakeholders</td><td>Change closure notification</td><td>Email</td></tr>
+    </table>
+
+    <h2 id="resources">8. Resource Requirements</h2>
+
+    <h3>8.1 Personnel</h3>
+    <table>
+        <tr><th>Role</th><th>Responsibility</th><th>Availability Required</th></tr>
+        <tr><td>Change Manager</td><td>Approval, coordination, communication</td><td>Day -3 to Day +1</td></tr>
+        <tr><td>Cloud Engineer</td><td>Azure deployment, UDR configuration</td><td>Day 0 (4 hours)</td></tr>
+        <tr><td>Network Engineer</td><td>VCO configuration, validation</td><td>Day 0 (4 hours)</td></tr>
+        <tr><td>App Owner</td><td>Application validation</td><td>Day 0 (1 hour)</td></tr>
+    </table>
+
+    <h3>8.2 Azure Resources (Monthly Cost Estimate)</h3>
+    <table>
+        <tr><th>Resource</th><th>Specification</th><th>Monthly Cost (AUD)</th></tr>
+        <tr><td>Virtual Machine</td><td>Standard_D2d_v4</td><td>~$150</td></tr>
+        <tr><td>Premium SSD (OS Disk)</td><td>64GB P6</td><td>~$15</td></tr>
+        <tr><td>Public IP (Standard)</td><td>Static</td><td>~$5</td></tr>
+        <tr><td>Bandwidth (Egress)</td><td>Est. 500GB</td><td>~$45</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>~$215/month</strong></td></tr>
+    </table>
+    <div class="info-box">
+        <em>Note: VeloCloud license costs are covered under existing VMware agreement</em>
+    </div>
+
+    <h2 id="prerequisites">9. Prerequisites Checklist</h2>
+
+    <h3>9.1 Azure Prerequisites</h3>
+    <table>
+        <tr><th>#</th><th>Requirement</th><th>Verified</th><th>Notes</th></tr>
+        <tr><td>1</td><td>Azure Subscription with Contributor role</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>2</td><td>Resource Group rg-velocloud-aue exists (or create permissions)</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>3</td><td>VNet AER-hub-australiaeast exists</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>4</td><td>Subnets available (or will be created)</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>5</td><td>IP address 10.139.3.4 available in private subnet</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>6</td><td>Azure Marketplace terms accepted for VMware SD-WAN</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>7</td><td>Sufficient quota for Standard_D2d_v4 in Australia East</td><td><span class="checkbox"></span></td><td></td></tr>
+    </table>
+
+    <h3>9.2 VeloCloud Orchestrator Prerequisites</h3>
+    <table>
+        <tr><th>#</th><th>Requirement</th><th>Verified</th><th>Notes</th></tr>
+        <tr><td>1</td><td>VCO access: vco312-syd1.velocloud.net</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>2</td><td>Virtual Edge license available</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>3</td><td>Edge profile configured</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>4</td><td>Activation key generated</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>5</td><td>Business policies defined</td><td><span class="checkbox"></span></td><td></td></tr>
+    </table>
+
+    <h3>9.3 Network Prerequisites</h3>
+    <table>
+        <tr><th>#</th><th>Requirement</th><th>Verified</th><th>Notes</th></tr>
+        <tr><td>1</td><td>Outbound internet access from public subnet</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>2</td><td>UDP 2426 outbound allowed (NSG/Firewall)</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>3</td><td>DNS resolution for vco312-syd1.velocloud.net</td><td><span class="checkbox"></span></td><td></td></tr>
+        <tr><td>4</td><td>UDR plan for branch route steering</td><td><span class="checkbox"></span></td><td></td></tr>
+    </table>
+
+    <h2 id="approvals">10. Approvals</h2>
+
+    <div class="approval-section">
+        <table>
+            <tr><th>Role</th><th>Name</th><th>Signature</th><th>Date</th><th>Decision</th></tr>
+            <tr>
+                <td>Requestor</td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line" style="min-width: 100px;"></span></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Change Manager</td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line" style="min-width: 100px;"></span></td>
+                <td><span class="checkbox"></span> Approved <span class="checkbox"></span> Rejected</td>
+            </tr>
+            <tr>
+                <td>Network Lead</td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line" style="min-width: 100px;"></span></td>
+                <td><span class="checkbox"></span> Approved <span class="checkbox"></span> Rejected</td>
+            </tr>
+            <tr>
+                <td>Cloud Lead</td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line" style="min-width: 100px;"></span></td>
+                <td><span class="checkbox"></span> Approved <span class="checkbox"></span> Rejected</td>
+            </tr>
+            <tr>
+                <td>Business Owner</td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line" style="min-width: 100px;"></span></td>
+                <td><span class="checkbox"></span> Approved <span class="checkbox"></span> Rejected</td>
+            </tr>
+            <tr>
+                <td>CAB Chair</td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line"></span></td>
+                <td><span class="signature-line" style="min-width: 100px;"></span></td>
+                <td><span class="checkbox"></span> Approved <span class="checkbox"></span> Rejected</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2 id="pir">11. Post-Implementation Review</h2>
+
+    <div class="info-box">
+        <em>To be completed after change implementation</em>
+    </div>
+
+    <table>
+        <tr><th style="width: 30%;">Criteria</th><th>Assessment</th></tr>
+        <tr><td><strong>Change Successful</strong></td><td><span class="checkbox"></span> Yes <span class="checkbox"></span> No <span class="checkbox"></span> Partial</td></tr>
+        <tr><td><strong>Rollback Required</strong></td><td><span class="checkbox"></span> Yes <span class="checkbox"></span> No</td></tr>
+        <tr><td><strong>Actual Duration</strong></td><td></td></tr>
+        <tr><td><strong>Issues Encountered</strong></td><td></td></tr>
+        <tr><td><strong>Lessons Learned</strong></td><td></td></tr>
+        <tr><td><strong>Follow-up Actions</strong></td><td></td></tr>
+    </table>
+
+    <h2>12. Attachments</h2>
+    <table>
+        <tr><th>Document</th><th>Location</th></tr>
+        <tr><td>Deployment Plan</td><td>velocloud-edge-azure-deployment-plan.md</td></tr>
+        <tr><td>ARM Template</td><td>velocloud-edge-azure-template.json</td></tr>
+        <tr><td>Parameter File</td><td>velocloud-edge-azure-parameters.json</td></tr>
+        <tr><td>Architecture Diagram</td><td>See Deployment Plan Section 2</td></tr>
+    </table>
+
+    <h2>13. Change History</h2>
+    <table>
+        <tr><th>Version</th><th>Date</th><th>Author</th><th>Changes</th></tr>
+        <tr><td>1.0</td><td>2025-XX-XX</td><td>TBD</td><td>Initial CR created</td></tr>
+    </table>
+
+    <div class="footer">
+        <p>Generated by VeloCloud SD-WAN Agent v2.2</p>
+        <p>Document Version 1.0 | Confidential</p>
+    </div>
+</body>
+</html>

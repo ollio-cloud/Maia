@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Request: MMA to AMA Migration</title>
+    <style>
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #0078d4;
+            border-bottom: 2px solid #0078d4;
+            padding-bottom: 10px;
+            font-size: 18pt;
+        }
+        h2 {
+            color: #0078d4;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 25px;
+            font-size: 14pt;
+        }
+        h3 {
+            color: #333;
+            margin-top: 20px;
+            font-size: 12pt;
+        }
+        h4 {
+            color: #444;
+            margin-top: 15px;
+            font-size: 11pt;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .header-table td:first-child {
+            font-weight: bold;
+            width: 220px;
+            background-color: #f5f5f5;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            font-size: 10pt;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 9pt;
+            border: 1px solid #333;
+        }
+        pre .comment { color: #6a9955; }
+        pre .keyword { color: #569cd6; }
+        pre .string { color: #ce9178; }
+        .risk-low { color: #107c10; font-weight: bold; }
+        .risk-medium { color: #ff8c00; font-weight: bold; }
+        .risk-high { color: #d13438; font-weight: bold; }
+        .checkbox { font-size: 14pt; }
+        .section-divider {
+            border-top: 1px solid #ccc;
+            margin: 30px 0;
+        }
+        .priority-high {
+            background-color: #fff4ce;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .change-major {
+            background-color: #fde7e9;
+            color: #a80000;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .status-pass { color: #107c10; }
+        .status-warn { color: #ff8c00; }
+        .status-fail { color: #d13438; }
+        .alert-box {
+            background-color: #fff4ce;
+            border-left: 4px solid #ff8c00;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        .alert-box.critical {
+            background-color: #fde7e9;
+            border-left-color: #d13438;
+        }
+        .alert-box.info {
+            background-color: #f0f6ff;
+            border-left-color: #0078d4;
+        }
+        ul.checklist {
+            list-style-type: none;
+            padding-left: 5px;
+        }
+        ul.checklist li {
+            margin: 8px 0;
+        }
+        ul.checklist li::before {
+            content: "☐ ";
+            font-size: 14pt;
+        }
+        ul.checklist li.new-item {
+            font-weight: bold;
+        }
+        .diagram {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 15px;
+            font-family: Consolas, monospace;
+            font-size: 9pt;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Change Request: MMA to AMA Migration - Sentinel &amp; Monitoring</h1>
+
+<h2>Change Details</h2>
+<table class="header-table">
+    <tr><td>Change ID</td><td>CR-XXXX</td></tr>
+    <tr><td>Change Title</td><td>Microsoft Monitoring Agent (MMA) to Azure Monitor Agent (AMA) Migration</td></tr>
+    <tr><td>Requested By</td><td>Olli Ojala</td></tr>
+    <tr><td>Date Submitted</td><td>[Date]</td></tr>
+    <tr><td>Target Implementation Date</td><td>[Date - recommend phased rollout]</td></tr>
+    <tr><td>Change Type</td><td><span class="change-major">Major</span> <em>(Reclassified from Standard)</em></td></tr>
+    <tr><td>Priority</td><td><span class="priority-high">High</span></td></tr>
+    <tr><td>Risk Level</td><td>Medium-High</td></tr>
+    <tr><td>CAB Review Required</td><td>Yes</td></tr>
+</table>
+
+<div class="alert-box critical">
+    <strong>⚠️ Change Type Reclassification Note:</strong> This change was reclassified from "Standard" to "Major" by CAB review because:
+    <ul>
+        <li>Affects all customer VMs (enterprise-wide scope)</li>
+        <li>Impacts security monitoring (Sentinel/SIEM) - compliance-critical</li>
+        <li>4-5 week phased implementation window</li>
+        <li>Complex rollback after Phase 4 (MMA removal)</li>
+        <li>Requires IT Director + full CAB approval per risk matrix</li>
+    </ul>
+</div>
+
+<div class="section-divider"></div>
+
+<h2>1. Change Description</h2>
+<p>Migrate all customer VMs from the deprecated Microsoft Monitoring Agent (MMA) to Azure Monitor Agent (AMA) for Sentinel and Log Analytics data collection.</p>
+
+<h3>Business Justification</h3>
+<ul>
+    <li><strong>MMA Deprecation:</strong> Microsoft deprecated MMA in August 2024 - continued use risks loss of support and functionality</li>
+    <li><strong>Security Compliance:</strong> Sentinel (SIEM) relies on this agent for security event collection</li>
+    <li><strong>Future-Proofing:</strong> AMA is the strategic platform for all Azure monitoring going forward</li>
+    <li><strong>Enhanced Capabilities:</strong> AMA offers improved performance, security (managed identity), and flexible data collection rules</li>
+</ul>
+
+<h3>Current Legacy Solutions (mips-sentinel-log-analytics workspace)</h3>
+<table>
+    <tr>
+        <th>Solution</th>
+        <th>Purpose</th>
+        <th>AMA Compatibility</th>
+    </tr>
+    <tr>
+        <td><strong>SecurityInsights</strong></td>
+        <td>Microsoft Sentinel (SIEM)</td>
+        <td><span class="status-pass">✅ Fully supported via DCR</span></td>
+    </tr>
+    <tr>
+        <td><strong>LogicAppsManagement</strong></td>
+        <td>SOAR automation playbooks</td>
+        <td><span class="status-pass">✅ No agent dependency (API-based)</span></td>
+    </tr>
+    <tr>
+        <td><strong>NetworkMonitoring</strong></td>
+        <td>Network Performance Monitor</td>
+        <td><span class="status-warn">⚠️ Requires Connection Monitor migration</span></td>
+    </tr>
+    <tr>
+        <td><strong>SecurityCenterFree</strong></td>
+        <td>Defender for Cloud (free tier)</td>
+        <td><span class="status-pass">✅ Supported via Defender plans + AMA</span></td>
+    </tr>
+</table>
+
+<h3>Scope</h3>
+<ul>
+    <li>Migrate all customer VMs from MMA to AMA</li>
+    <li>Create Data Collection Rules (DCRs) for each data type</li>
+    <li>Validate Sentinel alerts and queries post-migration</li>
+    <li>Remove MMA after successful AMA validation</li>
+    <li>Address Network Monitoring migration separately if required</li>
+</ul>
+
+<div class="section-divider"></div>
+
+<h2>2. Technical Architecture</h2>
+
+<h3>2.1 MMA vs AMA Comparison</h3>
+<table>
+    <tr>
+        <th>Aspect</th>
+        <th>MMA (Current - Deprecated)</th>
+        <th>AMA (Target)</th>
+    </tr>
+    <tr>
+        <td>Authentication</td>
+        <td>Workspace ID + Shared Key</td>
+        <td>Managed Identity (recommended) or Service Principal</td>
+    </tr>
+    <tr>
+        <td>Configuration</td>
+        <td>Agent-side workspace config</td>
+        <td>Centralized Data Collection Rules (DCR)</td>
+    </tr>
+    <tr>
+        <td>Data Routing</td>
+        <td>Single workspace (complex multi-homing)</td>
+        <td>Native multi-destination support</td>
+    </tr>
+    <tr>
+        <td>Security Events</td>
+        <td>SecurityEvent table</td>
+        <td>SecurityEvent table (same schema)</td>
+    </tr>
+    <tr>
+        <td>Syslog (Linux)</td>
+        <td>Syslog table</td>
+        <td>Syslog table (same schema)</td>
+    </tr>
+    <tr>
+        <td>Performance</td>
+        <td>Perf table</td>
+        <td>Perf table (same schema)</td>
+    </tr>
+    <tr>
+        <td>Management</td>
+        <td>Per-VM configuration</td>
+        <td>Centralized DCR + DCRA assignments</td>
+    </tr>
+</table>
+
+<h3>2.2 Data Collection Rules Required</h3>
+<table>
+    <tr>
+        <th>DCR Name</th>
+        <th>Data Types</th>
+        <th>Target Table</th>
+        <th>Priority</th>
+    </tr>
+    <tr>
+        <td>dcr-sentinel-security-events</td>
+        <td>Windows Security Events</td>
+        <td>SecurityEvent</td>
+        <td><span class="risk-high">Critical</span></td>
+    </tr>
+    <tr>
+        <td>dcr-sentinel-syslog</td>
+        <td>Linux Syslog</td>
+        <td>Syslog</td>
+        <td><span class="risk-high">Critical</span></td>
+    </tr>
+    <tr>
+        <td>dcr-performance-counters</td>
+        <td>CPU, Memory, Disk, Network</td>
+        <td>Perf</td>
+        <td><span class="priority-high">High</span></td>
+    </tr>
+    <tr>
+        <td>dcr-windows-events</td>
+        <td>Application, System logs</td>
+        <td>Event</td>
+        <td>Medium</td>
+    </tr>
+</table>
+
+<h3>2.3 Architecture Diagram</h3>
+<div class="diagram">┌─────────────────────────────────────────────────────────────────┐
+│                     CURRENT STATE (MMA)                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────┐    Workspace Key     ┌──────────────────────┐    │
+│  │ VM + MMA │ ──────────────────── │ mips-sentinel-log-   │    │
+│  │          │    Direct Connect    │ analytics            │    │
+│  └──────────┘                      │                      │    │
+│                                    │ • SecurityInsights   │    │
+│  ┌──────────┐                      │ • LogicAppsManagement│    │
+│  │ VM + MMA │ ──────────────────── │ • NetworkMonitoring  │    │
+│  └──────────┘                      │ • SecurityCenterFree │    │
+│                                    └──────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     TARGET STATE (AMA)                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────┐                      ┌──────────────────────┐    │
+│  │ VM + AMA │ ─┐  Managed Identity │ mips-sentinel-log-   │    │
+│  │          │  │                   │ analytics            │    │
+│  └──────────┘  │  ┌─────────────┐  │                      │    │
+│                ├──│ DCR         │──│ • SecurityInsights   │    │
+│  ┌──────────┐  │  │ (Centralized│  │ • LogicAppsManagement│    │
+│  │ VM + AMA │ ─┘  │  Rules)     │  │ • SecurityCenterFree │    │
+│  └──────────┘     └─────────────┘  └──────────────────────┘    │
+│                                                                 │
+│  Note: NetworkMonitoring requires separate Connection Monitor   │
+│        migration - not dependent on AMA                         │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+<div class="section-divider"></div>
+
+<h2>3. Affected Systems</h2>
+<table>
+    <tr>
+        <th>System</th>
+        <th>Count</th>
+        <th>Impact During Migration</th>
+    </tr>
+    <tr>
+        <td>Customer Windows VMs</td>
+        <td>[Count]</td>
+        <td>AMA installation (no reboot required)</td>
+    </tr>
+    <tr>
+        <td>Customer Linux VMs</td>
+        <td>[Count]</td>
+        <td>AMA installation (no reboot required)</td>
+    </tr>
+    <tr>
+        <td>Sentinel Workspace</td>
+        <td>1</td>
+        <td>No downtime - parallel ingestion</td>
+    </tr>
+    <tr>
+        <td>Sentinel Analytics Rules</td>
+        <td>[Count]</td>
+        <td>Validation required post-migration</td>
+    </tr>
+    <tr>
+        <td>Logic Apps Playbooks</td>
+        <td>[Count]</td>
+        <td>No impact (API-based)</td>
+    </tr>
+    <tr>
+        <td>Defender for Cloud</td>
+        <td>All VMs</td>
+        <td>Re-association with AMA</td>
+    </tr>
+</table>
+
+<div class="section-divider"></div>
+
+<h2>4. Implementation Plan</h2>
+
+<h3>4.1 Phase 0: Pre-Migration Preparation (Week 1)</h3>
+<table>
+    <tr><th>Step</th><th>Action</th><th>Owner</th><th>Duration</th></tr>
+    <tr><td>1</td><td>Inventory all VMs with MMA agent installed</td><td></td><td>2 hours</td></tr>
+    <tr><td>2</td><td>Document current MMA workspace configuration</td><td></td><td>1 hour</td></tr>
+    <tr><td>3</td><td>Audit Sentinel analytics rules for table dependencies</td><td></td><td>2 hours</td></tr>
+    <tr><td>4</td><td><strong>Enable system-assigned managed identity on all VMs</strong></td><td></td><td>2 hours</td></tr>
+    <tr><td>5</td><td><strong>Configure RBAC: Assign Monitoring Metrics Publisher role to VMs</strong></td><td></td><td>2 hours</td></tr>
+    <tr><td>6</td><td><strong>Validate network connectivity to AMA endpoints</strong></td><td></td><td>1 hour</td></tr>
+    <tr><td>7</td><td><strong>Store workspace key securely in Key Vault for rollback</strong></td><td></td><td>30 min</td></tr>
+    <tr><td>8</td><td>Create DCRs in Azure Portal or via IaC</td><td></td><td>4 hours</td></tr>
+    <tr><td>9</td><td>Test DCRs on 1-2 pilot VMs</td><td></td><td>4 hours</td></tr>
+    <tr><td>10</td><td>Validate pilot VM data appears in Sentinel</td><td></td><td>2 hours</td></tr>
+    <tr><td>11</td><td>Document rollback procedures</td><td></td><td>1 hour</td></tr>
+    <tr><td>12</td><td>Schedule maintenance windows per customer</td><td></td><td>2 hours</td></tr>
+</table>
+
+<h4>VM Inventory Command</h4>
+<pre>
+<span class="comment"># List all VMs with MMA extension</span>
+az vm extension list --query "[?name=='MicrosoftMonitoringAgent' || name=='OmsAgentForLinux']" \
+  --output table --subscription "&lt;subscription-id&gt;"
+
+<span class="comment"># Or via Log Analytics</span>
+az monitor log-analytics workspace show --resource-group "&lt;rg&gt;" --workspace-name "mips-sentinel-log-analytics" \
+  --query "customerId" -o tsv
+</pre>
+
+<h4>Enable Managed Identity on VMs (REQUIRED for AMA)</h4>
+<pre>
+<span class="comment"># Enable system-assigned managed identity on each VM</span>
+az vm identity assign --resource-group "&lt;rg&gt;" --name "&lt;vm-name&gt;"
+
+<span class="comment"># Bulk enable for all VMs in resource group</span>
+for VM in $(az vm list -g "&lt;rg&gt;" --query "[].name" -o tsv); do
+  echo "Enabling managed identity on $VM..."
+  az vm identity assign -g "&lt;rg&gt;" -n "$VM"
+done
+</pre>
+
+<h4>Assign RBAC Role for AMA Data Collection</h4>
+<pre>
+<span class="comment"># Get VM's managed identity principal ID</span>
+PRINCIPAL_ID=$(az vm show -g "&lt;rg&gt;" -n "&lt;vm-name&gt;" --query "identity.principalId" -o tsv)
+
+<span class="comment"># Assign Monitoring Metrics Publisher role to DCR</span>
+az role assignment create \
+  --assignee "$PRINCIPAL_ID" \
+  --role "Monitoring Metrics Publisher" \
+  --scope "/subscriptions/&lt;sub&gt;/resourceGroups/&lt;rg&gt;/providers/Microsoft.Insights/dataCollectionRules/dcr-sentinel-security-events"
+
+<span class="comment"># Repeat for each DCR (security, syslog, performance)</span>
+</pre>
+
+<h4>Validate Network Connectivity to AMA Endpoints</h4>
+<div class="alert-box info">
+    <strong>Required endpoints for AMA</strong> (verify NSG/firewall allows outbound HTTPS):
+    <ul>
+        <li><code>*.ods.opinsights.azure.com</code> (port 443) - Data ingestion</li>
+        <li><code>*.oms.opinsights.azure.com</code> (port 443) - OMS gateway</li>
+        <li><code>*.azure-automation.net</code> (port 443) - Automation</li>
+        <li><code>*.monitoring.azure.com</code> (port 443) - Metrics ingestion</li>
+    </ul>
+</div>
+<pre>
+<span class="comment"># Test connectivity from VM (run inside VM - PowerShell)</span>
+Test-NetConnection -ComputerName "&lt;workspace-id&gt;.ods.opinsights.azure.com" -Port 443
+Test-NetConnection -ComputerName "global.handler.control.monitor.azure.com" -Port 443
+</pre>
+
+<h4>Store Workspace Key Securely for Rollback</h4>
+<pre>
+<span class="comment"># Retrieve and store workspace key in Key Vault (required for MMA reinstall if rollback needed)</span>
+WORKSPACE_KEY=$(az monitor log-analytics workspace get-shared-keys \
+  -g "&lt;rg&gt;" -n "mips-sentinel-log-analytics" \
+  --query "primarySharedKey" -o tsv)
+
+az keyvault secret set \
+  --vault-name "&lt;keyvault-name&gt;" \
+  --name "mma-workspace-key-backup" \
+  --value "$WORKSPACE_KEY"
+</pre>
+
+<h3>4.2 Phase 1: Create Data Collection Rules (Week 1-2)</h3>
+
+<div class="alert-box">
+    <strong>IMPORTANT:</strong> Before creating DCRs, enable the AMA-based connectors in Sentinel to ensure proper integration.
+</div>
+
+<h4>Step 1: Enable Sentinel AMA-Based Data Connectors</h4>
+<p><strong>Via Azure Portal:</strong></p>
+<ol>
+    <li>Navigate to <strong>Microsoft Sentinel</strong> → <strong>Data Connectors</strong></li>
+    <li>Search for "<strong>Windows Security Events via AMA</strong>" → Click <strong>Open connector page</strong> → <strong>Create data collection rule</strong></li>
+    <li>Search for "<strong>Syslog via AMA</strong>" → Click <strong>Open connector page</strong> → <strong>Create data collection rule</strong></li>
+</ol>
+
+<h4>Step 2: Create Data Collection Rules</h4>
+<p><strong>DCR 1: Windows Security Events (Critical for Sentinel)</strong></p>
+<pre>
+az monitor data-collection rule create \
+  --resource-group "&lt;rg&gt;" \
+  --name "dcr-sentinel-security-events" \
+  --location "&lt;location&gt;" \
+  --data-flows "[{
+    \"streams\": [\"Microsoft-SecurityEvent\"],
+    \"destinations\": [\"mips-sentinel-log-analytics\"]
+  }]" \
+  --destinations "{
+    \"logAnalytics\": [{
+      \"workspaceResourceId\": \"/subscriptions/&lt;sub&gt;/resourceGroups/&lt;rg&gt;/providers/Microsoft.OperationalInsights/workspaces/mips-sentinel-log-analytics\",
+      \"name\": \"mips-sentinel-log-analytics\"
+    }]
+  }" \
+  --data-sources "{
+    \"windowsEventLogs\": [{
+      \"streams\": [\"Microsoft-SecurityEvent\"],
+      \"xPathQueries\": [\"Security!*\"],
+      \"name\": \"securityEvents\"
+    }]
+  }"
+</pre>
+
+<p><strong>DCR 2: Linux Syslog (Critical for Sentinel)</strong></p>
+<pre>
+az monitor data-collection rule create \
+  --resource-group "&lt;rg&gt;" \
+  --name "dcr-sentinel-syslog" \
+  --location "&lt;location&gt;" \
+  --data-flows "[{
+    \"streams\": [\"Microsoft-Syslog\"],
+    \"destinations\": [\"mips-sentinel-log-analytics\"]
+  }]" \
+  --destinations "{
+    \"logAnalytics\": [{
+      \"workspaceResourceId\": \"/subscriptions/&lt;sub&gt;/resourceGroups/&lt;rg&gt;/providers/Microsoft.OperationalInsights/workspaces/mips-sentinel-log-analytics\",
+      \"name\": \"mips-sentinel-log-analytics\"
+    }]
+  }" \
+  --data-sources "{
+    \"syslog\": [{
+      \"streams\": [\"Microsoft-Syslog\"],
+      \"facilityNames\": [\"auth\", \"authpriv\", \"cron\", \"daemon\", \"kern\", \"syslog\", \"user\"],
+      \"logLevels\": [\"Debug\", \"Info\", \"Notice\", \"Warning\", \"Error\", \"Critical\", \"Alert\", \"Emergency\"],
+      \"name\": \"syslogDataSource\"
+    }]
+  }"
+</pre>
+
+<h3>4.3 Phase 2: Pilot Deployment (Week 2)</h3>
+<table>
+    <tr><th>Step</th><th>Action</th><th>Owner</th><th>Duration</th></tr>
+    <tr><td>1</td><td>Select 2-3 pilot VMs (mix of Windows/Linux)</td><td></td><td>30 min</td></tr>
+    <tr><td>2</td><td>Install AMA on pilot VMs (keep MMA running)</td><td></td><td>30 min</td></tr>
+    <tr><td>3</td><td>Associate DCRs with pilot VMs</td><td></td><td>15 min</td></tr>
+    <tr><td>4</td><td>Validate data ingestion (both agents sending)</td><td></td><td>2 hours</td></tr>
+    <tr><td>5</td><td>Compare data completeness MMA vs AMA</td><td></td><td>4 hours</td></tr>
+    <tr><td>6</td><td>Test Sentinel alerts trigger correctly</td><td></td><td>2 hours</td></tr>
+    <tr><td>7</td><td>Remove MMA from pilot VMs</td><td></td><td>30 min</td></tr>
+    <tr><td>8</td><td>Monitor pilot VMs for 48 hours</td><td></td><td>48 hours</td></tr>
+    <tr><td>9</td><td>Document any issues and remediations</td><td></td><td>1 hour</td></tr>
+</table>
+
+<h4>Install AMA on VMs</h4>
+<pre>
+<span class="comment"># Install AMA on Windows VM</span>
+az vm extension set \
+  --resource-group "&lt;rg&gt;" \
+  --vm-name "&lt;vm-name&gt;" \
+  --name AzureMonitorWindowsAgent \
+  --publisher Microsoft.Azure.Monitor \
+  --enable-auto-upgrade true
+
+<span class="comment"># Install AMA on Linux VM</span>
+az vm extension set \
+  --resource-group "&lt;rg&gt;" \
+  --vm-name "&lt;vm-name&gt;" \
+  --name AzureMonitorLinuxAgent \
+  --publisher Microsoft.Azure.Monitor \
+  --enable-auto-upgrade true
+</pre>
+
+<h3>4.4 Phase 3: Production Rollout (Week 3-4)</h3>
+<table>
+    <tr><th>Step</th><th>Action</th><th>Owner</th><th>Duration</th></tr>
+    <tr><td>1</td><td>Group VMs by customer/environment</td><td></td><td>1 hour</td></tr>
+    <tr><td>2</td><td>Schedule rolling deployment (10-20 VMs per batch)</td><td></td><td>-</td></tr>
+    <tr><td>3</td><td>Deploy AMA to batch (parallel with MMA)</td><td></td><td>30 min/batch</td></tr>
+    <tr><td>4</td><td>Associate DCRs with batch</td><td></td><td>15 min/batch</td></tr>
+    <tr><td>5</td><td>Validate data ingestion for batch</td><td></td><td>1 hour/batch</td></tr>
+    <tr><td>6</td><td>Wait 24 hours before removing MMA</td><td></td><td>24 hours</td></tr>
+    <tr><td>7</td><td>Remove MMA from validated batch</td><td></td><td>30 min/batch</td></tr>
+    <tr><td>8</td><td>Repeat for next batch</td><td></td><td>-</td></tr>
+</table>
+
+<h4>Bulk AMA Deployment Script (with error handling and logging)</h4>
+<pre>
+#!/bin/bash
+<span class="comment"># deploy_ama_batch.sh</span>
+<span class="comment"># Enhanced with error handling, logging, and validation</span>
+
+set -euo pipefail
+
+<span class="comment"># Configuration</span>
+RESOURCE_GROUP="&lt;rg&gt;"
+SUBSCRIPTION="&lt;sub&gt;"
+VMS=("vm1" "vm2" "vm3" "vm4" "vm5")
+DCR_SECURITY="/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Insights/dataCollectionRules/dcr-sentinel-security-events"
+DCR_PERF="/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Insights/dataCollectionRules/dcr-performance-counters"
+DCR_SYSLOG="/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Insights/dataCollectionRules/dcr-sentinel-syslog"
+
+<span class="comment"># Logging setup</span>
+LOG_FILE="ama_deployment_$(date +%Y%m%d_%H%M%S).log"
+FAILED_VMS=()
+SUCCESS_VMS=()
+
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+}
+
+log "=== AMA Deployment Started ==="
+log "Resource Group: $RESOURCE_GROUP"
+log "VMs to process: ${#VMS[@]}"
+
+for VM in "${VMS[@]}"; do
+  log "--- Processing: $VM ---"
+
+  <span class="comment"># Verify VM exists and is running</span>
+  VM_STATE=$(az vm get-instance-view -g "$RESOURCE_GROUP" -n "$VM" \
+    --query "instanceView.statuses[1].displayStatus" -o tsv 2>/dev/null || echo "NotFound")
+
+  if [ "$VM_STATE" == "NotFound" ]; then
+    log "[ERROR] VM $VM not found in resource group $RESOURCE_GROUP"
+    FAILED_VMS+=("$VM:NotFound")
+    continue
+  fi
+
+  if [ "$VM_STATE" != "VM running" ]; then
+    log "[WARN] VM $VM is not running (state: $VM_STATE). Skipping..."
+    FAILED_VMS+=("$VM:NotRunning")
+    continue
+  fi
+
+  <span class="comment"># Verify managed identity is enabled</span>
+  MI_ENABLED=$(az vm show -g "$RESOURCE_GROUP" -n "$VM" --query "identity.type" -o tsv 2>/dev/null || echo "None")
+  if [ "$MI_ENABLED" == "None" ] || [ -z "$MI_ENABLED" ]; then
+    log "[ERROR] VM $VM does not have managed identity enabled."
+    FAILED_VMS+=("$VM:NoManagedIdentity")
+    continue
+  fi
+
+  <span class="comment"># Detect OS and install appropriate agent</span>
+  OS_TYPE=$(az vm show -g "$RESOURCE_GROUP" -n "$VM" --query "storageProfile.osDisk.osType" -o tsv)
+  log "OS Type: $OS_TYPE"
+
+  if [ "$OS_TYPE" == "Windows" ]; then
+    log "Installing AzureMonitorWindowsAgent..."
+    az vm extension set -g "$RESOURCE_GROUP" --vm-name "$VM" \
+      --name AzureMonitorWindowsAgent \
+      --publisher Microsoft.Azure.Monitor \
+      --enable-auto-upgrade true 2>&1 | tee -a "$LOG_FILE"
+
+    <span class="comment"># Associate Windows-specific DCRs</span>
+    VM_ID="/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Compute/virtualMachines/$VM"
+    az monitor data-collection rule association create \
+      --name "${VM}-security-dcra" --resource "$VM_ID" --rule-id "$DCR_SECURITY"
+  else
+    log "Installing AzureMonitorLinuxAgent..."
+    az vm extension set -g "$RESOURCE_GROUP" --vm-name "$VM" \
+      --name AzureMonitorLinuxAgent \
+      --publisher Microsoft.Azure.Monitor \
+      --enable-auto-upgrade true 2>&1 | tee -a "$LOG_FILE"
+
+    <span class="comment"># Associate Linux-specific DCRs</span>
+    VM_ID="/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Compute/virtualMachines/$VM"
+    az monitor data-collection rule association create \
+      --name "${VM}-syslog-dcra" --resource "$VM_ID" --rule-id "$DCR_SYSLOG"
+  fi
+
+  log "[SUCCESS] Completed: $VM"
+  SUCCESS_VMS+=("$VM")
+done
+
+<span class="comment"># Summary</span>
+log "=== Deployment Summary ==="
+log "Successful: ${#SUCCESS_VMS[@]} VMs"
+log "Failed: ${#FAILED_VMS[@]} VMs"
+
+if [ ${#FAILED_VMS[@]} -gt 0 ]; then
+  log "Failed VMs: ${FAILED_VMS[*]}"
+  exit 1
+fi
+
+log "=== AMA Deployment Completed Successfully ==="
+</pre>
+
+<h3>4.5 Phase 4: MMA Removal (Week 4-5)</h3>
+<table>
+    <tr><th>Step</th><th>Action</th><th>Owner</th><th>Duration</th></tr>
+    <tr><td>1</td><td>Confirm AMA data flowing for all VMs (24h+ data)</td><td></td><td>2 hours</td></tr>
+    <tr><td>2</td><td>Run Sentinel validation queries</td><td></td><td>2 hours</td></tr>
+    <tr><td>3</td><td>Remove MMA from all Windows VMs</td><td></td><td>2 hours</td></tr>
+    <tr><td>4</td><td>Remove MMA from all Linux VMs</td><td></td><td>2 hours</td></tr>
+    <tr><td>5</td><td>Verify no MMA heartbeats in workspace</td><td></td><td>1 hour</td></tr>
+    <tr><td>6</td><td>Update CMDB and documentation</td><td></td><td>2 hours</td></tr>
+</table>
+
+<pre>
+<span class="comment"># Remove MMA from Windows</span>
+az vm extension delete --resource-group "&lt;rg&gt;" --vm-name "&lt;vm-name&gt;" --name MicrosoftMonitoringAgent
+
+<span class="comment"># Remove MMA from Linux</span>
+az vm extension delete --resource-group "&lt;rg&gt;" --vm-name "&lt;vm-name&gt;" --name OmsAgentForLinux
+</pre>
+
+<div class="section-divider"></div>
+
+<h2>5. Verification Plan</h2>
+
+<h3>5.1 Data Ingestion Verification</h3>
+<table>
+    <tr><th>Check</th><th>KQL Query</th><th>Expected Result</th><th>Pass/Fail</th></tr>
+    <tr><td>AMA Heartbeat</td><td>See below</td><td>All VMs reporting</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Security Events</td><td>See below</td><td>Events from all Windows VMs</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Syslog</td><td>See below</td><td>Events from all Linux VMs</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Performance Data</td><td>See below</td><td>Counters from all VMs</td><td><span class="checkbox">☐</span></td></tr>
+</table>
+
+<h4>AMA Heartbeat Query</h4>
+<pre>
+Heartbeat
+| where TimeGenerated > ago(1h)
+| where Category == "Azure Monitor Agent"
+| summarize LastHeartbeat = max(TimeGenerated) by Computer
+| order by Computer asc
+</pre>
+
+<h4>MMA vs AMA Data Parity Comparison (use during parallel phase)</h4>
+<pre>
+<span class="comment">// Compare event counts between MMA and AMA during parallel running</span>
+<span class="comment">// Run this to validate AMA is collecting same data as MMA before removing MMA</span>
+
+<span class="comment">// Security Events Comparison</span>
+SecurityEvent
+| where TimeGenerated > ago(1h)
+| extend AgentType = case(
+    Category == "Direct Agent", "MMA",
+    Category == "Azure Monitor Agent", "AMA",
+    "Unknown"
+)
+| summarize EventCount = count() by AgentType, Computer
+| order by Computer, AgentType
+
+<span class="comment">// Data Parity Validation Summary</span>
+Heartbeat
+| where TimeGenerated > ago(1h)
+| summarize
+    MMA_Heartbeats = countif(Category == "Direct Agent"),
+    AMA_Heartbeats = countif(Category == "Azure Monitor Agent")
+    by Computer
+| extend ParityStatus = iff(MMA_Heartbeats > 0 and AMA_Heartbeats > 0, "✅ Both Active", "⚠️ Check Agent")
+| project Computer, MMA_Heartbeats, AMA_Heartbeats, ParityStatus
+</pre>
+
+<h3>5.2 Sentinel Functionality Verification</h3>
+<table>
+    <tr><th>Check</th><th>Method</th><th>Expected Result</th><th>Pass/Fail</th></tr>
+    <tr><td>Analytics rules firing</td><td>Sentinel &gt; Analytics</td><td>Rules showing recent runs</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Incidents being created</td><td>Sentinel &gt; Incidents</td><td>New incidents from AMA data</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Workbooks rendering</td><td>Sentinel &gt; Workbooks</td><td>Data populating correctly</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Hunting queries working</td><td>Sentinel &gt; Hunting</td><td>Queries return results</td><td><span class="checkbox">☐</span></td></tr>
+    <tr><td>Playbooks triggering</td><td>Sentinel &gt; Automation</td><td>Playbooks execute on incidents</td><td><span class="checkbox">☐</span></td></tr>
+</table>
+
+<div class="section-divider"></div>
+
+<h2>6. Rollback Plan</h2>
+
+<h3>6.1 Rollback Triggers</h3>
+<p>Initiate rollback if:</p>
+<ul>
+    <li>AMA fails to install on &gt;20% of VMs</li>
+    <li>Critical Sentinel alerts stop firing for &gt;1 hour</li>
+    <li>Data ingestion drops by &gt;50% compared to MMA baseline</li>
+    <li>Security team reports visibility gaps</li>
+    <li>Performance impact on VMs (&gt;10% CPU increase from agent)</li>
+</ul>
+
+<h3>6.2 Rollback Timeline</h3>
+<table>
+    <tr><th>Phase</th><th>Rollback Complexity</th><th>Time to Recover</th></tr>
+    <tr><td>Pilot (MMA still present)</td><td><span class="risk-low">Simple - disable AMA</span></td><td>15 minutes</td></tr>
+    <tr><td>Production (MMA still present)</td><td><span class="risk-low">Simple - disable AMA</span></td><td>30 minutes</td></tr>
+    <tr><td>Post-MMA removal</td><td><span class="risk-high">Complex - reinstall MMA</span></td><td>2-4 hours</td></tr>
+</table>
+
+<h3>6.3 MMA Reinstall Procedure (if needed)</h3>
+<pre>
+<span class="comment"># Retrieve workspace key from Key Vault</span>
+WORKSPACE_ID="&lt;workspace-id&gt;"
+WORKSPACE_KEY=$(az keyvault secret show --vault-name "&lt;keyvault&gt;" --name "mma-workspace-key-backup" --query "value" -o tsv)
+
+<span class="comment"># Reinstall MMA on Windows</span>
+az vm extension set \
+  --resource-group "&lt;rg&gt;" \
+  --vm-name "&lt;vm-name&gt;" \
+  --name MicrosoftMonitoringAgent \
+  --publisher Microsoft.EnterpriseCloud.Monitoring \
+  --settings "{\"workspaceId\":\"$WORKSPACE_ID\"}" \
+  --protected-settings "{\"workspaceKey\":\"$WORKSPACE_KEY\"}"
+
+<span class="comment"># Reinstall MMA on Linux</span>
+az vm extension set \
+  --resource-group "&lt;rg&gt;" \
+  --vm-name "&lt;vm-name&gt;" \
+  --name OmsAgentForLinux \
+  --publisher Microsoft.EnterpriseCloud.Monitoring \
+  --settings "{\"workspaceId\":\"$WORKSPACE_ID\"}" \
+  --protected-settings "{\"workspaceKey\":\"$WORKSPACE_KEY\"}"
+</pre>
+
+<div class="section-divider"></div>
+
+<h2>7. Cost Impact Analysis</h2>
+
+<h3>7.1 Parallel Running Phase (Temporary)</h3>
+<p>During the parallel running phase, both MMA and AMA will send data to Log Analytics, resulting in temporary cost increase.</p>
+
+<table>
+    <tr><th>Cost Factor</th><th>Impact</th><th>Duration</th><th>Mitigation</th></tr>
+    <tr><td>Log Ingestion</td><td><strong>~2x normal rate</strong></td><td>24-48 hours per batch</td><td>Minimize parallel window</td></tr>
+    <tr><td>Data Duplication</td><td>SecurityEvent, Syslog, Perf sent twice</td><td>2-3 weeks total</td><td>Expected and acceptable</td></tr>
+    <tr><td>Estimated Additional</td><td>~$X per GB × daily ingestion volume</td><td>Migration period</td><td>Budget accordingly</td></tr>
+</table>
+
+<h4>Cost Estimation Query</h4>
+<pre>
+<span class="comment">// Calculate current daily ingestion to estimate parallel phase cost</span>
+Usage
+| where TimeGenerated > ago(7d)
+| where DataType in ("SecurityEvent", "Syslog", "Perf", "Event")
+| summarize DailyGB = sum(Quantity) / 7 by DataType
+| extend ParallelCostEstimate = DailyGB * 2 * 2.76 <span class="comment">// $2.76/GB ingestion rate (adjust for your pricing)</span>
+| project DataType, DailyGB, ParallelCostEstimate
+</pre>
+
+<h3>7.2 Post-Migration (Steady State)</h3>
+<table>
+    <tr><th>Cost Factor</th><th>Before (MMA)</th><th>After (AMA)</th><th>Change</th></tr>
+    <tr><td>Agent License</td><td>Free</td><td>Free</td><td>None</td></tr>
+    <tr><td>Log Ingestion</td><td>Baseline</td><td>Baseline</td><td>None</td></tr>
+    <tr><td>DCR Management</td><td>N/A</td><td>Free</td><td>None</td></tr>
+    <tr><td><strong>Total Operational</strong></td><td>Baseline</td><td>Baseline</td><td><strong>No change</strong></td></tr>
+</table>
+
+<div class="section-divider"></div>
+
+<h2>8. Risk Assessment</h2>
+<table>
+    <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+    <tr>
+        <td>AMA fails to collect all event types</td>
+        <td><span class="risk-low">Low</span></td>
+        <td><span class="risk-high">High</span></td>
+        <td>Parallel running validates parity before MMA removal</td>
+    </tr>
+    <tr>
+        <td>Sentinel rules break due to schema differences</td>
+        <td><span class="risk-low">Very Low</span></td>
+        <td><span class="risk-high">High</span></td>
+        <td>Schema is identical; test rules on pilot VMs first</td>
+    </tr>
+    <tr>
+        <td>VM performance degradation</td>
+        <td><span class="risk-low">Low</span></td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td>Monitor VM metrics; AMA is typically lighter than MMA</td>
+    </tr>
+    <tr>
+        <td>DCR misconfiguration misses data</td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td><span class="risk-high">High</span></td>
+        <td>Review DCR coverage against MMA config; validate with queries</td>
+    </tr>
+    <tr>
+        <td><strong>Managed identity not configured</strong></td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td><span class="risk-high">High</span></td>
+        <td><strong>Pre-configure system-assigned MI + RBAC on all VMs (Phase 0)</strong></td>
+    </tr>
+    <tr>
+        <td><strong>Network connectivity blocked</strong></td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td><span class="risk-high">High</span></td>
+        <td><strong>Validate AMA endpoint connectivity before deployment</strong></td>
+    </tr>
+    <tr>
+        <td>Customer change window conflicts</td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td><span class="risk-low">Low</span></td>
+        <td>Schedule per-customer; can pause between batches</td>
+    </tr>
+    <tr>
+        <td>Network Monitoring gaps</td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td><span class="risk-medium">Medium</span></td>
+        <td>Separate migration track; maintain NPM until Connection Monitor validated</td>
+    </tr>
+    <tr>
+        <td><strong>Parallel phase cost overrun</strong></td>
+        <td><span class="risk-low">Low</span></td>
+        <td><span class="risk-low">Low</span></td>
+        <td><strong>Budget for 2x ingestion during parallel phase</strong></td>
+    </tr>
+</table>
+
+<div class="section-divider"></div>
+
+<h2>9. Communication Plan</h2>
+<table>
+    <tr><th>When</th><th>Who</th><th>What</th></tr>
+    <tr><td>2 weeks before</td><td>All stakeholders</td><td>Migration announcement and timeline</td></tr>
+    <tr><td>1 week before</td><td>Security team</td><td>Sentinel validation plan review</td></tr>
+    <tr><td>Per batch</td><td>Affected customer contacts</td><td>Batch deployment notification</td></tr>
+    <tr><td>Daily during rollout</td><td>IT Team, Security</td><td>Progress update</td></tr>
+    <tr><td>Post-migration</td><td>All stakeholders</td><td>Completion confirmation, Sentinel health status</td></tr>
+    <tr><td>+1 week</td><td>Security team</td><td>Post-migration security review</td></tr>
+</table>
+
+<div class="section-divider"></div>
+
+<h2>10. Approvals</h2>
+<table>
+    <tr><th>Role</th><th>Name</th><th>Date</th><th>Approval</th></tr>
+    <tr><td>Change Requester</td><td>Olli Ojala</td><td></td><td></td></tr>
+    <tr><td>Security Team Lead</td><td></td><td></td><td></td></tr>
+    <tr><td>Technical Reviewer</td><td></td><td></td><td></td></tr>
+    <tr><td>Customer Success (if applicable)</td><td></td><td></td><td></td></tr>
+    <tr><td>Change Manager</td><td></td><td></td><td></td></tr>
+    <tr><td>CAB</td><td></td><td></td><td></td></tr>
+</table>
+
+<div class="section-divider"></div>
+
+<h2>11. Implementation Checklist</h2>
+
+<h3>Pre-Migration</h3>
+<ul class="checklist">
+    <li>VM inventory complete (Windows: ___, Linux: ___)</li>
+    <li>Current MMA configuration documented</li>
+    <li>Sentinel analytics rules audited</li>
+    <li class="new-item">System-assigned managed identity enabled on all VMs</li>
+    <li class="new-item">RBAC role (Monitoring Metrics Publisher) assigned to all VM identities</li>
+    <li class="new-item">Network connectivity to AMA endpoints validated</li>
+    <li>DCRs created and tested</li>
+    <li class="new-item">Sentinel AMA-based connectors enabled</li>
+    <li>Rollback procedures documented</li>
+    <li>Customer maintenance windows scheduled</li>
+    <li class="new-item">Workspace key stored securely in Key Vault (for rollback)</li>
+</ul>
+
+<h3>Pilot Phase</h3>
+<ul class="checklist">
+    <li>Pilot VMs selected and documented</li>
+    <li>AMA installed on pilot VMs</li>
+    <li>DCRs associated with pilot VMs</li>
+    <li class="new-item">MMA vs AMA data parity validated using comparison queries</li>
+    <li class="new-item">Event counts match within acceptable variance (&lt;5%)</li>
+    <li>Sentinel alerts tested and firing correctly</li>
+    <li>MMA removed from pilot VMs</li>
+    <li>48-hour monitoring complete</li>
+    <li class="new-item">No data gaps detected post-MMA removal</li>
+</ul>
+
+<h3>Production Rollout</h3>
+<ul class="checklist">
+    <li>Batch schedule created</li>
+    <li>Per-batch AMA deployment complete</li>
+    <li>Per-batch DCR association complete</li>
+    <li>Per-batch validation complete</li>
+    <li>24-hour parallel running complete</li>
+    <li>Per-batch MMA removal complete</li>
+</ul>
+
+<h3>Post-Migration</h3>
+<ul class="checklist">
+    <li>All VMs migrated to AMA</li>
+    <li>All MMA extensions removed</li>
+    <li>Sentinel fully validated</li>
+    <li>Network Monitoring migration planned/complete</li>
+    <li>Documentation updated</li>
+    <li>CMDB updated</li>
+    <li>Change request closed</li>
+</ul>
+
+<div class="section-divider"></div>
+
+<h2>12. References</h2>
+
+<h3>Microsoft Documentation</h3>
+<ul>
+    <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/agents/azure-monitor-agent-migration">MMA to AMA Migration Guide</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/agents/agents-overview">AMA Overview</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-overview">Data Collection Rules</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/sentinel/connect-services-api-based">Sentinel and AMA</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/network-watcher/migrate-to-connection-monitor-from-network-performance-monitor">Network Performance Monitor Deprecation</a></li>
+</ul>
+
+<h3>Tools</h3>
+<ul>
+    <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/agents/azure-monitor-agent-migration-tools">AMA Migration Helper Workbook</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/agents/azure-monitor-agent-migration-tools#dcr-generator">DCR Generator</a></li>
+</ul>
+
+<div class="section-divider"></div>
+
+<p><em>Document Version: 2.0</em><br>
+<em>Previous Version: 1.0 (MMA Version Update Only)</em><br>
+<em>Change: Pivoted to full MMA → AMA Migration</em><br>
+<em>Last Updated: [Date]</em></p>
+
+</body>
+</html>

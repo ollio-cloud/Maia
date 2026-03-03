@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "EdgeName": {
+      "value": "AERVAVC02"
+    },
+    "EdgeVersion": {
+      "value": "Virtual Edge 4.5.2"
+    },
+    "VCO": {
+      "value": "vco312-syd1.velocloud.net"
+    },
+    "ActivationKey": {
+      "value": "8RA7-F8UU-QWNZ-RS8D"
+    },
+    "adminPassword": {
+      "value": "Mill-Lake-Compose-Life-7"
+    },
+    "virtualMachineSize": {
+      "value": "Standard_D4s_v4"
+    },
+    "zone": {
+      "value": "1"
+    },
+    "virtualNetworkNewOrExisting": {
+      "value": "existing"
+    },
+    "virtualNetworkResourceGroup": {
+      "value": "AER-vnethub-australiaeast"
+    },
+    "vNetName": {
+      "value": "AER-hub-australiaeast"
+    },
+    "vNetPrefix": {
+      "value": "10.139.0.0/18"
+    },
+    "PublicSubnetName": {
+      "value": "velocloud-public-subnet"
+    },
+    "PublicSubnet": {
+      "value": "10.139.2.0/24"
+    },
+    "PrivateSubnetName": {
+      "value": "velocloud-private-subnet"
+    },
+    "PrivateSubnet": {
+      "value": "10.139.3.0/24"
+    },
+    "EdgeGE2LANIP": {
+      "value": "10.139.3.4"
+    },
+    "sshSourceAddressPrefix": {
+      "value": "52.62.158.44/32"
+    },
+    "snmpSourceAddressPrefix": {
+      "value": "10.139.10.0/24"
+    }
+  }
+}

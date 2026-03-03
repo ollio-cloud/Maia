@@ -1,0 +1,1306 @@
+
+
+SCHEDULED JOB: Claro Win11 compability check - RUN ON 2026-01-12T22:51:01Z
+==========================================================================
+
+(Number of devices targeted: 90)
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1008 [OCC1008]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1020 [OCC1020]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1029 [OCC1029]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1030 [OCC1030]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1031 [OCC1031]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1700; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1032 [OCC1032]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1033 [04035-nb]
+--------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1034 [05149-nb]
+--------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1035 [OCC1035]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.16. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 10; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1036 [OCC1036]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1037 [OCC1037]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1039 [OCC1039]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1040 [OCC1040]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1041 [OCC1041]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1042 [OCC1042]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1043 [OCC1043]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1044 [OCC1044]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1045 [OCC1045]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1046 [OCC1046]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1047 [OCC1047]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1048 [OCC1048]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1049 [OCC1049]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1050 [OCC1050]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1051 [OCC1051]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1052 [OCC1052]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1054 [OCC1054]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1056 [OCC1056]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1057 [OCC1057]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1058 [OCC1058]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1059 [OCC1059]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1060 [OCC1060]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1061 [OCC1061]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1062 [OCC1062]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1064 [OCC1064]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1065 [OCC1065]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1066 [OCC1066]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1068 [OCC1068]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1070 [OCC1070]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1073 [OCC1073]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1074 [OCC1074]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1075 [OCC1075]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1076 [OCC1076]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1077 [OCC1077]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1084 [OCC1084]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1086 [OCC1086]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1087 [OCC1087]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1089 [OCC1089]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.16. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1800; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 11; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1090 [OCC1090]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.16. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1800; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 11; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1091 [OCC1091]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=472GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1700; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1093 [OCC1093]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1095 [OCC1095]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=472GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1096 [05645-nb]
+--------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=472GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1700; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1097 [OCC1097]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1098 [OCC1098]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1099 [OCC1099]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1100 [OCC1100]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1101 [OCC1101]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1102 [OCC1102]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1103 [OCC1103]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1105 [OCC1105]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1107 [OCC1107]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2304; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 165 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1108 [OCC1108]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1109 [OCC1109]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1110 [OCC1110]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1114 [OCC1114]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2304; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 165 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1115 [OCC1115]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1116 [OCC1116]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1118 [OCC1118]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=237GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1120 [OCC1120]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1121 [OCC1121]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1122 [OCC1122]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=237GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1800; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1123 [OCC1123]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1124 [OCC1124]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1125 [OCC1125]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.16. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1800; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 11; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1126 [OCC1126]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1128 [OCC1128]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1129 [OCC1129]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 186 Stepping 3; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1130 [OCC1130]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1133 [OCC1133]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1134 [OCC1134]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1135 [OCC1135]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1136 [OCC1136]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1138 [OCC1138]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=211GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.16. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1800; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 10; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1140 [OCC1140]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1141 [OCC1141]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1143 [OCC1143]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=16GB. PASS; TPM: TPMVersion=2.0, 0, 1.59. PASS; Processor: {AddressWidth=64; MaxClockSpeed=1300; NumberOfLogicalCores=12; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 154 Stepping 4; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1144 [OCC1144]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1146 [OCC1146]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2419; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 140 Stepping 1; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1147 [OCC1147]
+-------------------------------------------------------------------------------------
+
+    - There are no results for this device -
+
+
+
+SITE: Managed - Claro Aged Care and Disability Services - DEVICE: OCC1148 [OCC1148]
+-------------------------------------------------------------------------------------
+Component: Windows 11 Readiness Check [WIN]
+-------------------------------------------
+Stdout
+------
+Windows 11: CAPABLE. Info: Storage: OSDiskSize=235GB. PASS; Memory: System_Memory=8GB. PASS; TPM: TPMVersion=2.0, 0, 1.38. PASS; Processor: {AddressWidth=64; MaxClockSpeed=2112; NumberOfLogicalCores=8; Manufacturer=GenuineIntel; Caption=Intel64 Family 6 Model 142 Stepping 12; }. PASS; SecureBoot: Capable. PASS; 
+
+
+
+Stderr
+------
+- No stderr content -
+
+
+
+================================================================================

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CR-4342297 - KD Bus VPN Transition & Certificate Deployment</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.5; max-width: 800px; margin: 0 auto; padding: 15px; }
+        h1 { font-size: 16px; color: #1a365d; border-bottom: 2px solid #3182ce; padding-bottom: 5px; margin-bottom: 10px; }
+        h2 { font-size: 14px; color: #2c5282; margin: 15px 0 8px 0; border-left: 3px solid #3182ce; padding-left: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
+        th, td { border: 1px solid #e2e8f0; padding: 6px 8px; text-align: left; }
+        th { background-color: #edf2f7; font-weight: 600; }
+        .header { background: #667eea; color: white; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+        .header table { border: none; }
+        .header th, .header td { border: none; color: white; padding: 3px 8px; }
+        .header th { background: transparent; opacity: 0.8; }
+        .risk-low { background: #c6f6d5; color: #22543d; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        .section { margin-bottom: 12px; }
+        ul { margin: 5px 0; padding-left: 20px; }
+        li { margin: 3px 0; }
+        .note { background: #ebf8ff; border-left: 3px solid #3182ce; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .warning { background: #fffbeb; border-left: 3px solid #f6e05e; padding: 8px; margin: 8px 0; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<h1>CR-4342297: KD Bus VPN Transition & SSL Certificate Deployment</h1>
+
+<div class="header">
+    <table>
+        <tr><th>CR Number</th><td>4342297</td><th>Request Date</th><td>2026-01-22</td></tr>
+        <tr><th>Requested By</th><td>Olli Ojala</td><th>Risk Level</th><td><span class="risk-low">LOW</span></td></tr>
+        <tr><th>Environment</th><td>Meraki Dashboard - KD BUS | Azure East & South East</td><th>Rollback</th><td>&lt; 5 min</td></tr>
+        <tr><th>Change Window</th><td>TBD</td><th>Downtime</th><td>&lt; 5 min during route switch</td></tr>
+    </table>
+</div>
+
+<h2>1. Summary</h2>
+<div class="section">
+    <p><strong>Purpose:</strong> Establish IPsec VPN connectivity between Meraki MX (ATE-TEST pilot site) and Azure FortiGate firewalls. Deploy SSL certificates and DNS records for FortiGate VPN endpoints and FortiClient EMS.</p>
+    <p><strong>Scope:</strong> Pilot test only (ATE-TEST network). Production rollout via separate CR.</p>
+</div>
+
+<h2>2. Infrastructure Details</h2>
+<table>
+    <tr><th>Component</th><th>Azure East</th><th>Azure South East</th></tr>
+    <tr><td>FortiGate Hostname</td><td>VPN1.KeolisDowner.com.au</td><td>VPN2.KeolisDowner.com.au</td></tr>
+    <tr><td>FortiGate Public IP</td><td>68.218.113.249</td><td>4.200.139.87</td></tr>
+    <tr><td>FortiGate Inside IP</td><td>10.200.1.68</td><td>10.201.1.68</td></tr>
+    <tr><td>Azure Subnet</td><td>10.200.10.0/24</td><td>10.201.10.0/24</td></tr>
+    <tr><td>Route Table</td><td>KD-Prod-RouteTable</td><td>KD-Mel-RouteTable</td></tr>
+</table>
+<table>
+    <tr><th>EMS Server</th><th>Value</th></tr>
+    <tr><td>Hostname</td><td>EMS1.KeolisDowner.com.au</td></tr>
+    <tr><td>Public IP</td><td>20.11.121.242</td></tr>
+</table>
+<table>
+    <tr><th>Pilot Site</th><th>Value</th></tr>
+    <tr><td>Network</td><td>ATE-TEST</td></tr>
+    <tr><td>Subnet</td><td>10.160.10.0/24</td></tr>
+</table>
+
+<h2>3. SSL Certificate</h2>
+<table>
+    <tr><th>Attribute</th><th>Value</th></tr>
+    <tr><td>Type</td><td>Wildcard SSL/TLS Certificate</td></tr>
+    <tr><td>Common Name</td><td>*.keolisdowner.com.au</td></tr>
+    <tr><td>Standard</td><td>X.509 v3, SHA-256, RSA 2048-bit minimum</td></tr>
+    <tr><td>EKU</td><td>TLS Web Server Authentication (OID: 1.3.6.1.5.5.7.3.1)</td></tr>
+    <tr><td>Deploy To</td><td>FortiGate East, FortiGate South East, FortiClient EMS</td></tr>
+</table>
+
+<h2>4. DNS Records Required</h2>
+<table>
+    <tr><th>Hostname</th><th>Type</th><th>IP Address</th><th>Purpose</th></tr>
+    <tr><td>VPN1.KeolisDowner.com.au</td><td>A</td><td>68.218.113.249</td><td>FortiGate East VPN</td></tr>
+    <tr><td>VPN2.KeolisDowner.com.au</td><td>A</td><td>4.200.139.87</td><td>FortiGate South East VPN</td></tr>
+    <tr><td>EMS1.KeolisDowner.com.au</td><td>A</td><td>20.11.121.242</td><td>FortiClient EMS</td></tr>
+</table>
+
+<h2>5. Changes to be Made</h2>
+<table>
+    <tr><th>System</th><th>Action</th></tr>
+    <tr><td>DNS</td><td>Create 3 A records (VPN1, VPN2, EMS1)</td></tr>
+    <tr><td>Certificate</td><td>Obtain *.keolisdowner.com.au wildcard cert from CA</td></tr>
+    <tr><td>FortiGate East</td><td>Import cert, configure IPsec Phase1/Phase2 for ATE-TEST</td></tr>
+    <tr><td>FortiGate SEast</td><td>Import cert, configure IPsec Phase1/Phase2 for ATE-TEST</td></tr>
+    <tr><td>FortiClient EMS</td><td>Import cert (PFX), restart service, update FG connectors</td></tr>
+    <tr><td>Meraki</td><td>Add fortigate-test tag to ATE-TEST, create 2 IPsec peers</td></tr>
+    <tr><td>Azure East</td><td>Add route 10.160.10.0/24 → 10.200.1.68 to KD-Prod-RouteTable</td></tr>
+    <tr><td>Azure SEast</td><td>Add route 10.160.10.0/24 → 10.201.1.68 to KD-Mel-RouteTable</td></tr>
+</table>
+
+<h2>6. IPsec VPN Parameters</h2>
+<table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+    <tr><td>IKE Version</td><td>IKEv2</td></tr>
+    <tr><td>Encryption</td><td>AES-256</td></tr>
+    <tr><td>Authentication</td><td>SHA256</td></tr>
+    <tr><td>DH Group</td><td>14 (2048-bit)</td></tr>
+    <tr><td>PFS</td><td>Enabled, Group 14</td></tr>
+    <tr><td>Phase 1 Lifetime</td><td>1800 seconds</td></tr>
+    <tr><td>Phase 2 Lifetime</td><td>3600 seconds</td></tr>
+    <tr><td>PSK</td><td>Shared securely outside CR (&gt;32 chars)</td></tr>
+</table>
+
+<h2>7. Test Plan</h2>
+<ul>
+    <li>Ping from ATE-TEST (10.160.10.x) to Azure East (10.200.10.10) - expect reply</li>
+    <li>Ping from ATE-TEST to Azure SEast (10.201.10.61) - expect reply</li>
+    <li>RDP to Azure VMs to confirm no asymmetric routing</li>
+    <li>Verify VPN tunnel stats incrementing on FortiGates</li>
+    <li>Verify HTTPS to VPN1, VPN2, EMS1 hostnames shows valid certificate</li>
+    <li>Confirm other KD BUS networks unaffected (no FortiGate tunnels visible)</li>
+</ul>
+
+<h2>8. Rollback Procedure</h2>
+<div class="warning">If tests fail: Execute in order (estimated &lt; 5 minutes)</div>
+<ol>
+    <li>Remove route from KD-Prod-RouteTable (Azure East)</li>
+    <li>Remove route from KD-Mel-RouteTable (Azure SEast)</li>
+    <li>Disable/remove ATE-TEST VPN on both FortiGates</li>
+    <li>Delete IPsec peers in Meraki Dashboard</li>
+    <li>Verify ATE-TEST connectivity via existing SonicWall tunnels</li>
+</ol>
+
+<h2>9. Prerequisites</h2>
+<ul>
+    <li>Wildcard certificate *.keolisdowner.com.au obtained</li>
+    <li>DNS A records created and propagated</li>
+    <li>FortiGate firewalls forwarding to Azure backend</li>
+    <li>NSG/Azure Firewall permits FortiGate inside IPs</li>
+    <li>Meraki Dashboard access with Org write permissions</li>
+    <li>PSK shared securely (&gt;32 characters)</li>
+</ul>
+
+<div class="note">
+    <strong>Full Runbook:</strong> CR-2026-001-Fortigate-IPsec-Test-Combined.html<br>
+    <strong>Production Rollout:</strong> Separate CR required after successful pilot
+</div>
+
+</body>
+</html>

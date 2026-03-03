@@ -1,0 +1,402 @@
+{
+  "generated_at": "2025-10-03T11:57:57.384157",
+  "date": "Friday, October 03, 2025",
+  "morning_brief": {
+    "generated_at": "2025-10-03T11:57:57.384220",
+    "calendar": {
+      "today_count": 0,
+      "today_events": [],
+      "upcoming_count": 0,
+      "upcoming_events": [],
+      "has_events_today": false
+    },
+    "email": {
+      "unread_count": 14,
+      "recent_count": 10,
+      "recent_messages": [
+        {
+          "subject": "FW: IT Helpdesk, Onsite Engineer Absences",
+          "from": "Con Alexakis | Orro <con.alexakis@orro.group>",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "OTC Changes - Client Visibility of Comments in Tickets",
+          "from": "David Povey | Orro <david.povey@orro.group>",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "IT Glue - Technical Account Review",
+          "from": "Alex Vans-Colina <alex.vans-colina@kaseya.com>",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Acknowledgement confirmation for Orro - Company Information Deck",
+          "from": "no-reply@employmenthero.com",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Acknowledgement confirmation for Modern Slavery Overview and Information",
+          "from": "no-reply@employmenthero.com",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Security alert",
+          "from": "no-reply@employmenthero.com",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Martin Dunn | Orro shared \"Orro cloud laptop wipe provisioning office move field services\" with you",
+          "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Orro Group has assigned you a new benefit.",
+          "from": "no-reply@employmenthero.com",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Orro Group has assigned you a new benefit.",
+          "from": "no-reply@employmenthero.com",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        },
+        {
+          "subject": "Orro Group has assigned you a new benefit.",
+          "from": "no-reply@employmenthero.com",
+          "date": "",
+          "contact_found": false,
+          "contact_info": null
+        }
+      ]
+    },
+    "meeting_prep": []
+  },
+  "email_triage": {
+    "total_analyzed": 50,
+    "high_priority_count": 16,
+    "high_priority_messages": [
+      {
+        "message": {
+          "id": "562",
+          "subject": "OTC Changes - Client Visibility of Comments in Tickets",
+          "from": "David Povey | Orro <david.povey@orro.group>",
+          "date": "Friday, 3 October 2025 at 10:35:24\u202fam",
+          "read": true
+        },
+        "priority_score": 18,
+        "priority_reasons": [
+          "Orro Group sender",
+          "Urgent keywords"
+        ],
+        "contact_info": null,
+        "sender_email": "david.povey@orro.group"
+      },
+      {
+        "message": {
+          "id": "555",
+          "subject": "FW: IT Helpdesk, Onsite Engineer Absences",
+          "from": "Con Alexakis | Orro <con.alexakis@orro.group>",
+          "date": "Friday, 3 October 2025 at 11:24:19\u202fam",
+          "read": false
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "con.alexakis@orro.group"
+      },
+      {
+        "message": {
+          "id": "571",
+          "subject": "Martin Dunn | Orro shared \"Orro cloud laptop wipe provisioning office move field services\" with you",
+          "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+          "date": "Friday, 3 October 2025 at 10:20:10\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "martin.dunn@orro.group"
+      },
+      {
+        "message": {
+          "id": "561",
+          "subject": "Accepted: Catch-up Richard & Naythan",
+          "from": "Richard Srinivasan | Orro <richard.srinivasan@orro.group>",
+          "date": "Friday, 3 October 2025 at 10:06:54\u202fam",
+          "read": false
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "richard.srinivasan@orro.group"
+      },
+      {
+        "message": {
+          "id": "502",
+          "subject": "Re: IT Helpdesk, Onsite Engineer Absences",
+          "from": "Richard Srinivasan | Orro <richard.srinivasan@orro.group>",
+          "date": "Friday, 3 October 2025 at 6:48:11\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "richard.srinivasan@orro.group"
+      },
+      {
+        "message": {
+          "id": "501",
+          "subject": "FW: IT Helpdesk, Onsite Engineer Absences",
+          "from": "Con Alexakis | Orro <con.alexakis@orro.group>",
+          "date": "Friday, 3 October 2025 at 6:13:36\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "con.alexakis@orro.group"
+      },
+      {
+        "message": {
+          "id": "81",
+          "subject": "Canceled: Claude Usage and Reporting Review",
+          "from": "Jono Pryor | Orro <jono.pryor@orro.group>",
+          "date": "Thursday, 2 October 2025 at 3:33:51\u202fpm",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "jono.pryor@orro.group"
+      },
+      {
+        "message": {
+          "id": "105",
+          "subject": "FW: RE- Cloud Telephony",
+          "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+          "date": "Thursday, 2 October 2025 at 12:45:29\u202fpm",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "martin.dunn@orro.group"
+      },
+      {
+        "message": {
+          "id": "103",
+          "subject": "FW: AWA call out",
+          "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+          "date": "Thursday, 2 October 2025 at 11:30:28\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "martin.dunn@orro.group"
+      },
+      {
+        "message": {
+          "id": "76",
+          "subject": "BYOD Registration has been assigned",
+          "from": "Service Automation Security Workflow <svc.security.automation@orro.group>",
+          "date": "Thursday, 2 October 2025 at 11:17:12\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "svc.security.automation@orro.group"
+      },
+      {
+        "message": {
+          "id": "72",
+          "subject": "Role Impact - Senior Service Desk Manager",
+          "from": "Kristy Schaeffer | Orro <kristy.schaeffer@orro.group>",
+          "date": "Thursday, 2 October 2025 at 10:46:55\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "kristy.schaeffer@orro.group"
+      },
+      {
+        "message": {
+          "id": "98",
+          "subject": "Hamish Ridland | Orro shared \"Cloud BU Restructure - Phases\" with you",
+          "from": "Hamish Ridland | Orro <hamish.ridland@orro.group>",
+          "date": "Thursday, 2 October 2025 at 9:56:45\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "hamish.ridland@orro.group"
+      },
+      {
+        "message": {
+          "id": "71",
+          "subject": "Jono Pryor | Orro shared the folder \"TAC\" with you",
+          "from": "Jono Pryor | Orro <jono.pryor@orro.group>",
+          "date": "Thursday, 2 October 2025 at 9:21:17\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "jono.pryor@orro.group"
+      },
+      {
+        "message": {
+          "id": "97",
+          "subject": "Your BYOD Registration Request Has Been Submitted",
+          "from": "Service Automation Security Workflow <svc.security.automation@orro.group>",
+          "date": "Thursday, 2 October 2025 at 9:17:04\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "svc.security.automation@orro.group"
+      },
+      {
+        "message": {
+          "id": "96",
+          "subject": "Re: Ewaste",
+          "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+          "date": "Thursday, 2 October 2025 at 8:13:45\u202fam",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "martin.dunn@orro.group"
+      },
+      {
+        "message": {
+          "id": "110",
+          "subject": "Re: Ewaste",
+          "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+          "date": "Wednesday, 1 October 2025 at 7:05:29\u202fpm",
+          "read": true
+        },
+        "priority_score": 10,
+        "priority_reasons": [
+          "Orro Group sender"
+        ],
+        "contact_info": null,
+        "sender_email": "martin.dunn@orro.group"
+      }
+    ],
+    "threshold": 5
+  },
+  "meeting_prep": [],
+  "forgotten_followups": [
+    {
+      "subject": "FW: IT Helpdesk, Onsite Engineer Absences",
+      "from": "Con Alexakis | Orro <con.alexakis@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "OTC Changes - Client Visibility of Comments in Tickets",
+      "from": "David Povey | Orro <david.povey@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "Martin Dunn | Orro shared \"Orro cloud laptop wipe provisioning office move field services\" with you",
+      "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "Accepted: Catch-up Richard & Naythan",
+      "from": "Richard Srinivasan | Orro <richard.srinivasan@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "Re: IT Helpdesk, Onsite Engineer Absences",
+      "from": "Richard Srinivasan | Orro <richard.srinivasan@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "FW: IT Helpdesk, Onsite Engineer Absences",
+      "from": "Con Alexakis | Orro <con.alexakis@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "Canceled: Claude Usage and Reporting Review",
+      "from": "Jono Pryor | Orro <jono.pryor@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "FW: RE- Cloud Telephony",
+      "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "FW: AWA call out",
+      "from": "Martin Dunn | Orro <martin.dunn@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    },
+    {
+      "subject": "BYOD Registration has been assigned",
+      "from": "Service Automation Security Workflow <svc.security.automation@orro.group>",
+      "date": "",
+      "reason": "Orro Group message requiring review"
+    }
+  ]
+}

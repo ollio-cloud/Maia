@@ -1,0 +1,423 @@
+<#
+.SYNOPSIS
+    Generates an Intune configuration report for policies starting with "Orro"
+
+.DESCRIPTION
+    This script connects to Microsoft Graph API and extracts all Intune policies
+    that start with a specified prefix (default: "Orro"). It generates a detailed
+    Word document report containing policy configurations, assignments, and settings.
+
+.PARAMETER Prefix
+    The prefix to filter policy names (default: "Orro")
+
+.PARAMETER OutputPath
+    Path for the output Word document (default: "Intune_Orro_Configuration_Report.docx")
+
+.PARAMETER TenantId
+    Azure AD Tenant ID (optional - will use interactive login if not provided)
+
+.PARAMETER ClientId
+    Azure AD App Client ID for app-only authentication (requires ClientSecret)
+
+.PARAMETER ClientSecret
+    Azure AD App Client Secret for app-only authentication (requires ClientId)
+
+.PARAMETER UseInteractive
+    Use interactive browser-based authentication instead of app-only
+
+.EXAMPLE
+    .\Get-IntuneOrroReport.ps1
+    # Uses interactive authentication, filters for "Orro" prefix
+
+.EXAMPLE
+    .\Get-IntuneOrroReport.ps1 -Prefix "CustomPrefix" -OutputPath "C:\Reports\MyReport.docx"
+    # Custom prefix and output path with interactive authentication
+
+.EXAMPLE
+    .\Get-IntuneOrroReport.ps1 -TenantId "xxx" -ClientId "yyy" -ClientSecret "zzz"
+    # App-only authentication with service principal
+
+.NOTES
+    Requires:
+    - Microsoft.Graph PowerShell modules
+    - MSWord (Microsoft Word) installed for document generation
+    - Permissions: DeviceManagementConfiguration.Read.All, DeviceManagementApps.Read.All, DeviceManagementManagedDevices.Read.All
+
+.LINK
+    https://docs.microsoft.com/en-us/graph/api/resources/intune-graph-overview
+#>
+
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$false)]
+    [string]$Prefix = "Orro",
+
+    [Parameter(Mandatory=$false)]
+    [string]$OutputPath = "Intune_Orro_Configuration_Report.docx",
+
+    [Parameter(Mandatory=$false)]
+    [string]$TenantId,
+
+    [Parameter(Mandatory=$false)]
+    [string]$ClientId,
+
+    [Parameter(Mandatory=$false)]
+    [string]$ClientSecret,
+
+    [Parameter(Mandatory=$false)]
+    [switch]$UseInteractive
+)
+
+#Requires -Modules Microsoft.Graph.Authentication, Microsoft.Graph.DeviceManagement
+
+# Import required modules
+Write-Host "=" -NoNewline -ForegroundColor Cyan
+Write-Host ("=" * 59) -ForegroundColor Cyan
+Write-Host "Intune Policy Configuration Reporter (PowerShell)" -ForegroundColor Cyan
+Write-Host ("=" * 60) -ForegroundColor Cyan
+Write-Host ""
+
+# Check for required modules
+$requiredModules = @(
+    'Microsoft.Graph.Authentication',
+    'Microsoft.Graph.DeviceManagement'
+)
+
+Write-Host "Checking required modules..." -ForegroundColor Yellow
+foreach ($module in $requiredModules) {
+    if (-not (Get-Module -ListAvailable -Name $module)) {
+        Write-Host "  Installing $module..." -ForegroundColor Yellow
+        try {
+            Install-Module -Name $module -Scope CurrentUser -Force -AllowClobber -SkipPublisherCheck -ErrorAction Stop
+            Write-Host "  [OK] Installed $module" -ForegroundColor Green
+        } catch {
+            Write-Host "  [ERROR] Failed to install $module : $($_.Exception.Message)" -ForegroundColor Red
+            exit 1
+        }
+    }
+
+    try {
+        Import-Module $module -ErrorAction Stop
+        Write-Host "  [OK] Loaded $module" -ForegroundColor Green
+    } catch {
+        Write-Host "  [ERROR] Failed to import $module : $($_.Exception.Message)" -ForegroundColor Red
+        exit 1
+    }
+}
+
+Write-Host ""
+
+# Connect to Microsoft Graph
+Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
+
+try {
+    if ($ClientId -and $ClientSecret -and $TenantId) {
+        # App-only authentication
+        Write-Host "  Using app-only authentication..." -ForegroundColor Cyan
+
+        $secureSecret = ConvertTo-SecureString $ClientSecret -AsPlainText -Force
+        $credential = New-Object System.Management.Automation.PSCredential($ClientId, $secureSecret)
+
+        Connect-MgGraph -TenantId $TenantId -ClientSecretCredential $credential -NoWelcome
+
+    } elseif ($UseInteractive -or (-not $TenantId)) {
+        # Interactive authentication
+        Write-Host "  Using interactive authentication..." -ForegroundColor Cyan
+
+        $scopes = @(
+            'DeviceManagementConfiguration.Read.All',
+            'DeviceManagementApps.Read.All',
+            'DeviceManagementManagedDevices.Read.All'
+        )
+
+        if ($TenantId) {
+            Connect-MgGraph -TenantId $TenantId -Scopes $scopes -NoWelcome
+        } else {
+            Connect-MgGraph -Scopes $scopes -NoWelcome
+        }
+    } else {
+        Write-Host "  [ERROR] Error: Either provide ClientId/ClientSecret/TenantId or use -UseInteractive" -ForegroundColor Red
+        exit 1
+    }
+
+    Write-Host "  [OK] Connected to Microsoft Graph" -ForegroundColor Green
+} catch {
+    Write-Host "  [ERROR] Authentication failed: $($_.Exception.Message)" -ForegroundColor Red
+    exit 1
+}
+
+Write-Host ""
+
+# Function to get all pages of results
+function Get-MgGraphAllPages {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Uri
+    )
+
+    $allResults = @()
+    $nextLink = $Uri
+
+    do {
+        $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET
+        $allResults += $response.value
+        $nextLink = $response.'@odata.nextLink'
+    } while ($nextLink)
+
+    return $allResults
+}
+
+# Fetch Intune policies
+Write-Host "Fetching Intune policies..." -ForegroundColor Yellow
+
+$policies = @{
+    DeviceConfigurations = @()
+    CompliancePolicies = @()
+    ConfigurationPolicies = @()
+    AppProtectionPolicies = @()
+}
+
+# Device Configurations
+Write-Host "  Fetching device configurations..." -ForegroundColor Cyan
+try {
+    $allConfigs = Get-MgGraphAllPages -Uri "https://graph.microsoft.com/v1.0/deviceManagement/deviceConfigurations"
+    $policies.DeviceConfigurations = $allConfigs | Where-Object { $_.displayName -like "$Prefix*" }
+    Write-Host "    Found $($policies.DeviceConfigurations.Count) matching policies" -ForegroundColor Green
+} catch {
+    Write-Host "    Warning: Failed to fetch device configurations: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+# Compliance Policies
+Write-Host "  Fetching compliance policies..." -ForegroundColor Cyan
+try {
+    $allCompliance = Get-MgGraphAllPages -Uri "https://graph.microsoft.com/v1.0/deviceManagement/deviceCompliancePolicies"
+    $policies.CompliancePolicies = $allCompliance | Where-Object { $_.displayName -like "$Prefix*" }
+    Write-Host "    Found $($policies.CompliancePolicies.Count) matching policies" -ForegroundColor Green
+} catch {
+    Write-Host "    Warning: Failed to fetch compliance policies: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+# Configuration Policies (Settings Catalog)
+Write-Host "  Fetching configuration policies..." -ForegroundColor Cyan
+try {
+    $allConfigPolicies = Get-MgGraphAllPages -Uri "https://graph.microsoft.com/v1.0/deviceManagement/configurationPolicies"
+    $policies.ConfigurationPolicies = $allConfigPolicies | Where-Object { $_.name -like "$Prefix*" }
+    Write-Host "    Found $($policies.ConfigurationPolicies.Count) matching policies" -ForegroundColor Green
+} catch {
+    Write-Host "    Warning: Failed to fetch configuration policies: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+# App Protection Policies
+Write-Host "  Fetching app protection policies..." -ForegroundColor Cyan
+try {
+    $appProtection = @()
+
+    # iOS
+    $ios = Get-MgGraphAllPages -Uri "https://graph.microsoft.com/v1.0/deviceAppManagement/iosManagedAppProtections"
+    $appProtection += $ios | Where-Object { $_.displayName -like "$Prefix*" }
+
+    # Android
+    $android = Get-MgGraphAllPages -Uri "https://graph.microsoft.com/v1.0/deviceAppManagement/androidManagedAppProtections"
+    $appProtection += $android | Where-Object { $_.displayName -like "$Prefix*" }
+
+    # Windows
+    $windows = Get-MgGraphAllPages -Uri "https://graph.microsoft.com/v1.0/deviceAppManagement/windowsManagedAppProtections"
+    $appProtection += $windows | Where-Object { $_.displayName -like "$Prefix*" }
+
+    $policies.AppProtectionPolicies = $appProtection
+    Write-Host "    Found $($policies.AppProtectionPolicies.Count) matching policies" -ForegroundColor Green
+} catch {
+    Write-Host "    Warning: Failed to fetch app protection policies: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+Write-Host ""
+
+# Calculate total
+$totalPolicies = $policies.DeviceConfigurations.Count +
+                 $policies.CompliancePolicies.Count +
+                 $policies.ConfigurationPolicies.Count +
+                 $policies.AppProtectionPolicies.Count
+
+if ($totalPolicies -eq 0) {
+    Write-Host "[ERROR] No policies found starting with '$Prefix'" -ForegroundColor Red
+    Write-Host "  Please check:" -ForegroundColor Yellow
+    Write-Host "    - Policy naming convention" -ForegroundColor Yellow
+    Write-Host "    - API permissions are granted" -ForegroundColor Yellow
+    Write-Host "    - Policies exist in Intune" -ForegroundColor Yellow
+    Disconnect-MgGraph | Out-Null
+    exit 0
+}
+
+Write-Host "Found $totalPolicies total policies starting with '$Prefix'" -ForegroundColor Green
+Write-Host ""
+
+# Generate Word Report
+Write-Host "Generating Word document report..." -ForegroundColor Yellow
+
+try {
+    # Create Word application
+    $word = New-Object -ComObject Word.Application
+    $word.Visible = $false
+    $doc = $word.Documents.Add()
+    $selection = $word.Selection
+
+    # Title
+    $selection.Style = 'Title'
+    $selection.TypeText("Intune Configuration Report")
+    $selection.TypeParagraph()
+
+    # Metadata
+    $selection.Style = 'Normal'
+    $selection.TypeText("Organization: $Prefix")
+    $selection.TypeParagraph()
+    $selection.TypeText("Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm')")
+    $selection.TypeParagraph()
+    $selection.TypeText("Filter: Policies starting with '$Prefix'")
+    $selection.TypeParagraph()
+    $selection.TypeParagraph()
+
+    # Executive Summary
+    $selection.Style = 'Heading 1'
+    $selection.TypeText("Executive Summary")
+    $selection.TypeParagraph()
+
+    $selection.Style = 'Normal'
+    $table = $doc.Tables.Add($selection.Range, 5, 2)
+    $table.Style = "Grid Table 4 - Accent 1"
+    $table.Cell(1, 1).Range.Text = "Policy Type"
+    $table.Cell(1, 2).Range.Text = "Count"
+    $table.Cell(2, 1).Range.Text = "Device Configurations"
+    $table.Cell(2, 2).Range.Text = $policies.DeviceConfigurations.Count
+    $table.Cell(3, 1).Range.Text = "Compliance Policies"
+    $table.Cell(3, 2).Range.Text = $policies.CompliancePolicies.Count
+    $table.Cell(4, 1).Range.Text = "Configuration Policies"
+    $table.Cell(4, 2).Range.Text = $policies.ConfigurationPolicies.Count
+    $table.Cell(5, 1).Range.Text = "App Protection Policies"
+    $table.Cell(5, 2).Range.Text = $policies.AppProtectionPolicies.Count
+
+    $selection.EndKey(6) | Out-Null  # Move to end of document
+    $selection.TypeParagraph()
+
+    # Function to add policy section
+    function Add-PolicySection {
+        param($PolicyList, $SectionTitle)
+
+        if ($PolicyList.Count -eq 0) { return }
+
+        $selection.InsertBreak(7)  # Page break
+        $selection.Style = 'Heading 1'
+        $selection.TypeText($SectionTitle)
+        $selection.TypeParagraph()
+
+        foreach ($policy in $PolicyList) {
+            $selection.Style = 'Heading 2'
+            $policyName = if ($policy.displayName) { $policy.displayName } else { $policy.name }
+            $selection.TypeText($policyName)
+            $selection.TypeParagraph()
+
+            # Policy details table
+            $selection.Style = 'Normal'
+            $detailTable = $doc.Tables.Add($selection.Range, 6, 2)
+            $detailTable.Style = "Light List Accent 1"
+
+            $detailTable.Cell(1, 1).Range.Text = "Display Name"
+            $detailTable.Cell(1, 1).Range.Font.Bold = $true
+            $detailTable.Cell(1, 2).Range.Text = if ($policy.displayName) { $policy.displayName } else { $policy.name }
+
+            $detailTable.Cell(2, 1).Range.Text = "Description"
+            $detailTable.Cell(2, 1).Range.Font.Bold = $true
+            $detailTable.Cell(2, 2).Range.Text = if ($policy.description) { $policy.description } else { "No description" }
+
+            $detailTable.Cell(3, 1).Range.Text = "Platform"
+            $detailTable.Cell(3, 1).Range.Font.Bold = $true
+            $detailTable.Cell(3, 2).Range.Text = if ($policy.'@odata.type') { $policy.'@odata.type'.Split('.')[-1] } else { "Unknown" }
+
+            $detailTable.Cell(4, 1).Range.Text = "Created"
+            $detailTable.Cell(4, 1).Range.Font.Bold = $true
+            $detailTable.Cell(4, 2).Range.Text = if ($policy.createdDateTime) { $policy.createdDateTime } else { "N/A" }
+
+            $detailTable.Cell(5, 1).Range.Text = "Last Modified"
+            $detailTable.Cell(5, 1).Range.Font.Bold = $true
+            $detailTable.Cell(5, 2).Range.Text = if ($policy.lastModifiedDateTime) { $policy.lastModifiedDateTime } else { "N/A" }
+
+            $detailTable.Cell(6, 1).Range.Text = "ID"
+            $detailTable.Cell(6, 1).Range.Font.Bold = $true
+            $detailTable.Cell(6, 2).Range.Text = if ($policy.id) { $policy.id } else { "N/A" }
+
+            $selection.EndKey(6) | Out-Null
+            $selection.TypeParagraph()
+
+            # Configuration settings
+            $selection.Style = 'Heading 3'
+            $selection.TypeText("Configuration Settings")
+            $selection.TypeParagraph()
+
+            $selection.Style = 'Normal'
+            $settings = $policy.PSObject.Properties | Where-Object {
+                $_.Name -notmatch '^@' -and
+                $_.Name -notin @('id', 'displayName', 'name', 'description', 'createdDateTime', 'lastModifiedDateTime', 'version')
+            }
+
+            if ($settings) {
+                $settingsJson = $policy | Select-Object -Property $settings.Name | ConvertTo-Json -Depth 10
+                if ($settingsJson.Length -gt 2000) {
+                    $settingsJson = $settingsJson.Substring(0, 2000) + "`n... (truncated)"
+                }
+                $selection.Font.Name = "Courier New"
+                $selection.Font.Size = 9
+                $selection.TypeText($settingsJson)
+                $selection.Font.Name = "Calibri"
+                $selection.Font.Size = 11
+            } else {
+                $selection.TypeText("No additional settings found")
+            }
+
+            $selection.TypeParagraph()
+            $selection.TypeParagraph()
+        }
+    }
+
+    # Add policy sections
+    Add-PolicySection -PolicyList $policies.DeviceConfigurations -SectionTitle "Device Configuration Policies"
+    Add-PolicySection -PolicyList $policies.CompliancePolicies -SectionTitle "Device Compliance Policies"
+    Add-PolicySection -PolicyList $policies.ConfigurationPolicies -SectionTitle "Configuration Policies"
+    Add-PolicySection -PolicyList $policies.AppProtectionPolicies -SectionTitle "App Protection Policies"
+
+    # Save document
+    $fullPath = (Resolve-Path -Path . | Select-Object -ExpandProperty Path) + "\$OutputPath"
+    $doc.SaveAs([ref]$fullPath)
+    $doc.Close()
+    $word.Quit()
+
+    # Release COM objects
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($selection) | Out-Null
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($doc) | Out-Null
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($word) | Out-Null
+    [System.GC]::Collect()
+    [System.GC]::WaitForPendingFinalizers()
+
+    Write-Host "  [OK] Report saved: $fullPath" -ForegroundColor Green
+
+} catch {
+    Write-Host "  [ERROR] Error generating report: $($_.Exception.Message)" -ForegroundColor Red
+    if ($word) {
+        $word.Quit()
+        [System.Runtime.InteropServices.Marshal]::ReleaseComObject($word) | Out-Null
+    }
+    Disconnect-MgGraph | Out-Null
+    exit 1
+}
+
+# Disconnect
+Write-Host ""
+Write-Host "Disconnecting from Microsoft Graph..." -ForegroundColor Yellow
+Disconnect-MgGraph | Out-Null
+
+Write-Host ""
+Write-Host "=" -NoNewline -ForegroundColor Green
+Write-Host ("=" * 59) -ForegroundColor Green
+Write-Host "Report generation complete!" -ForegroundColor Green
+Write-Host ("=" * 60) -ForegroundColor Green
+Write-Host ""
+Write-Host "Report saved to: $OutputPath" -ForegroundColor Cyan
+Write-Host "Total policies: $totalPolicies" -ForegroundColor Cyan

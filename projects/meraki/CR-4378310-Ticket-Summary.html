@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CR-4378310 - KD Bus Production VPN Migration</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.5; max-width: 850px; margin: 0 auto; padding: 15px; }
+        h1 { font-size: 16px; color: #1a365d; border-bottom: 2px solid #3182ce; padding-bottom: 5px; margin-bottom: 10px; }
+        h2 { font-size: 14px; color: #2c5282; margin: 15px 0 8px 0; border-left: 3px solid #3182ce; padding-left: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
+        th, td { border: 1px solid #e2e8f0; padding: 6px 8px; text-align: left; }
+        th { background-color: #edf2f7; font-weight: 600; }
+        .header { background: #667eea; color: white; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+        .header table { border: none; }
+        .header th, .header td { border: none; color: white; padding: 3px 8px; }
+        .header th { background: transparent; opacity: 0.8; }
+        .risk-medium { background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        .status-pilot { background: #c6f6d5; color: #22543d; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .status-batch2 { background: #bee3f8; color: #2c5282; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .status-batch3 { background: #e9d8fd; color: #553c9a; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .section { margin-bottom: 12px; }
+        ul { margin: 5px 0; padding-left: 20px; }
+        li { margin: 3px 0; }
+        .note { background: #ebf8ff; border-left: 3px solid #3182ce; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .warning { background: #fffbeb; border-left: 3px solid #f6e05e; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .subnet { font-family: 'Consolas', monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<h1> 4378310: KD Bus Sites Production VPN Migration</h1>
+
+<div class="header">
+    <table>
+        <tr><th>CR Number</th><td>CR-4378310</td><th>Request Date</th><td>2026-02-02</td></tr>
+        <tr><th>Requested By</th><td>Olli Ojala</td><th>Risk Level</th><td><span class="risk-medium">MEDIUM</span></td></tr>
+        <tr><th>Environment</th><td>Meraki Dashboard - KD BUS | Azure East &amp; South East</td><th>Rollback</th><td>&lt; 5 min/site</td></tr>
+        <tr><th>Total Sites</th><td>24 sites (71 subnets)</td><th>Downtime</th><td>&lt; 5 min/site during route switch</td></tr>
+    </table>
+</div>
+
+<h2>1. Summary</h2>
+<div class="section">
+    <p><strong>Purpose:</strong> Migrate 24 KD Bus sites from SonicWall VPN to Azure-hosted FortiGate firewalls via IPsec VPN. Migration follows successful pilot test (CR-4342297).</p>
+    <p><strong>Strategy:</strong> Phased rollout - Pilot site first, then 2 production batches.</p>
+</div>
+
+<h2>2. Migration Phases</h2>
+<table>
+    <tr><th>Phase</th><th>Sites</th><th>Subnets</th><th>Region</th><th>Scheduled</th><th>Description</th></tr>
+    <tr><td><span class="status-pilot">Phase 1 - Pilot</span></td><td>1</td><td>2</td><td>WA</td><td><strong>4/2/2026 7:30 PM AWST</strong></td><td>Malaga-Morley (validation)</td></tr>
+    <tr><td><span class="status-batch2">Phase 2 - Batch 1</span></td><td>7</td><td>34</td><td>NSW</td><td><strong>9/2/2026 7:30 PM AEDT</strong></td><td>All NSW sites</td></tr>
+    <tr><td><span class="status-batch3">Phase 3 - Batch 2</span></td><td>16</td><td>35</td><td>SA/WA/QLD</td><td><strong>10/2/2026 7:30 PM local</strong></td><td>All SA, QLD &amp; WA sites</td></tr>
+</table>
+<div class="note"><strong>QLD Time Reference (February - DST active in NSW/SA):</strong><br>
+Pilot (WA): 7:30 PM AWST = <strong>9:30 PM QLD</strong><br>
+Batch 1 (NSW): 7:30 PM AEDT = <strong>6:30 PM QLD</strong><br>
+Batch 2 (SA): 7:30 PM ACDT = <strong>7:00 PM QLD</strong> | Batch 2 (WA): 7:30 PM AWST = <strong>9:30 PM QLD</strong> | Batch 2 (QLD): <strong>7:30 PM QLD</strong></div>
+
+<h2>3. Infrastructure</h2>
+<table>
+    <tr><th>Component</th><th>Azure East (Primary)</th><th>Azure South East (DR)</th></tr>
+    <tr><td>FortiGate Public IP</td><td>68.218.113.249</td><td>4.200.139.87</td></tr>
+    <tr><td>FortiGate Inside IP</td><td>10.200.1.68</td><td>10.201.1.68</td></tr>
+    <tr><td>Route Table</td><td>KD-Prod-RouteTable</td><td>KD-Mel-RouteTable</td></tr>
+    <tr><td>Associated Subnets</td><td>East workload subnets (10.200.x.x)</td><td>SEast workload subnets (10.201.x.x)</td></tr>
+</table>
+
+<h2>4. Design / Traffic Flow</h2>
+<div class="section">
+    <p><strong>Primary/DR Architecture:</strong> Azure East is the <strong>primary region</strong> for production traffic. Azure South East is the <strong>DR region</strong> (pre-staged, not active under normal operation).</p>
+    <p><strong>Route Table Isolation:</strong> KD-Prod-RouteTable is associated only with East workload subnets; KD-Mel-RouteTable only with SEast workload subnets. Each region routes to sites via its local FortiGate. This prevents asymmetric routing during normal operation.</p>
+    <p><strong>Why routes in both regions:</strong> Site subnets are pre-staged in both route tables so that, during a DR event, workloads failed over to SEast retain connectivity to all site subnets via the SEast FortiGate.</p>
+    <p><strong>DR Failover:</strong> Manual failover (not automatic). DR is invoked by Azure workload failover (ASR/manual), not by this VPN configuration. <em>DR failover testing is not in scope for this CR; DR readiness is achieved by pre-staging configuration only.</em></p>
+</div>
+
+<h2>5. Phase 1 - Pilot Site Details</h2>
+<table>
+    <tr><th>Site</th><th>Network 1</th><th>Network 2</th></tr>
+    <tr><td><strong>Malaga-Morley</strong></td><td class="subnet">10.9.52.0/24</td><td class="subnet">10.91.52.0/24</td></tr>
+</table>
+
+<h2>6. Changes to be Made</h2>
+<table>
+    <tr><th>System</th><th>Action</th></tr>
+    <tr><td>FortiGate East</td><td>Configure IPsec Phase1/Phase2 for each site, create address objects, firewall policies</td></tr>
+    <tr><td>FortiGate SEast</td><td>Configure IPsec Phase1/Phase2 for each site, create address objects, firewall policies</td></tr>
+    <tr><td>Meraki</td><td>Remove network tag restriction from IPsec peers (staged per batch, not all sites at once)</td></tr>
+    <tr><td>Azure East</td><td>Add routes to KD-Prod-RouteTable <strong>per site</strong> as migrated (next-hop: 10.200.1.68)</td></tr>
+    <tr><td>Azure SEast</td><td>Add routes to KD-Mel-RouteTable <strong>per site</strong> as migrated (next-hop: 10.201.1.68) - DR pre-staging</td></tr>
+</table>
+<div class="note"><strong>Route Staging:</strong> Routes are added per site during migration, not all 71 subnets at once. Total routes at completion: 71 per route table (142 total).</div>
+
+<h2>7. IPsec VPN Parameters</h2>
+<table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+    <tr><td>IKE Version</td><td>IKEv2</td></tr>
+    <tr><td>Encryption</td><td>AES-256</td></tr>
+    <tr><td>Authentication</td><td>SHA256</td></tr>
+    <tr><td>DH Group</td><td>14 (2048-bit)</td></tr>
+    <tr><td>PFS (Perfect Forward Secrecy)</td><td>Enabled, Group 14</td></tr>
+    <tr><td>Phase 1/2 Lifetime</td><td>1800s / 3600s</td></tr>
+    <tr><td>DPD (Dead Peer Detection)</td><td>Enabled (on-demand)</td></tr>
+    <tr><td>NAT-T</td><td>Enabled (auto-detect)</td></tr>
+    <tr><td>PSK</td><td>Shared securely outside CR (&gt;32 chars)</td></tr>
+</table>
+<div class="note"><strong>Firewall Policies:</strong> FortiGate firewall policies permitting tunnel traffic to/from Azure backend are confirmed in place (prerequisite).</div>
+
+<h2>8. Site Subnet Summary</h2>
+<table>
+    <tr><th>Site</th><th>State</th><th>Subnets</th><th>Phase</th></tr>
+    <tr><td>Malaga-Morley</td><td>WA</td><td class="subnet">10.9.52.0, 10.91.52.0</td><td><span class="status-pilot">Pilot</span></td></tr>
+    <tr><td>Belmont North</td><td>NSW</td><td class="subnet">10.21.52.0, 10.2.52.0, 10.24.52.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>Brookvale</td><td>NSW</td><td class="subnet">10.2.64.0, 10.21.64.0, 10.28.64.0, 10.25.64.0, 10.26.64.0, 10.30.64.0, 10.31.64.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>North Sydney</td><td>NSW</td><td class="subnet">10.2.68.0, 10.21.68.0, 10.28.68.0, 10.25.68.0, 10.26.68.0, 10.30.68.0, 10.31.68.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>Mona Vale</td><td>NSW</td><td class="subnet">10.2.66.0, 10.21.66.0, 10.28.66.0, 10.25.66.0, 10.26.66.0, 10.30.66.0, 10.31.66.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>Wickham</td><td>NSW</td><td class="subnet">10.2.60.0, 10.26.60.0, 10.21.60.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>Queens Wharf</td><td>NSW</td><td class="subnet">10.21.54.0, 10.2.54.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>Hamilton</td><td>NSW</td><td class="subnet">10.21.50.0, 10.24.50.0, 10.2.50.0, 10.27.50.0, 172.20.120.0</td><td><span class="status-batch2">Batch 1</span></td></tr>
+    <tr><td>Goolwa</td><td>SA</td><td class="subnet">10.81.72.0, 10.8.72.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Murray Bridge</td><td>SA</td><td class="subnet">10.81.58.0, 10.8.58.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Mt Barker</td><td>SA</td><td class="subnet">10.81.62.0, 10.8.62.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Aldgate</td><td>SA</td><td class="subnet">10.81.64.0, 10.8.64.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Pooraka</td><td>SA</td><td class="subnet">10.81.54.0, 10.8.54.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Willaston</td><td>SA</td><td class="subnet">10.81.68.0, 10.8.68.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Nuriootpa</td><td>SA</td><td class="subnet">10.81.60.0, 10.8.60.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Clontarf</td><td>QLD</td><td class="subnet">10.71.52.0, 10.7.52.0, 10.75.52.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>North Lakes</td><td>QLD</td><td class="subnet">10.71.56.0, 10.7.56.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Welshpool</td><td>WA</td><td class="subnet">10.91.64.0, 10.9.64.0, 10.95.64.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Walliston-Kalamunda</td><td>WA</td><td class="subnet">10.91.66.0, 10.9.66.0, 10.9.67.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Bayswater</td><td>WA</td><td class="subnet">10.91.58.0, 10.9.58.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Forrestfield</td><td>WA</td><td class="subnet">10.41.1.0, 10.91.41.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Redcliffe</td><td>WA</td><td class="subnet">10.9.68.0, 10.91.68.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Geraldton</td><td>WA</td><td class="subnet">10.91.70.0, 10.9.70.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+    <tr><td>Henley Brook</td><td>WA</td><td class="subnet">10.91.54.0, 10.9.54.0</td><td><span class="status-batch3">Batch 2</span></td></tr>
+</table>
+
+<h2>9. Test Plan (Per Site)</h2>
+<p><strong>Normal State Acceptance:</strong></p>
+<ul>
+    <li><strong>Site &rarr; Azure East (Primary):</strong> Ping from site to 10.200.10.10 - expect reply</li>
+    <li><strong>Azure East &rarr; Site:</strong> Ping from Azure East VM to site subnet - expect reply</li>
+    <li>RDP to Azure East VMs to confirm bidirectional traffic (no asymmetric routing)</li>
+    <li>Verify East FortiGate tunnel stats incrementing (production traffic)</li>
+</ul>
+<p><strong>DR Pre-staging Validation:</strong></p>
+<ul>
+    <li><strong>Site &rarr; Azure SEast (DR):</strong> Ping from site to 10.201.10.61 - expect reply (tunnel up)</li>
+    <li>Verify SEast FortiGate tunnel established (idle/standby - no production traffic expected)</li>
+    <li><em>Note: DR failover testing (forced East tunnel down) is not in scope for this CR</em></li>
+</ul>
+<p><strong>Isolation Check:</strong></p>
+<ul>
+    <li>Confirm other sites unaffected (Meraki tag changes are staged per batch)</li>
+</ul>
+
+<h2>10. Rollback Procedure (Per Site)</h2>
+<div class="warning">If tests fail: Execute in order (estimated &lt; 5 minutes per site)</div>
+<ol>
+    <li>Remove site routes from KD-Prod-RouteTable (Azure East)</li>
+    <li>Remove site routes from KD-Mel-RouteTable (Azure SEast)</li>
+    <li>Disable VPN tunnels on both FortiGates</li>
+    <li>Verify site connectivity via existing SonicWall</li>
+</ol>
+<div class="note">
+    <strong>Why both regions:</strong> Rollback removes both primary and DR paths to force reversion to SonicWall and prevent partial failover/asymmetric routing.<br>
+    <strong>SonicWall Fallback:</strong> SonicWall configuration remains unchanged until completion of all batches + 14 days soak period.
+</div>
+
+<h2>11. Prerequisites</h2>
+<ul>
+    <li>CR-4342297 (Pilot Test) completed successfully</li>
+    <li>FortiGate address objects created for all 71 subnets</li>
+    <li>FortiGate firewall policies in place (tunnel &harr; Azure backend)</li>
+    <li>NSG permits FortiGate inside IPs (10.200.1.68, 10.201.1.68)</li>
+    <li>Meraki Dashboard access with Org write permissions</li>
+    <li>PSK shared securely (&gt;32 characters)</li>
+</ul>
+
+<div class="note">
+    <strong>Full Runbook:</strong> CR-2026-002-KD-Bus-Production-VPN-Migration.html<br>
+    <strong>Dependency:</strong> CR-4342297 (IPsec Pilot Test) must be completed first<br>
+    <strong>DR Scope:</strong> DR failover testing is not in scope; DR readiness achieved by pre-staging configuration only
+</div>
+
+</body>
+</html>

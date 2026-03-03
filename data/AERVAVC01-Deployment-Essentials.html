@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeloCloud Virtual Edge Deployment - Essentials Checklist</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --secondary-color: #106ebe;
+            --success-color: #107c10;
+            --warning-color: #ff8c00;
+            --danger-color: #d13438;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00a4ef, #0078d4);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin: 25px 0 15px 0;
+            font-size: 1.2em;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 15px 0 10px 0;
+            font-size: 1em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--light-bg);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .summary-item {
+            background: var(--light-bg);
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .summary-item .label {
+            font-size: 0.75em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-top: 3px;
+        }
+
+        .required-section {
+            background: #fff8e6;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .required-section h2 {
+            color: #b8860b;
+            border-bottom-color: #ffd700;
+            margin-top: 0;
+        }
+
+        .input-field {
+            background: white;
+            border: 1px dashed #ccc;
+            min-height: 25px;
+            min-width: 150px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checkbox {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ccc;
+            border-radius: 3px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .risk-table td:nth-child(1) {
+            font-weight: 500;
+        }
+
+        .timeline {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-step {
+            background: var(--primary-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex-grow: 1;
+        }
+
+        .timeline-task {
+            font-weight: 500;
+        }
+
+        .timeline-meta {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e6f3ff, #f0f7ff);
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .highlight-box .big-text {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .highlight-box .small-text {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .documents-list {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .documents-list li {
+            padding: 6px 0;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .action-required {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                font-size: 10pt;
+            }
+
+            .header {
+                background: var(--primary-color) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .required-section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>VeloCloud Virtual Edge Deployment</h1>
+        <div class="subtitle">AERVAVC01 - Essentials Checklist</div>
+    </div>
+
+    <h2>Deployment Summary</h2>
+    <div class="summary-grid">
+        <div class="summary-item">
+            <div class="label">Edge Name</div>
+            <div class="value">AERVAVC01</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Azure Region</div>
+            <div class="value">Australia East</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Target VNet</div>
+            <div class="value">AER-hub-australiaeast</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">VNet CIDR</div>
+            <div class="value">10.139.0.0/18</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">VM Size</div>
+            <div class="value">Standard_D2d_v4</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">LAN IP</div>
+            <div class="value">10.139.3.4</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">VCO</div>
+            <div class="value">vco312-syd1.velocloud.net</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Monthly Cost</div>
+            <div class="value">~$215 AUD</div>
+        </div>
+    </div>
+
+    <div class="required-section">
+        <h2>Information Required from Customer</h2>
+
+        <h3>VeloCloud Orchestrator (VCO)</h3>
+        <table>
+            <tr><th>Item</th><th>Required</th><th>Customer Response</th></tr>
+            <tr><td>VCO admin credentials available?</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Virtual Edge license available?</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Edge profile name to use</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Business policies to apply</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td class="action-required">Activation Key (generated in VCO)</td><td>Yes</td><td class="input-field"></td></tr>
+        </table>
+
+        <h3>Azure Environment</h3>
+        <table>
+            <tr><th>Item</th><th>Required</th><th>Customer Response</th></tr>
+            <tr><td>Target subscription name/ID</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Existing VNet resource group name</td><td>Yes</td><td>rg-network-aue <em>(confirm)</em></td></tr>
+            <tr><td>VNet name</td><td>Yes</td><td>AER-hub-australiaeast <em>(confirm)</em></td></tr>
+            <tr><td>Public subnet exists? (10.139.2.0/24)</td><td>Yes</td><td>velocloud-public-subnet <em>(confirm)</em></td></tr>
+            <tr><td>Private subnet exists? (10.139.3.0/24)</td><td>Yes</td><td>velocloud-private-subnet <em>(confirm)</em></td></tr>
+            <tr><td>IP 10.139.3.4 available?</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Azure Marketplace terms accepted?</td><td>Yes</td><td class="input-field"></td></tr>
+        </table>
+
+        <h3>Network & Security</h3>
+        <table>
+            <tr><th>Item</th><th>Required</th><th>Customer Response</th></tr>
+            <tr><td>Management IP(s) for SSH access</td><td>Yes</td><td>52.62.158.44/32 <em>(confirm)</em></td></tr>
+            <tr><td>SNMP monitoring subnet</td><td>Optional</td><td>10.139.10.0/24 <em>(confirm)</em></td></tr>
+            <tr><td>Branch networks to route via Edge</td><td>Yes</td><td>192.168.10.0/24, 192.168.20.0/24 <em>(confirm)</em></td></tr>
+            <tr><td>Workload subnet(s) needing branch access</td><td>Yes</td><td class="input-field"></td></tr>
+        </table>
+
+        <h3>Scheduling</h3>
+        <table>
+            <tr><th>Item</th><th>Required</th><th>Customer Response</th></tr>
+            <tr><td>Preferred deployment date</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Maintenance window (if required)</td><td>Yes</td><td class="input-field"></td></tr>
+            <tr><td>Stakeholder notification list</td><td>Yes</td><td class="input-field"></td></tr>
+        </table>
+    </div>
+
+    <div class="two-column">
+        <div>
+            <h2>Pre-Deployment Actions</h2>
+
+            <h3>Customer Actions</h3>
+            <ul class="checklist">
+                <li><span class="checkbox"></span> Confirm VCO access and license availability</li>
+                <li><span class="checkbox"></span> Confirm Azure subscription and permissions</li>
+                <li><span class="checkbox"></span> Confirm VNet and subnet details</li>
+                <li><span class="checkbox"></span> Confirm IP address availability (10.139.3.4)</li>
+                <li><span class="checkbox"></span> Confirm management IP addresses for SSH</li>
+                <li><span class="checkbox"></span> Provide list of branch networks to route</li>
+                <li><span class="checkbox"></span> Provide list of workload subnets</li>
+                <li><span class="checkbox"></span> Confirm preferred deployment date</li>
+            </ul>
+
+            <h3>Our Actions (after confirmation)</h3>
+            <ul class="checklist">
+                <li><span class="checkbox"></span> Create Edge record in VCO</li>
+                <li><span class="checkbox"></span> Generate activation key</li>
+                <li><span class="checkbox"></span> Configure Edge profile in VCO</li>
+                <li><span class="checkbox"></span> Accept Azure Marketplace terms</li>
+                <li><span class="checkbox"></span> Prepare parameter file</li>
+                <li><span class="checkbox"></span> Validate ARM template</li>
+                <li><span class="checkbox"></span> Schedule deployment</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Deployment Day</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-step">1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Open maintenance window</div>
+                        <div class="timeline-meta">15 min | Change Manager</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-step">2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Deploy ARM template</div>
+                        <div class="timeline-meta">15 min | Cloud Engineer</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-step">3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Verify VM provisioning</div>
+                        <div class="timeline-meta">5 min | Cloud Engineer</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-step">4</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Verify Edge activation in VCO</div>
+                        <div class="timeline-meta">10 min | Network Engineer</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-step">5</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Configure UDRs</div>
+                        <div class="timeline-meta">30 min | Cloud Engineer</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-step">6</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Test connectivity</div>
+                        <div class="timeline-meta">30 min | Network Engineer</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-step">7</div>
+                    <div class="timeline-content">
+                        <div class="timeline-task">Close maintenance window</div>
+                        <div class="timeline-meta">15 min | Change Manager</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="big-text">~2 hours</div>
+                <div class="small-text">Total estimated deployment time</div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Key Risks & Mitigations</h2>
+    <table class="risk-table">
+        <tr><th>Risk</th><th>Mitigation</th></tr>
+        <tr><td>Edge doesn't activate</td><td>Verify VCO connectivity and activation key beforehand</td></tr>
+        <tr><td>Routing disruption</td><td>Gradual route migration, test non-critical traffic first</td></tr>
+        <tr><td>VM deployment failure</td><td>Template pre-validated, rollback = delete resource group</td></tr>
+    </table>
+
+    <div class="highlight-box">
+        <div class="big-text">15 minutes</div>
+        <div class="small-text">Rollback time (remove UDRs + delete resources)</div>
+    </div>
+
+    <h2>Post-Deployment</h2>
+    <ul class="checklist">
+        <li><span class="checkbox"></span> Update network diagrams</li>
+        <li><span class="checkbox"></span> Update IPAM</li>
+        <li><span class="checkbox"></span> Update runbooks</li>
+        <li><span class="checkbox"></span> Close change request</li>
+    </ul>
+
+    <h2>Contact Points</h2>
+    <table>
+        <tr><th>Role</th><th>Contact</th></tr>
+        <tr><td>Cloud Engineer</td><td class="input-field"></td></tr>
+        <tr><td>Network Engineer</td><td class="input-field"></td></tr>
+        <tr><td>Change Manager</td><td class="input-field"></td></tr>
+        <tr><td>Customer Contact</td><td class="input-field"></td></tr>
+    </table>
+
+    <h2>Documents Provided</h2>
+    <div class="documents-list">
+        <ul class="checklist">
+            <li><span class="checkbox"></span> Change Request (CR-AERVAVC01-VeloCloud-Edge-Deployment.docx)</li>
+            <li><span class="checkbox"></span> Deployment Instructions (AERVAVC01-Deployment-Instructions.docx)</li>
+            <li><span class="checkbox"></span> ARM Template (velocloud-edge-azure-template.json)</li>
+            <li><span class="checkbox"></span> Parameter File Template (velocloud-edge-azure-parameters.json)</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p><em>Please review and provide the missing information highlighted above.</em></p>
+        <p>Generated by VeloCloud SD-WAN Agent v2.2</p>
+    </div>
+</body>
+</html>

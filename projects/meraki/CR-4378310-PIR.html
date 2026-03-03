@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PIR - CR-4378310 - KD Bus VPN Migration</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.5; max-width: 850px; margin: 0 auto; padding: 15px; }
+        h1 { font-size: 16px; color: #1a365d; border-bottom: 2px solid #3182ce; padding-bottom: 5px; margin-bottom: 10px; }
+        h2 { font-size: 14px; color: #2c5282; margin: 15px 0 8px 0; border-left: 3px solid #3182ce; padding-left: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
+        th, td { border: 1px solid #e2e8f0; padding: 6px 8px; text-align: left; }
+        th { background-color: #edf2f7; font-weight: 600; width: 180px; }
+    </style>
+</head>
+<body>
+
+<h1>Post Incident Review - CR-4378310</h1>
+
+<h2>Incident Summary</h2>
+<table>
+    <tr><th>Change Request</th><td>CR-4378310 - KD Bus Sites Production VPN Migration</td></tr>
+    <tr><th>Related CR</th><td>CR-4342297 (Pilot Test)</td></tr>
+    <tr><th>Impact</th><td>Some on-site users unable to access Azure resources</td></tr>
+    <tr><th>Duration</th><td>Resolved during pilot phase</td></tr>
+</table>
+
+<h2>What Happened</h2>
+<p>During the pilot phase, the existing Meraki network tags <strong>KDBus-Azure-VPN</strong> and <strong>KDBus-Azure-DR-VPN</strong> were applied to the new FortiGate IPsec VPN peers. These tags were already in use by the existing SonicWall VPN peers, which caused both the SonicWall and FortiGate tunnels to become active simultaneously for the tagged networks. This created a dual-tunnel routing conflict, resulting in some on-site users being unable to access Azure resources.</p>
+
+<h2>Root Cause</h2>
+<p>Applying shared network tags to both old (SonicWall) and new (FortiGate) IPsec peers caused Meraki to route VPN traffic across both tunnels concurrently. The conflicting paths led to asymmetric routing and connectivity failures for Azure-hosted resources.</p>
+
+<h2>Resolution</h2>
+<p>A dedicated network tag (<strong>fortigate-test</strong>) was created and applied exclusively to the new FortiGate IPsec peers. This isolated the new tunnels to only the pilot network, while all other sites continued routing via the existing SonicWall VPN unaffected. The tag restriction approach was adopted as the standard method for the phased production rollout.</p>
+
+<h2>Lessons Learned</h2>
+<ul>
+    <li>New IPsec VPN peers must use dedicated/unique network tags to avoid conflicts with existing VPN tunnels during migration.</li>
+    <li>Meraki network tags are the primary mechanism for controlling which networks use which IPsec peers &mdash; shared tags will activate both old and new tunnels simultaneously.</li>
+</ul>
+
+</body>
+</html>

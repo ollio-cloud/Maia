@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Device Network Restriction Implementation Guide</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --secondary-color: #106ebe;
+            --success-color: #107c10;
+            --warning-color: #ff8c00;
+            --danger-color: #d13438;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #323130;
+            --border-color: #e1e1e1;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        header .version-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        nav h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        nav li a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        nav li a:hover {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 25px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        h4 {
+            color: var(--text-color);
+            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e8f4ff;
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Syntax highlighting */
+        .comment { color: #6a9955; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .variable { color: #9cdcfe; }
+        .function { color: #dcdcaa; }
+
+        /* Architecture diagrams */
+        .diagram {
+            background: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Cascadia Code', 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+        }
+
+        /* Alerts/Notes */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: var(--primary-color);
+            color: #004578;
+        }
+
+        .alert-warning {
+            background: #fff4ce;
+            border-color: var(--warning-color);
+            color: #835c00;
+        }
+
+        .alert-danger {
+            background: #fde7e9;
+            border-color: var(--danger-color);
+            color: #a80000;
+        }
+
+        .alert-success {
+            background: #dff6dd;
+            border-color: var(--success-color);
+            color: #0b6a0b;
+        }
+
+        /* Checklists */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .checklist li:before {
+            content: "[ ]";
+            margin-right: 10px;
+            font-family: monospace;
+            color: var(--primary-color);
+        }
+
+        /* Status badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-pass { background: #dff6dd; color: #107c10; }
+        .badge-fail { background: #fde7e9; color: #d13438; }
+        .badge-pending { background: #fff4ce; color: #835c00; }
+        .badge-info { background: #e7f3ff; color: #0078d4; }
+
+        /* Steps */
+        .step {
+            display: flex;
+            margin: 20px 0;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        /* Print styles */
+        @media print {
+            nav { display: none; }
+            section { box-shadow: none; border: 1px solid #ddd; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+            .no-print { display: none; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            nav ul { grid-template-columns: 1fr; }
+            section { padding: 20px; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 8px 10px; }
+        }
+
+        /* Copy button */
+        .code-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: #666;
+        }
+
+        /* Collapsible sections */
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .collapsible:after {
+            content: ' [+]';
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .collapsible.active:after {
+            content: ' [-]';
+        }
+
+        .collapse-content {
+            display: none;
+            padding-top: 15px;
+        }
+
+        .collapse-content.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Field Device Network Restriction Implementation Guide</h1>
+        <div class="subtitle">Microsoft Intune + GPO Configuration for Secure Field Devices</div>
+        <div class="version-info">
+            <strong>Version:</strong> 1.0 | <strong>Last Updated:</strong> December 2024 | <strong>Author:</strong> Principal Endpoint Engineer
+        </div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#executive-summary">1. Executive Summary</a></li>
+                <li><a href="#architecture">2. Architecture Overview</a></li>
+                <li><a href="#prerequisites">3. Prerequisites</a></li>
+                <li><a href="#uc1-2">4. UC1/2: Network Restrictions</a></li>
+                <li><a href="#uc3">5. UC3: USB Device Whitelisting</a></li>
+                <li><a href="#uc4">6. UC4: USB-Serial Support</a></li>
+                <li><a href="#uc5">7. UC5: Secure Offline Access</a></li>
+                <li><a href="#uc6">8. UC6: SICE/MSP Patch Access</a></li>
+                <li><a href="#entra-connect">9. Entra ID Connect Setup</a></li>
+                <li><a href="#deployment">10. Deployment Sequence</a></li>
+                <li><a href="#testing">11. Testing & Validation</a></li>
+                <li><a href="#rollback">12. Rollback Procedures</a></li>
+                <li><a href="#appendix">13. Appendix</a></li>
+            </ul>
+        </nav>
+
+        <!-- Executive Summary -->
+        <section id="executive-summary">
+            <h2>1. Executive Summary</h2>
+            <p>This document provides step-by-step implementation guidance for configuring secure field devices using Microsoft Intune and Group Policy. The solution addresses six use cases focused on network restriction, USB control, and secure access patterns.</p>
+
+            <h3>Key Outcomes</h3>
+            <table>
+                <thead>
+                    <tr><th>Objective</th><th>Solution</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Disable Wi-Fi</td><td>Intune PowerShell + Scheduled Task</td></tr>
+                    <tr><td>Allow LAN/5G only</td><td>Network adapter management</td></tr>
+                    <tr><td>Restrict internet to Azure Bastion + ShareFile</td><td>Windows Firewall Dynamic Keywords</td></tr>
+                    <tr><td>USB device whitelisting</td><td>Defender for Endpoint Device Control</td></tr>
+                    <tr><td>USB-to-Serial support</td><td>Driver deployment + whitelisting</td></tr>
+                    <tr><td>Secure offline access</td><td>BitLocker + Defender + cached credentials</td></tr>
+                    <tr><td>MSP patch access</td><td>VPN + firewall rules</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Technology Stack</h3>
+            <ul>
+                <li>Microsoft Intune (MDM)</li>
+                <li>Windows Firewall with Dynamic Keywords</li>
+                <li>Microsoft Defender for Endpoint</li>
+                <li>Group Policy (supplemental)</li>
+                <li>PowerShell automation</li>
+            </ul>
+        </section>
+
+        <!-- Architecture -->
+        <section id="architecture">
+            <h2>2. Architecture Overview</h2>
+            <div class="diagram">
++------------------------------------------------------------------------------+
+|                           FIELD DEVICE ARCHITECTURE                           |
++------------------------------------------------------------------------------+
+|                                                                               |
+|  +-----------------------------------------------------------------------+   |
+|  |                        NETWORK LAYER                                   |   |
+|  +-----------------------------------------------------------------------+   |
+|  |  Wi-Fi Adapter        | DISABLED (Intune Script + Scheduled Task)     |   |
+|  |  Ethernet (LAN)       | ENABLED  (Corporate network access)           |   |
+|  |  Cellular (5G SIM)    | ENABLED  (Field connectivity)                 |   |
+|  +-----------------------------------------------------------------------+   |
+|                                                                               |
+|  +-----------------------------------------------------------------------+   |
+|  |                      FIREWALL LAYER (Dynamic Keywords)                 |   |
+|  +-----------------------------------------------------------------------+   |
+|  |  DEFAULT OUTBOUND     | BLOCK ALL                                      |   |
+|  |  -------------------------------------------------------------------   |   |
+|  |  ALLOWED (FQDNs):                                                      |   |
+|  |  +-- *.bastion.azure.com      (Azure Bastion)                          |   |
+|  |  +-- *.portal.azure.com       (Azure Portal)                           |   |
+|  |  +-- *.sharefile.com          (ShareFile)                              |   |
+|  |  +-- *.sf-api.com             (ShareFile API)                          |   |
+|  |  +-- login.microsoftonline.com (Authentication)                        |   |
+|  |  +-- *.manage.microsoft.com   (Intune)                                 |   |
+|  |  +-- *.windowsupdate.com      (Security Updates)                       |   |
+|  |  +-- Local Network (RFC1918)  (LAN access)                             |   |
+|  +-----------------------------------------------------------------------+   |
+|                                                                               |
+|  +-----------------------------------------------------------------------+   |
+|  |                         USB LAYER                                      |   |
+|  +-----------------------------------------------------------------------+   |
+|  |  Mass Storage          | BLOCKED (Defender Device Control)             |   |
+|  |  Approved IP Tools     | ALLOWED (VID/PID whitelist)                   |   |
+|  |  USB-Serial Adapters   | ALLOWED (VID/PID whitelist + drivers)         |   |
+|  +-----------------------------------------------------------------------+   |
+|                                                                               |
+|  +-----------------------------------------------------------------------+   |
+|  |                       SECURITY LAYER                                   |   |
+|  +-----------------------------------------------------------------------+   |
+|  |  BitLocker             | ENABLED (TPM + PIN)                           |   |
+|  |  Windows Defender      | ENABLED (Real-time + Network Protection)      |   |
+|  |  Cached Credentials    | 10 logons (offline access)                    |   |
+|  |  Windows Hello         | ENABLED (biometric authentication)            |   |
+|  +-----------------------------------------------------------------------+   |
+|                                                                               |
++------------------------------------------------------------------------------+
+            </div>
+        </section>
+
+        <!-- Prerequisites -->
+        <section id="prerequisites">
+            <h2>3. Prerequisites</h2>
+
+            <h3>Licensing Requirements</h3>
+            <table>
+                <thead>
+                    <tr><th>Feature</th><th>License Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Intune device management</td><td>Microsoft Intune (M365 E3/E5 or standalone)</td></tr>
+                    <tr><td>Dynamic Keywords (FQDN)</td><td>Windows 10 21H2+ / Windows 11</td></tr>
+                    <tr><td>USB VID/PID control</td><td>Defender for Endpoint P2 (M365 E5)</td></tr>
+                    <tr><td>BitLocker management</td><td>Intune (any tier)</td></tr>
+                    <tr><td>Proactive Remediations</td><td>Intune (any tier)</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Technical Requirements</h3>
+            <table>
+                <thead>
+                    <tr><th>Requirement</th><th>Minimum Version</th><th>Verification Command</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Windows OS</td><td>Windows 10 21H2 (Build 19044)</td><td><code>winver</code></td></tr>
+                    <tr><td>Defender Antivirus</td><td>4.18.2209.7</td><td><code>(Get-MpComputerStatus).AMProductVersion</code></td></tr>
+                    <tr><td>Network Protection</td><td>Enabled</td><td><code>(Get-MpPreference).EnableNetworkProtection</code></td></tr>
+                    <tr><td>DNS over HTTPS</td><td>Disabled</td><td>Registry check</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Pre-Implementation Checklist</h3>
+            <div class="code-container">
+                <pre><code><span class="comment"># Run this script to verify prerequisites</span>
+<span class="function">Write-Host</span> <span class="string">"=== Prerequisite Check ==="</span> -ForegroundColor Cyan
+
+<span class="comment"># 1. Windows Version</span>
+<span class="variable">$OS</span> = Get-CimInstance Win32_OperatingSystem
+<span class="variable">$Build</span> = [int]<span class="variable">$OS</span>.BuildNumber
+<span class="function">Write-Host</span> <span class="string">"Windows Build: $Build"</span> -ForegroundColor $(if (<span class="variable">$Build</span> -ge 19044) { <span class="string">'Green'</span> } else { <span class="string">'Red'</span> })
+
+<span class="comment"># 2. Defender Version</span>
+<span class="variable">$Defender</span> = Get-MpComputerStatus
+<span class="function">Write-Host</span> <span class="string">"Defender Version: $($Defender.AMProductVersion)"</span> -ForegroundColor Green
+
+<span class="comment"># 3. Network Protection</span>
+<span class="variable">$NP</span> = (Get-MpPreference).EnableNetworkProtection
+<span class="variable">$NPStatus</span> = switch (<span class="variable">$NP</span>) { 1 { <span class="string">"Enabled"</span> } 2 { <span class="string">"Audit"</span> } default { <span class="string">"Disabled"</span> } }
+<span class="function">Write-Host</span> <span class="string">"Network Protection: $NPStatus"</span>
+
+<span class="comment"># 4. Intune Enrollment</span>
+<span class="variable">$MDM</span> = Get-CimInstance -Namespace root/cimv2/mdm/dmmap -ClassName MDM_DevDetail -ErrorAction SilentlyContinue
+<span class="function">Write-Host</span> <span class="string">"Intune Enrolled: $(if ($MDM) { 'Yes' } else { 'No' })"</span></code></pre>
+            </div>
+        </section>
+
+        <!-- UC1/2 Network Restrictions -->
+        <section id="uc1-2">
+            <h2>4. Use Case 1 & 2: Disable Wi-Fi, Allow LAN/5G, Restrict Internet</h2>
+
+            <h3>Overview</h3>
+            <table>
+                <thead>
+                    <tr><th>Requirement</th><th>Implementation</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Disable Wi-Fi</td><td>PowerShell script + scheduled task</td></tr>
+                    <tr><td>Allow Ethernet (LAN)</td><td>No action (enabled by default)</td></tr>
+                    <tr><td>Allow Cellular (5G SIM)</td><td>No action (enabled by default)</td></tr>
+                    <tr><td>Restrict internet</td><td>Windows Firewall Dynamic Keywords</td></tr>
+                    <tr><td>Allowed destinations</td><td>Azure Bastion, ShareFile, Microsoft Auth, Intune</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Step 1.1: Create Device Group</h3>
+            <p><strong>Location:</strong> Microsoft Entra admin center &rarr; Groups &rarr; New Group</p>
+            <table>
+                <thead>
+                    <tr><th>Setting</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Group type</td><td>Security</td></tr>
+                    <tr><td>Group name</td><td><code>Field-Devices-Restricted-Network</code></td></tr>
+                    <tr><td>Membership type</td><td>Dynamic Device (recommended) or Assigned</td></tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info">
+                <strong>Dynamic Membership Rule (if using Autopilot group tag):</strong><br>
+                <code>(device.devicePhysicalIds -any (_ -contains "[OrderID]:Field-Restricted"))</code>
+            </div>
+
+            <h3>Step 1.2: Enable Network Protection</h3>
+            <p><strong>Location:</strong> Intune Admin Center &rarr; Endpoint Security &rarr; Attack Surface Reduction &rarr; Create Policy</p>
+            <table>
+                <thead>
+                    <tr><th>Setting</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Platform</td><td>Windows 10, Windows 11, Windows Server</td></tr>
+                    <tr><td>Profile</td><td>Attack Surface Reduction Rules</td></tr>
+                    <tr><td>Name</td><td><code>Field-Devices-Enable-Network-Protection</code></td></tr>
+                    <tr><td>Enable network protection</td><td>Enable (block mode)</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Step 1.4: Wi-Fi Disable Script</h3>
+            <p><strong>Location:</strong> Intune &rarr; Devices &rarr; Scripts and remediations &rarr; Platform scripts &rarr; Add</p>
+            <div class="code-container">
+                <pre><code><span class="comment">&lt;#
+.SYNOPSIS
+    Disables Wi-Fi adapter, allows LAN and Cellular (5G SIM)
+.DESCRIPTION
+    - Disables all Wi-Fi/Wireless adapters
+    - Leaves Ethernet (LAN) enabled
+    - Leaves Cellular/WWAN (5G SIM) enabled
+    - Creates scheduled task for persistent enforcement
+#&gt;</span>
+
+<span class="keyword">#Requires</span> -RunAsAdministrator
+
+<span class="variable">$LogPath</span> = <span class="string">"$env:ProgramData\Intune\Logs"</span>
+<span class="variable">$TaskName</span> = <span class="string">"Intune-WiFiDisableEnforcement"</span>
+
+<span class="keyword">try</span> {
+    <span class="comment"># Get all network adapters</span>
+    <span class="variable">$AllAdapters</span> = Get-NetAdapter
+
+    <span class="comment"># Wi-Fi adapters to DISABLE</span>
+    <span class="variable">$WifiAdapters</span> = <span class="variable">$AllAdapters</span> | Where-Object {
+        <span class="variable">$_</span>.InterfaceDescription -match <span class="string">'Wi-Fi|Wireless|WLAN|802\.11|WiFi'</span>
+    }
+
+    <span class="comment"># Disable Wi-Fi adapters</span>
+    <span class="keyword">foreach</span> (<span class="variable">$Adapter</span> <span class="keyword">in</span> <span class="variable">$WifiAdapters</span>) {
+        <span class="function">Disable-NetAdapter</span> -Name <span class="variable">$Adapter</span>.Name -Confirm:<span class="variable">$false</span>
+    }
+
+    <span class="comment"># Create enforcement scheduled task (runs every 15 minutes)</span>
+    <span class="comment"># ... (task creation code)</span>
+
+    exit 0
+}
+<span class="keyword">catch</span> {
+    exit 1
+}</code></pre>
+            </div>
+
+            <h3>Step 1.6: Dynamic Keyword Firewall Configuration</h3>
+            <div class="alert alert-warning">
+                <strong>Important:</strong> Dynamic Keywords require Windows 10 21H2+ and Network Protection enabled.
+            </div>
+            <div class="code-container">
+                <pre><code><span class="comment"># Dynamic Keyword Definitions</span>
+<span class="variable">$Keywords</span> = @{
+    <span class="comment"># Azure Bastion</span>
+    AzureBastion = @{ Id = <span class="string">"{11111111-1111-1111-1111-111111111111}"</span>; Keyword = <span class="string">"*.bastion.azure.com"</span> }
+    AzurePortal = @{ Id = <span class="string">"{11111111-1111-1111-1111-111111111112}"</span>; Keyword = <span class="string">"*.portal.azure.com"</span> }
+
+    <span class="comment"># ShareFile</span>
+    ShareFile1 = @{ Id = <span class="string">"{22222222-2222-2222-2222-222222222221}"</span>; Keyword = <span class="string">"*.sharefile.com"</span> }
+    ShareFile2 = @{ Id = <span class="string">"{22222222-2222-2222-2222-222222222222}"</span>; Keyword = <span class="string">"*.sf-api.com"</span> }
+
+    <span class="comment"># Intune Management</span>
+    IntuneMgmt = @{ Id = <span class="string">"{33333333-3333-3333-3333-333333333331}"</span>; Keyword = <span class="string">"*.manage.microsoft.com"</span> }
+
+    <span class="comment"># Windows Update</span>
+    WU1 = @{ Id = <span class="string">"{44444444-4444-4444-4444-444444444441}"</span>; Keyword = <span class="string">"*.windowsupdate.com"</span> }
+}
+
+<span class="comment"># Set default outbound to BLOCK</span>
+<span class="function">Set-NetFirewallProfile</span> -Profile Domain,Private,Public -DefaultOutboundAction Block
+
+<span class="comment"># Create allow rules for approved destinations</span>
+<span class="function">New-NetFirewallRule</span> -DisplayName <span class="string">"DynKeyword-Allow-Azure-HTTPS"</span> `
+    -Direction Outbound -Action Allow -Protocol TCP -RemotePort 443 `
+    -RemoteDynamicKeywordAddresses <span class="variable">$AzureKeywords</span></code></pre>
+            </div>
+        </section>
+
+        <!-- UC3 USB Whitelisting -->
+        <section id="uc3">
+            <h2>5. Use Case 3: USB Device Whitelisting</h2>
+
+            <h3>Step 3.1: Collect Approved Device VID/PIDs</h3>
+            <div class="code-container">
+                <pre><code><span class="comment"># Get VID/PID of connected USB devices</span>
+Get-PnpDevice -Class USB | ForEach-Object {
+    <span class="keyword">if</span> (<span class="variable">$_</span>.InstanceId -match <span class="string">'VID_([0-9A-F]{4})&amp;PID_([0-9A-F]{4})'</span>) {
+        [PSCustomObject]@{
+            Name = <span class="variable">$_</span>.FriendlyName
+            VID = <span class="variable">$Matches</span>[1]
+            PID = <span class="variable">$Matches</span>[2]
+            ForPolicy = <span class="string">"VID_$($Matches[1])&amp;PID_$($Matches[2])"</span>
+        }
+    }
+} | Format-Table -AutoSize</code></pre>
+            </div>
+
+            <h3>Example Approved Devices</h3>
+            <table>
+                <thead>
+                    <tr><th>Device</th><th>VID</th><th>PID</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>FTDI USB-Serial</td><td>0403</td><td>6001</td><td>IP Configuration</td></tr>
+                    <tr><td>Lantronix</td><td>0403</td><td>6010</td><td>Network Config</td></tr>
+                    <tr><td>Prolific USB-Serial</td><td>067B</td><td>2303</td><td>Legacy Serial</td></tr>
+                    <tr><td>Silicon Labs CP210x</td><td>10C4</td><td>EA60</td><td>Serial Adapter</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- UC4 USB Serial -->
+        <section id="uc4">
+            <h2>6. Use Case 4: USB-to-Serial Support</h2>
+            <p>Deploy USB-Serial drivers via Win32 app in Intune.</p>
+
+            <table>
+                <thead>
+                    <tr><th>Field</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Name</td><td>USB-Serial Drivers Package</td></tr>
+                    <tr><td>Install command</td><td><code>powershell.exe -ExecutionPolicy Bypass -File Install-USBSerialDrivers.ps1</code></td></tr>
+                    <tr><td>Detection Rule</td><td>File exists: <code>C:\Windows\System32\drivers\ftdibus.sys</code></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- UC5 Offline Access -->
+        <section id="uc5">
+            <h2>7. Use Case 5: Secure Offline Access</h2>
+
+            <h3>Configuration Summary</h3>
+            <table>
+                <thead>
+                    <tr><th>Component</th><th>Setting</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Cached Credentials</td><td>Number of previous logons to cache</td><td>10</td></tr>
+                    <tr><td>BitLocker</td><td>Encrypt devices + Startup auth</td><td>Required + TPM+PIN</td></tr>
+                    <tr><td>Windows Defender</td><td>Real-time protection</td><td>Enabled</td></tr>
+                    <tr><td>Compliance Policy</td><td>Mark non-compliant after</td><td>7 days (grace period)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- UC6 SICE Access -->
+        <section id="uc6">
+            <h2>8. Use Case 6: SICE (MSP) Patch Access</h2>
+
+            <h3>Requirements to Obtain from MSP</h3>
+            <table>
+                <thead>
+                    <tr><th>Information</th><th>Example</th><th>Your Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SICE Server FQDN</td><td>patch.msp-sice.com</td><td>__________</td></tr>
+                    <tr><td>SICE Portal FQDN</td><td>portal.msp-sice.com</td><td>__________</td></tr>
+                    <tr><td>Communication Port</td><td>TCP 443</td><td>__________</td></tr>
+                    <tr><td>Agent Installer</td><td>SICEAgent.msi</td><td>__________</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Entra ID Connect -->
+        <section id="entra-connect">
+            <h2>9. Entra ID Connect Infrastructure Setup</h2>
+
+            <h3>Overview</h3>
+            <p>Two virtual machines are required to support Entra ID Connect (Azure AD Connect) deployment for MDM Intune configuration management. These servers synchronize on-premises Active Directory with Microsoft Entra ID.</p>
+
+            <div class="diagram">
++------------------------------------------------------------------------------+
+|                     ENTRA ID CONNECT ARCHITECTURE                             |
++------------------------------------------------------------------------------+
+|                                                                               |
+|    +--------------------+                    +--------------------+            |
+|    |    M7EC Site       |                    |      PH Site       |            |
+|    |  M7EC-EC1-CYB-01   |<---- Replication --->|   PH-EC2-CYB-01    |            |
+|    |  (Primary)         |                    |   (Standby)        |            |
+|    +--------+-----------+                    +--------+-----------+            |
+|             |                                         |                        |
+|             | LDAPS                                   | LDAPS                  |
+|             v                                         v                        |
+|    +--------------------+                    +--------------------+            |
+|    | On-Premises AD     |                    | On-Premises AD     |            |
+|    | Domain Controllers |                    | Domain Controllers |            |
+|    +--------------------+                    +--------------------+            |
+|             |                                         |                        |
+|             +-------------------+---------------------+                        |
+|                                 |                                              |
+|                                 v                                              |
+|                    +------------------------+                                  |
+|                    |   Microsoft Entra ID   |                                  |
+|                    |    (Azure AD Cloud)    |                                  |
+|                    +------------------------+                                  |
+|                                 |                                              |
+|                                 v                                              |
+|                    +------------------------+                                  |
+|                    |   Microsoft Intune     |                                  |
+|                    |   (Device Management)  |                                  |
+|                    +------------------------+                                  |
+|                                                                               |
++------------------------------------------------------------------------------+
+            </div>
+
+            <h3>VM Specifications</h3>
+            <table>
+                <thead>
+                    <tr><th>Specification</th><th>Requirement</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Operating System</strong></td><td>Windows Server 2022 Standard</td><td>GUI required (Core NOT supported)</td></tr>
+                    <tr><td><strong>CPU</strong></td><td>Dual core, 1.6 GHz minimum</td><td>Recommended: 4 cores</td></tr>
+                    <tr><td><strong>Memory</strong></td><td>6 GB RAM</td><td>Minimum requirement</td></tr>
+                    <tr><td><strong>Storage</strong></td><td>70 GB SSD</td><td>System + app + logs</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Software Requirements</h3>
+            <table>
+                <thead>
+                    <tr><th>Component</th><th>Requirement</th><th>Verification</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>PowerShell</td><td>Version 5.0+</td><td><code>$PSVersionTable.PSVersion</code></td></tr>
+                    <tr><td>.NET Framework</td><td>Version 4.8+</td><td>Registry check</td></tr>
+                    <tr><td>Execution Policy</td><td>RemoteSigned</td><td><code>Get-ExecutionPolicy</code></td></tr>
+                    <tr><td>TLS</td><td>TLS 1.2 enabled</td><td>See verification script</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Security Requirements</h3>
+            <table>
+                <thead>
+                    <tr><th>Agent</th><th>Requirement</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Rapid7</td><td><span class="badge badge-fail">Must be installed</span></td></tr>
+                    <tr><td>SentinelOne (S1)</td><td><span class="badge badge-fail">Must be installed</span></td></tr>
+                </tbody>
+            </table>
+
+            <h3>VM Naming</h3>
+            <table>
+                <thead>
+                    <tr><th>Site</th><th>VM Name</th><th>Role</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>M7EC</td><td><code>M7EC-EC1-CYB-01</code></td><td>Primary</td></tr>
+                    <tr><td>PH</td><td><code>PH-EC2-CYB-01</code></td><td>Standby</td></tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-danger">
+                <strong>Security Classification:</strong> These VMs are <strong>Tier 0 assets</strong>, equivalent to Domain Controllers. They require placement in the same network zone as DCs with equivalent security controls.
+            </div>
+
+            <h3>Pre-Installation Verification Script</h3>
+            <div class="code-container">
+                <pre><code><span class="comment"># Run this on each VM before installing Entra ID Connect</span>
+
+<span class="function">Write-Host</span> <span class="string">"=== ENTRA ID CONNECT PRE-INSTALLATION CHECK ==="</span> -ForegroundColor Cyan
+
+<span class="comment"># 1. OS Check</span>
+<span class="variable">$OS</span> = Get-CimInstance Win32_OperatingSystem
+<span class="function">Write-Host</span> <span class="string">"OS: $($OS.Caption)"</span>
+
+<span class="comment"># 2. .NET Framework</span>
+<span class="variable">$DotNet</span> = Get-ItemProperty <span class="string">"HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"</span>
+<span class="function">Write-Host</span> <span class="string">".NET Release: $($DotNet.Release)"</span>  <span class="comment"># Should be >= 528040 for 4.8</span>
+
+<span class="comment"># 3. Domain Membership</span>
+<span class="variable">$CS</span> = Get-CimInstance Win32_ComputerSystem
+<span class="function">Write-Host</span> <span class="string">"Domain Joined: $($CS.PartOfDomain) - $($CS.Domain)"</span>
+
+<span class="comment"># 4. Security Agents</span>
+<span class="variable">$R7</span> = Get-Service -Name <span class="string">"ir_agent"</span> -ErrorAction SilentlyContinue
+<span class="variable">$S1</span> = Get-Service -Name <span class="string">"SentinelAgent"</span> -ErrorAction SilentlyContinue
+<span class="function">Write-Host</span> <span class="string">"Rapid7: $(if ($R7) { 'Installed' } else { 'MISSING' })"</span>
+<span class="function">Write-Host</span> <span class="string">"SentinelOne: $(if ($S1) { 'Installed' } else { 'MISSING' })"</span>
+
+<span class="comment"># 5. Network Connectivity</span>
+<span class="variable">$Endpoints</span> = @(<span class="string">"login.microsoftonline.com"</span>, <span class="string">"graph.microsoft.com"</span>)
+<span class="keyword">foreach</span> (<span class="variable">$EP</span> <span class="keyword">in</span> <span class="variable">$Endpoints</span>) {
+    <span class="variable">$Test</span> = Test-NetConnection -ComputerName <span class="variable">$EP</span> -Port 443 -WarningAction SilentlyContinue
+    <span class="function">Write-Host</span> <span class="string">"$EP : $(if ($Test.TcpTestSucceeded) { 'OK' } else { 'FAILED' })"</span>
+}</code></pre>
+            </div>
+
+            <h3>Installation Steps</h3>
+            <ol>
+                <li><strong>Download</strong>: Get <code>AzureADConnect.msi</code> from Microsoft Download Center</li>
+                <li><strong>Install Type</strong>: Select <strong>Customize</strong> for enterprise deployments</li>
+                <li><strong>Sign-In Method</strong>: Password Hash Synchronization (recommended)</li>
+                <li><strong>Connect to Azure AD</strong>: Use Hybrid Identity Administrator credentials</li>
+                <li><strong>Connect to AD DS</strong>: Use Enterprise Admin (initial) or dedicated service account</li>
+                <li><strong>OU Filtering</strong>: Select specific OUs to synchronize</li>
+                <li><strong>Optional Features</strong>: Enable Password Writeback, Device Writeback as needed</li>
+            </ol>
+
+            <h3>Approval Status</h3>
+            <table>
+                <thead>
+                    <tr><th>Approval Type</th><th>Status</th><th>Approver</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Cyber Security</td><td><span class="badge badge-pass">Approved</span></td><td>Avi Lipa</td><td>04/Nov/25</td></tr>
+                    <tr><td>Configuration</td><td><span class="badge badge-pass">Confirmed</span></td><td>ORRO</td><td>10/Nov/25</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Pending Action Items</h3>
+            <table>
+                <thead>
+                    <tr><th>Action</th><th>Responsible</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Provide IP address allocations</td><td>SICE</td><td><span class="badge badge-pending">Pending</span></td></tr>
+                    <tr><td>Confirm network zone (Palo Alto)</td><td>SICE</td><td><span class="badge badge-pending">Pending</span></td></tr>
+                    <tr><td>Confirm hardening requirements</td><td>ORRO</td><td><span class="badge badge-pending">Pending</span></td></tr>
+                    <tr><td>Configure backup schedule</td><td>SICE</td><td><span class="badge badge-pending">Pending</span></td></tr>
+                    <tr><td>Install R7 and S1 agents</td><td>SICE</td><td><span class="badge badge-pending">Pending</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Deployment -->
+        <section id="deployment">
+            <h2>10. Deployment Sequence</h2>
+
+            <h3>Recommended Rollout Order</h3>
+            <div class="diagram">
+Week 1-2: Foundation
++-- Create device groups
++-- UC5: Secure Offline Access (BitLocker, Defender, cached creds)
++-- Deploy prerequisite policies (Network Protection, DoH disable)
+
+Week 3-4: Network Restrictions
++-- UC1/UC2: Disable Wi-Fi + Dynamic Keyword Firewall
++-- Test connectivity to Azure Bastion and ShareFile
++-- Validate blocked destinations
+
+Week 5-6: USB Controls
++-- UC3: USB Device Whitelisting
++-- UC4: USB-Serial Driver Deployment
++-- Test approved devices work, others blocked
+
+Week 7-8: MSP Integration
++-- UC6: SICE VPN and Agent
++-- Validate patch delivery
++-- Monitor compliance
+
+Week 9+: Monitoring & Tuning
++-- Review proactive remediation results
++-- Adjust firewall rules as needed
++-- Document exceptions
+            </div>
+
+            <h3>Pilot Group Strategy</h3>
+            <table>
+                <thead>
+                    <tr><th>Phase</th><th>Size</th><th>Duration</th><th>Success Criteria</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Pilot 1</td><td>5-10 IT staff</td><td>1 week</td><td>All use cases functional</td></tr>
+                    <tr><td>Pilot 2</td><td>25-50 early adopters</td><td>2 weeks</td><td>&lt;5% support tickets</td></tr>
+                    <tr><td>Production</td><td>All field devices</td><td>Rolling</td><td>&lt;2% issues</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Testing -->
+        <section id="testing">
+            <h2>11. Testing & Validation</h2>
+
+            <h3>Master Validation Script Summary</h3>
+            <p>Run the comprehensive validation script to check all use cases:</p>
+
+            <div class="code-container">
+                <pre><code><span class="comment"># Quick validation commands</span>
+
+<span class="comment"># UC1/UC2: Network Restrictions</span>
+Get-NetAdapter | Where-Object { <span class="variable">$_</span>.InterfaceDescription -match <span class="string">'Wi-Fi'</span> } | Select Name, Status
+(Get-NetFirewallProfile).DefaultOutboundAction
+(Get-NetFirewallDynamicKeywordAddress).Count
+
+<span class="comment"># UC3/UC4: USB Controls</span>
+Get-Service -Name <span class="string">"Sense"</span> | Select Status  <span class="comment"># Defender for Endpoint</span>
+Test-Path <span class="string">"C:\Windows\System32\drivers\ftdibus.sys"</span>
+
+<span class="comment"># UC5: Offline Access</span>
+(Get-ItemProperty <span class="string">"HKLM:\...\Winlogon"</span>).CachedLogonsCount
+(Get-BitLockerVolume -MountPoint <span class="string">"C:"</span>).ProtectionStatus
+(Get-MpComputerStatus).RealTimeProtectionEnabled</code></pre>
+            </div>
+
+            <h3>Expected Test Results</h3>
+            <table>
+                <thead>
+                    <tr><th>Test</th><th>Expected Result</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Wi-Fi Disabled</td><td>All Wi-Fi adapters show "Disabled"</td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>Firewall Default Outbound</td><td>Block</td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>Azure Bastion Reachable</td><td>TCP 443 connection succeeds</td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>Google.com Blocked</td><td>TCP 443 connection fails</td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>BitLocker Enabled</td><td>ProtectionStatus = On</td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>Cached Logons</td><td>10 or more</td><td><span class="badge badge-pass">PASS</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Rollback -->
+        <section id="rollback">
+            <h2>12. Rollback Procedures</h2>
+
+            <div class="alert alert-danger">
+                <strong>Warning:</strong> Running the rollback script will remove ALL security restrictions. Use only in emergency situations.
+            </div>
+
+            <h3>Rollback Commands Summary</h3>
+            <div class="code-container">
+                <pre><code><span class="comment"># EMERGENCY ROLLBACK - Run with -Confirm switch</span>
+
+<span class="comment"># 1. Remove scheduled task</span>
+Unregister-ScheduledTask -TaskName <span class="string">"Intune-WiFiDisableEnforcement"</span> -Confirm:<span class="variable">$false</span>
+
+<span class="comment"># 2. Enable Wi-Fi</span>
+Get-NetAdapter | Where-Object { <span class="variable">$_</span>.InterfaceDescription -match <span class="string">'Wi-Fi'</span> } | Enable-NetAdapter
+
+<span class="comment"># 3. Remove firewall rules</span>
+Get-NetFirewallRule -DisplayName <span class="string">"DynKeyword-*"</span> | Remove-NetFirewallRule
+
+<span class="comment"># 4. Remove dynamic keywords</span>
+Get-NetFirewallDynamicKeywordAddress | ForEach-Object {
+    Remove-NetFirewallDynamicKeywordAddress -Id <span class="variable">$_</span>.Id
+}
+
+<span class="comment"># 5. Reset firewall default</span>
+Set-NetFirewallProfile -Profile Domain,Private,Public -DefaultOutboundAction Allow</code></pre>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Important:</strong> After running the rollback script, also remove the following from Intune:
+                <ul>
+                    <li>Network restriction configuration profiles</li>
+                    <li>Wi-Fi block settings catalog policies</li>
+                    <li>Device Control policies</li>
+                    <li>Proactive remediation assignments</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Appendix -->
+        <section id="appendix">
+            <h2>13. Appendix</h2>
+
+            <h3>A. Complete Dynamic Keywords Reference</h3>
+            <table>
+                <thead>
+                    <tr><th>Keyword</th><th>FQDN Pattern</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Azure Bastion</td><td><code>*.bastion.azure.com</code></td><td>Bastion host access</td></tr>
+                    <tr><td>Azure Portal</td><td><code>*.portal.azure.com</code></td><td>Azure management</td></tr>
+                    <tr><td>Azure Auth</td><td><code>login.microsoftonline.com</code></td><td>Authentication</td></tr>
+                    <tr><td>ShareFile</td><td><code>*.sharefile.com</code></td><td>File sharing</td></tr>
+                    <tr><td>ShareFile API</td><td><code>*.sf-api.com</code></td><td>ShareFile API</td></tr>
+                    <tr><td>Intune</td><td><code>*.manage.microsoft.com</code></td><td>Device management</td></tr>
+                    <tr><td>Windows Update</td><td><code>*.windowsupdate.com</code></td><td>OS updates</td></tr>
+                    <tr><td>Defender</td><td><code>*.wdcp.microsoft.com</code></td><td>Defender updates</td></tr>
+                </tbody>
+            </table>
+
+            <h3>B. Support Contacts</h3>
+            <table>
+                <thead>
+                    <tr><th>Issue</th><th>Contact</th><th>SLA</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Network restrictions</td><td>IT Security</td><td>4 hours</td></tr>
+                    <tr><td>USB device approval</td><td>IT Security</td><td>1 business day</td></tr>
+                    <tr><td>BitLocker recovery</td><td>IT Helpdesk</td><td>30 minutes</td></tr>
+                    <tr><td>SICE/Patching</td><td>MSP Name</td><td>Per contract</td></tr>
+                </tbody>
+            </table>
+
+            <h3>C. Change Log</h3>
+            <table>
+                <thead>
+                    <tr><th>Version</th><th>Date</th><th>Author</th><th>Changes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1.0</td><td>Dec 2024</td><td>Principal Endpoint Engineer</td><td>Initial release</td></tr>
+                    <tr><td>1.1</td><td>Jan 2025</td><td>Principal Endpoint Engineer</td><td>Added Entra ID Connect section</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; background: #333; color: white; margin-top: 30px;">
+        <p>Field Device Network Restriction Implementation Guide v1.1</p>
+        <p style="opacity: 0.7; font-size: 0.9rem;">Microsoft Intune + GPO Configuration for Secure Field Devices</p>
+    </footer>
+
+    <script>
+        // Collapsible sections
+        document.querySelectorAll('.collapsible').forEach(elem => {
+            elem.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                content.classList.toggle('show');
+            });
+        });
+
+        // Copy button functionality
+        document.querySelectorAll('.code-container').forEach(container => {
+            const btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.textContent = 'Copy';
+            btn.onclick = function() {
+                const code = container.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => btn.textContent = 'Copy', 2000);
+                });
+            };
+            container.appendChild(btn);
+        });
+
+        // Smooth scrolling for nav links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

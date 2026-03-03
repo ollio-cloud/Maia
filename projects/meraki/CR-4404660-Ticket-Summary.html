@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CR-4404660 - Azure Public IP Migration (SonicWall to FortiGate)</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.5; max-width: 850px; margin: 0 auto; padding: 15px; }
+        h1 { font-size: 16px; color: #1a365d; border-bottom: 2px solid #3182ce; padding-bottom: 5px; margin-bottom: 10px; }
+        h2 { font-size: 14px; color: #2c5282; margin: 15px 0 8px 0; border-left: 3px solid #3182ce; padding-left: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
+        th, td { border: 1px solid #e2e8f0; padding: 6px 8px; text-align: left; }
+        th { background-color: #edf2f7; font-weight: 600; }
+        .header { background: #667eea; color: white; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+        .header table { border: none; }
+        .header th, .header td { border: none; color: white; padding: 3px 8px; }
+        .header th { background: transparent; opacity: 0.8; }
+        .risk-medium { background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        .phase-se { background: #c6f6d5; color: #22543d; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .phase-east { background: #fed7d7; color: #9b2c2c; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .phase-svc { background: #bee3f8; color: #2c5282; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .section { margin-bottom: 12px; }
+        ul { margin: 5px 0; padding-left: 20px; }
+        ol { margin: 5px 0; padding-left: 20px; }
+        li { margin: 3px 0; }
+        .note { background: #ebf8ff; border-left: 3px solid #3182ce; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .warning { background: #fffbeb; border-left: 3px solid #f6e05e; padding: 8px; margin: 8px 0; font-size: 12px; }
+        .ip { font-family: 'Consolas', monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<h1>4404660: Azure Public IP Migration &mdash; SonicWall/Sophos to FortiGate</h1>
+
+<div class="header">
+    <table>
+        <tr><th>CR Number</th><td>CR-4404660</td><th>Request Date</th><td>2026-02-12</td></tr>
+        <tr><th>Requested By</th><td>Olli Ojala</td><th>Risk Level</th><td><span class="risk-medium">MEDIUM</span></td></tr>
+        <tr><th>Environment</th><td>Azure &mdash; KD-Prod-RG (East) &amp; KD-Prod-RG-asr (SE)</td><th>Rollback</th><td>&lt; 2 min per IP</td></tr>
+        <tr><th>Total IPs</th><td>21 public IPs (2 primary + 19 service)</td><th>Downtime</th><td>~5-10 sec per IP during reassignment</td></tr>
+    </table>
+</div>
+
+<h2>1. Summary</h2>
+<div class="section">
+    <p><strong>Purpose:</strong> Migrate 21 Azure Standard SKU Static public IPs from SonicWall/Sophos NICs to FortiGate NICs, completing the firewall transition. This includes 2 primary outbound NAT IPs (whitelisted by external services), default route (0.0.0.0/0) changes, and 19 inbound service IPs.</p>
+    <p><strong>Strategy:</strong> SE (DR) first for zero-risk validation, then East (production) during maintenance window. Service IPs migrated in phased groups after primary IP + route changes are stable.</p>
+</div>
+
+<h2>2. Migration Phases</h2>
+<table>
+    <tr><th>Phase</th><th>Region</th><th>IPs</th><th>Description</th></tr>
+    <tr><td><span class="phase-se">Phase 1A</span></td><td>SE (DR)</td><td>1</td><td>Swap SE primary outbound IP (<span class="ip">23.101.226.122</span>)</td></tr>
+    <tr><td><span class="phase-se">Phase 1B</span></td><td>SE (DR)</td><td>&mdash;</td><td>Update SE default route (0.0.0.0/0) to FortiGate SE</td></tr>
+    <tr><td><span class="phase-se">Phase 1C</span></td><td>SE (DR)</td><td>&mdash;</td><td>Validate SE outbound SNAT + VIP connectivity</td></tr>
+    <tr><td><span class="phase-east">Phase 2A</span></td><td>East (Prod)</td><td>1</td><td>Swap East primary outbound IP (<span class="ip">52.237.241.132</span>)</td></tr>
+    <tr><td><span class="phase-east">Phase 2B</span></td><td>East (Prod)</td><td>&mdash;</td><td>Update East default route (0.0.0.0/0) to FortiGate East</td></tr>
+    <tr><td><span class="phase-svc">Phase 3&ndash;8</span></td><td>East</td><td>19</td><td>Service IPs migrated in groups (TIMS, ConnX, KAB, etc.)</td></tr>
+</table>
+
+<h2>3. Primary Outbound IPs (Critical)</h2>
+<table>
+    <tr><th>Public IP</th><th>Azure Resource</th><th>Region</th><th>From NIC (RG)</th><th>To NIC (RG)</th><th>Replaces</th></tr>
+    <tr>
+        <td class="ip"><strong>52.237.241.132</strong></td>
+        <td>KD-UTM-PublicIP</td>
+        <td>East</td>
+        <td>ATEUTM05-interface-X1 (KD-Prod-RG)</td>
+        <td>ATE-AE-fgt-nic1 (KD-Prod-RG)</td>
+        <td class="ip">68.218.113.249</td>
+    </tr>
+    <tr>
+        <td class="ip"><strong>23.101.226.122</strong></td>
+        <td>Sophos-PublicIP</td>
+        <td>SE</td>
+        <td>ATEUTM04-interface-X1 (KD-Mel-Temp)</td>
+        <td>ATE-ASE-fgt-nic1 (KD-Prod-RG-asr)</td>
+        <td class="ip">4.200.139.87</td>
+    </tr>
+</table>
+<div class="warning"><strong>These IPs are whitelisted by external services (APIs, SaaS, partners).</strong> They provide outbound SNAT for all internet-bound traffic. The existing FortiGate primary PIPs (ATE-AE-FGT-PIP2, ATE-ASE-fgt-pip2) will become unassociated after swap.</div>
+
+<h2>4. Default Route Changes</h2>
+<table>
+    <tr><th>Region</th><th>Route Table</th><th>Action</th><th>Next-Hop</th></tr>
+    <tr><td>SE</td><td>KD-Mel-RouteTable</td><td>Add 0.0.0.0/0 &rarr; FortiGate SE</td><td class="ip">10.201.1.68</td></tr>
+    <tr><td>East</td><td>KD-Prod-RouteTable</td><td>Add 0.0.0.0/0 &rarr; FortiGate East</td><td class="ip">10.200.1.68</td></tr>
+</table>
+
+<h2>5. Service IPs (19 IPs)</h2>
+<table>
+    <tr><th>Group</th><th>IPs</th><th>Phase</th><th>Environment</th></tr>
+    <tr><td>KD-TIMS</td><td>3 (QLD, SA, WA)</td><td><span class="phase-svc">Phase 3</span></td><td>Prod</td></tr>
+    <tr><td>KD-ConnX</td><td>4 (QLD, SA, WA, ConnX-SE)</td><td><span class="phase-svc">Phase 4</span></td><td>Prod</td></tr>
+    <tr><td>KAB-ConnX</td><td>4 (QLD, SA, WA, ConnX-SE)</td><td><span class="phase-svc">Phase 5</span></td><td>Prod</td></tr>
+    <tr><td>KAB-TIMS</td><td>4 (QLD, SA, WA, TIMS-SE)</td><td><span class="phase-svc">Phase 6</span></td><td>Prod</td></tr>
+    <tr><td>KAB-TIMS (cont.)</td><td>3 (ConnX-SE, UAT, Staging)</td><td><span class="phase-svc">Phase 7</span></td><td>Mixed</td></tr>
+    <tr><td>KAB-RDG</td><td>1 (RDG)</td><td><span class="phase-svc">Phase 8</span></td><td>Prod</td></tr>
+</table>
+<div class="note"><strong>Migration method:</strong> Service IPs move from SonicWall NIC (ATEUTM05-interface-X1, 10.200.254.x) to FortiGate NIC (ATE-AE-fgt-nic1, 10.200.1.x). Automated via <code>azure-pip-migration-script.ps1</code>.</div>
+
+<h2>6. Infrastructure</h2>
+<table>
+    <tr><th>Component</th><th>Azure East</th><th>Azure South East</th></tr>
+    <tr><td>FortiGate VM</td><td>ATE-AE-fgt</td><td>ATE-ASE-fgt</td></tr>
+    <tr><td>External NIC</td><td>ATE-AE-fgt-nic1 (10.200.1.4)</td><td>ATE-ASE-fgt-nic1 (10.201.1.4)</td></tr>
+    <tr><td>Internal NIC</td><td>ATE-AE-fgt-nic2 (10.200.1.68)</td><td>ATE-ASE-fgt-nic2 (10.201.1.68)</td></tr>
+    <tr><td>Current FGT PIP</td><td class="ip">68.218.113.249 (ATE-AE-FGT-PIP2)</td><td class="ip">4.200.139.87 (ATE-ASE-fgt-pip2)</td></tr>
+    <tr><td>Source NIC</td><td>ATEUTM05-interface-X1 (SonicWall)</td><td>ATEUTM04-interface-X1 (Sophos)</td></tr>
+    <tr><td>Resource Group</td><td>KD-Prod-RG</td><td>KD-Prod-RG-asr</td></tr>
+    <tr><td>Route Table</td><td>KD-Prod-RouteTable</td><td>KD-Mel-RouteTable</td></tr>
+</table>
+
+<h2>7. Test Plan</h2>
+<p><strong>Per primary IP swap:</strong></p>
+<ul>
+    <li><strong>Outbound SNAT:</strong> <code>curl ifconfig.me</code> from FortiGate CLI &mdash; confirm correct whitelisted IP</li>
+    <li><strong>External service connectivity:</strong> Verify APIs/SaaS still accept traffic from whitelisted IP</li>
+    <li><strong>Azure PIP association:</strong> <code>az network public-ip show</code> confirms ipConfiguration points to FortiGate NIC</li>
+</ul>
+<p><strong>Per service IP:</strong></p>
+<ul>
+    <li><strong>Inbound reachability:</strong> Browser / curl / telnet to service port via public IP</li>
+    <li><strong>FortiGate VIP sessions:</strong> <code>diagnose sys session filter dport PORT</code> &mdash; sessions visible</li>
+    <li><strong>Traffic logs:</strong> <code>execute log filter field dstip 10.200.10.x</code> &mdash; action=accept</li>
+</ul>
+
+<h2>8. Rollback Procedure</h2>
+<div class="warning"><strong>Trigger:</strong> Execute if service unreachable after migration and not resolved within 10 minutes.</div>
+<p><strong>Primary IP rollback (~30 seconds):</strong></p>
+<ol>
+    <li>Revert default route (0.0.0.0/0) to previous next-hop</li>
+    <li>Swap FortiGate primary PIP back to original (ATE-AE-FGT-PIP2 / ATE-ASE-fgt-pip2)</li>
+    <li>Re-associate outbound IP to original source NIC</li>
+</ol>
+<p><strong>Service IP rollback:</strong></p>
+<ul>
+    <li>Per IP: <code>azure-pip-migration-script.ps1 -Rollback -Name "PIP-NAME"</code></li>
+    <li>Per group: <code>azure-pip-migration-script.ps1 -Rollback -Group "GROUP"</code></li>
+</ul>
+<div class="note"><strong>All IPs are Standard SKU Static</strong> &mdash; IP address is retained when unassigned. Rollback is a simple NIC reassociation (~5 seconds per IP), no IP address change occurs.</div>
+
+<h2>9. Prerequisites</h2>
+<ul>
+    <li>Azure CLI logged in with permissions to modify NICs, PIPs, and Route Tables in KD-Prod-RG, KD-Prod-RG-asr, and KD-Mel-Temp</li>
+    <li>FortiGate VIP objects configured for all service IPs (destination NAT: public IP &rarr; internal service)</li>
+    <li>FortiGate firewall policies permit VIP traffic (inbound) and outbound SNAT</li>
+    <li>Current 0.0.0.0/0 route next-hop recorded for both route tables (needed for rollback)</li>
+    <li>SonicWall configuration unchanged as fallback until migration fully validated</li>
+</ul>
+
+<div class="note">
+    <strong>Full Runbook:</strong> CR-4404660-Public-IP-Migration.html (attached)<br>
+    <strong>Automation Script:</strong> azure-pip-migration-script.ps1 (service IPs only)<br>
+    <strong>Dependency:</strong> CR-4378310 (VPN Migration) &mdash; FortiGate must be routing site traffic before IP migration
+</div>
+
+</body>
+</html>

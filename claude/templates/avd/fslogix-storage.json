@@ -1,0 +1,236 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "ARM Template for FSLogix Storage Account and File Share - Azure AD Joined AVD",
+    "author": "Maia Azure Solutions Architect",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account for FSLogix profiles"
+      },
+      "defaultValue": "pauseisfslogix001"
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure region for deployment"
+      },
+      "defaultValue": "australiasoutheast"
+    },
+    "fileShareName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the file share for FSLogix profiles"
+      },
+      "defaultValue": "fslogix-profiles"
+    },
+    "fileShareQuotaGB": {
+      "type": "int",
+      "metadata": {
+        "description": "Quota for the file share in GB"
+      },
+      "defaultValue": 256,
+      "minValue": 100,
+      "maxValue": 102400
+    },
+    "storageAccountSku": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account SKU"
+      },
+      "defaultValue": "Premium_LRS",
+      "allowedValues": [
+        "Premium_LRS",
+        "Premium_ZRS"
+      ]
+    },
+    "enableAzureADKerberos": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enable Azure AD Kerberos authentication for Azure Files"
+      },
+      "defaultValue": true
+    },
+    "azureADTenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure AD Tenant ID for Kerberos authentication"
+      },
+      "defaultValue": ""
+    },
+    "azureADTenantName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure AD Tenant name (e.g., contoso.onmicrosoft.com)"
+      },
+      "defaultValue": ""
+    },
+    "avdUsersGroupObjectId": {
+      "type": "string",
+      "metadata": {
+        "description": "Object ID of the Azure AD group for AVD users (for RBAC)"
+      },
+      "defaultValue": ""
+    },
+    "avdAdminsGroupObjectId": {
+      "type": "string",
+      "metadata": {
+        "description": "Object ID of the Azure AD group for AVD admins (for RBAC)"
+      },
+      "defaultValue": ""
+    },
+    "enableSoftDelete": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enable soft delete for file shares"
+      },
+      "defaultValue": true
+    },
+    "softDeleteRetentionDays": {
+      "type": "int",
+      "metadata": {
+        "description": "Soft delete retention period in days"
+      },
+      "defaultValue": 7,
+      "minValue": 1,
+      "maxValue": 365
+    },
+    "tags": {
+      "type": "object",
+      "metadata": {
+        "description": "Tags to apply to resources"
+      },
+      "defaultValue": {
+        "Environment": "Production",
+        "Application": "AVD",
+        "Component": "FSLogix",
+        "ManagedBy": "ARM Template"
+      }
+    }
+  },
+  "variables": {
+    "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+    "fileShareResourceId": "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]",
+    "storageBlobDataContributorRoleId": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+    "storageFileDataSMBShareContributorRoleId": "0c867c2a-1d8c-454a-a3db-ab2ea1bdc8bb",
+    "storageFileDataSMBShareElevatedContributorRoleId": "a7264617-510b-434b-a828-9731dc254ea7",
+    "azureFilesIdentityBasedAuth": {
+      "directoryServiceOptions": "[if(parameters('enableAzureADKerberos'), 'AADKERB', 'None')]",
+      "activeDirectoryProperties": "[if(parameters('enableAzureADKerberos'), createObject('domainName', parameters('azureADTenantName'), 'domainGuid', parameters('azureADTenantId')), null())]"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tags')]",
+      "kind": "FileStorage",
+      "sku": {
+        "name": "[parameters('storageAccountSku')]"
+      },
+      "properties": {
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "allowBlobPublicAccess": false,
+        "allowSharedKeyAccess": true,
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "defaultAction": "Allow",
+          "ipRules": [],
+          "virtualNetworkRules": []
+        },
+        "largeFileSharesState": "Enabled",
+        "azureFilesIdentityBasedAuthentication": "[if(parameters('enableAzureADKerberos'), variables('azureFilesIdentityBasedAuth'), null())]"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2023-01-01",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
+      "dependsOn": [
+        "[variables('storageAccountId')]"
+      ],
+      "properties": {
+        "shareDeleteRetentionPolicy": {
+          "enabled": "[parameters('enableSoftDelete')]",
+          "days": "[parameters('softDeleteRetentionDays')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+      "apiVersion": "2023-01-01",
+      "name": "[concat(parameters('storageAccountName'), '/default/', parameters('fileShareName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccountName'), 'default')]"
+      ],
+      "properties": {
+        "shareQuota": "[parameters('fileShareQuotaGB')]",
+        "enabledProtocols": "SMB",
+        "accessTier": "Premium"
+      }
+    },
+    {
+      "condition": "[not(empty(parameters('avdUsersGroupObjectId')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(variables('fileShareResourceId'), parameters('avdUsersGroupObjectId'), variables('storageFileDataSMBShareContributorRoleId'))]",
+      "scope": "[variables('fileShareResourceId')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('storageFileDataSMBShareContributorRoleId'))]",
+        "principalId": "[parameters('avdUsersGroupObjectId')]",
+        "principalType": "Group"
+      }
+    },
+    {
+      "condition": "[not(empty(parameters('avdAdminsGroupObjectId')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(variables('fileShareResourceId'), parameters('avdAdminsGroupObjectId'), variables('storageFileDataSMBShareElevatedContributorRoleId'))]",
+      "scope": "[variables('fileShareResourceId')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices/shares', parameters('storageAccountName'), 'default', parameters('fileShareName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('storageFileDataSMBShareElevatedContributorRoleId'))]",
+        "principalId": "[parameters('avdAdminsGroupObjectId')]",
+        "principalType": "Group"
+      }
+    }
+  ],
+  "outputs": {
+    "storageAccountName": {
+      "type": "string",
+      "value": "[parameters('storageAccountName')]"
+    },
+    "storageAccountId": {
+      "type": "string",
+      "value": "[variables('storageAccountId')]"
+    },
+    "fileShareName": {
+      "type": "string",
+      "value": "[parameters('fileShareName')]"
+    },
+    "fileShareUNC": {
+      "type": "string",
+      "value": "[concat('\\\\', parameters('storageAccountName'), '.file.core.windows.net\\', parameters('fileShareName'))]"
+    },
+    "storageAccountKey": {
+      "type": "string",
+      "value": "[listKeys(variables('storageAccountId'), '2023-01-01').keys[0].value]"
+    },
+    "primaryFileEndpoint": {
+      "type": "string",
+      "value": "[reference(variables('storageAccountId')).primaryEndpoints.file]"
+    }
+  }
+}

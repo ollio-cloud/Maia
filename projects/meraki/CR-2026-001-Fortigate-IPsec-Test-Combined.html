@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[4342297] KD Bus Sites VPN Transition Runbook</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a365d;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c5282;
+            margin-top: 30px;
+            border-left: 4px solid #3182ce;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #2d3748;
+            margin-top: 20px;
+        }
+        h4 {
+            color: #4a5568;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        .header-table {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .header-table th {
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .header-table td {
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+        .risk-low {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .status-confirmed {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .code-block {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .checklist {
+            background-color: #f7fafc;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #3182ce;
+        }
+        .checklist-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #a0aec0;
+            border-radius: 3px;
+            margin-right: 10px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .section-note {
+            background-color: #ebf8ff;
+            border: 1px solid #90cdf4;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #2c5282;
+        }
+        .warning-note {
+            background-color: #fffbeb;
+            border: 1px solid #f6e05e;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #744210;
+        }
+        .danger-note {
+            background-color: #fed7d7;
+            border: 1px solid #fc8181;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #822727;
+        }
+        .approval-box {
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        .signature-line {
+            border-bottom: 1px solid #a0aec0;
+            min-width: 200px;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .tag {
+            background-color: #805ad5;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .location-path {
+            background-color: #edf2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85em;
+            color: #4a5568;
+            margin: 10px 0;
+        }
+        .phase-header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .test-pass {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .test-fail {
+            background-color: #fed7d7;
+            color: #822727;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .architecture-box {
+            background-color: #faf5ff;
+            border: 1px solid #d6bcfa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .toc {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .toc ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 5px 0;
+        }
+        .toc a {
+            color: #3182ce;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .phase-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 [4342297] KD Bus Sites VPN Transition Runbook</h1>
+        <p><strong>Combined Change Request &amp; Implementation Runbook</strong></p>
+
+        <div class="header-table">
+            <table>
+                <tr>
+                    <th>CR Number</th>
+                    <td>4342297</td>
+                    <th>Request Date</th>
+                    <td>2026-01-22</td>
+                </tr>
+                <tr>
+                    <th>Requested By</th>
+                    <td>Olli Ojala</td>
+                    <th>Environment</th>
+                    <td>Meraki Dashboard - KD BUS Organization</td>
+                </tr>
+                <tr>
+                    <th>Pilot Network</th>
+                    <td>ATE-TEST</td>
+                    <th>Change Type</th>
+                    <td>Non-Production / Pilot Test</td>
+                </tr>
+                <tr>
+                    <th>Risk Level</th>
+                    <td><span class="risk-low">LOW</span></td>
+                    <th>Rollback Time</th>
+                    <td>&lt; 5 minutes</td>
+                </tr>
+                <tr>
+                    <th>Change Window</th>
+                    <td>TBD</td>
+                    <th>Expected Downtime</th>
+                    <td>&lt; 5 minutes during route switch</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <strong>📋 Table of Contents</strong>
+            <ul>
+                <li><a href="#overview">1. Overview &amp; Objective</a></li>
+                <li><a href="#architecture">2. Architecture Summary</a></li>
+                <li><a href="#certificates">3. SSL Certificate Requirements</a></li>
+                <li><a href="#dns-config">4. DNS Configuration</a></li>
+                <li><a href="#prerequisites">5. Prerequisites Checklist</a></li>
+                <li><a href="#meraki-config">6. Meraki Configuration</a></li>
+                <li><a href="#fortigate-config">7. Fortigate Configuration</a></li>
+                <li><a href="#azure-config">8. Azure Configuration</a></li>
+                <li><a href="#implementation">9. Implementation Steps</a></li>
+                <li><a href="#test-checkpoints">10. Test Checkpoints</a></li>
+                <li><a href="#rollback">11. Rollback Procedure</a></li>
+                <li><a href="#approvals">12. Approvals</a></li>
+                <li><a href="#production-rollout">13. Production Rollout (Post-Test)</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Overview -->
+        <h2 id="overview">1. Overview &amp; Objective</h2>
+        <p>This change establishes IPsec VPN connectivity between Meraki MX appliances and Azure-hosted Fortigate firewalls as a <strong>pilot test</strong> before full production rollout. The pilot will validate:</p>
+        <ul>
+            <li>IPsec tunnel establishment (IKEv2) between Meraki and Fortigate</li>
+            <li>Bidirectional traffic flow (Site → Azure and Azure → Site)</li>
+            <li>Route table configuration in Azure</li>
+            <li>Network tag isolation (test site only)</li>
+        </ul>
+
+        <div class="section-note">
+            ℹ️ <strong>Pilot Scope:</strong> This CR applies ONLY to the ATE-TEST network. Production sites will be migrated via separate CR after successful pilot validation.
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <h2 id="architecture">2. Architecture Summary</h2>
+
+        <div class="architecture-box">
+            <h4>🏗️ Infrastructure Components</h4>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Azure East</th>
+                    <th>Azure South East</th>
+                </tr>
+                <tr>
+                    <td><strong>Fortigate DNS Hostname</strong></td>
+                    <td>VPN1.KeolisDowner.com.au</td>
+                    <td>VPN2.KeolisDowner.com.au</td>
+                </tr>
+                <tr>
+                    <td><strong>Fortigate Public IP</strong></td>
+                    <td>68.218.113.249</td>
+                    <td>4.200.139.87</td>
+                </tr>
+                <tr>
+                    <td><strong>Fortigate Inside IP</strong></td>
+                    <td>10.200.1.68</td>
+                    <td>10.201.1.68</td>
+                </tr>
+                <tr>
+                    <td><strong>Azure Subnet</strong></td>
+                    <td>10.200.10.0/24</td>
+                    <td>10.201.10.0/24</td>
+                </tr>
+                <tr>
+                    <td><strong>Route Table</strong></td>
+                    <td>KD-Prod-RouteTable</td>
+                    <td>KD-Mel-RouteTable</td>
+                </tr>
+                <tr>
+                    <td><strong>WAN Interface</strong></td>
+                    <td>port1</td>
+                    <td>port1</td>
+                </tr>
+                <tr>
+                    <td><strong>Test VM IP</strong></td>
+                    <td>10.200.10.10, 10.200.10.122</td>
+                    <td>10.201.10.61</td>
+                </tr>
+            </table>
+
+            <h4>🔒 EMS Server</h4>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td><strong>EMS DNS Hostname</strong></td>
+                    <td>EMS1.KeolisDowner.com.au</td>
+                </tr>
+                <tr>
+                    <td><strong>EMS Public IP</strong></td>
+                    <td>20.11.121.242</td>
+                </tr>
+                <tr>
+                    <td><strong>SSL Certificate</strong></td>
+                    <td>*.keolisdowner.com.au (Wildcard)</td>
+                </tr>
+            </table>
+        </div>
+
+        <h4>Pilot Site Details</h4>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Network Name</td>
+                <td>ATE-TEST</td>
+            </tr>
+            <tr>
+                <td>VPN Type</td>
+                <td>Hub (Mesh)</td>
+            </tr>
+            <tr>
+                <td>Local Subnet</td>
+                <td>10.160.10.0/24 (TEST VLAN)</td>
+            </tr>
+            <tr>
+                <td>Existing IPsec Peers</td>
+                <td>ATE.Azure.to.ATE.WAN, ATE.Azure.DR.to.ATE.WAN (SonicWall)</td>
+            </tr>
+        </table>
+
+        <!-- Section 3: SSL Certificate Requirements -->
+        <h2 id="certificates">3. SSL Certificate Requirements</h2>
+
+        <div class="section-note">
+            ℹ️ <strong>Certificate Strategy:</strong> A single wildcard certificate (*.keolisdowner.com.au) will be used for all Fortinet infrastructure services including VPN termination, EMS, and SSO.
+        </div>
+
+        <h3>3.1 Certificate Specification</h3>
+        <table>
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td><strong>Certificate Type</strong></td>
+                <td>Wildcard SSL/TLS Certificate</td>
+            </tr>
+            <tr>
+                <td><strong>Common Name (CN)</strong></td>
+                <td>*.keolisdowner.com.au</td>
+            </tr>
+            <tr>
+                <td><strong>Subject Alternative Names (SANs)</strong></td>
+                <td>*.keolisdowner.com.au, keolisdowner.com.au</td>
+            </tr>
+            <tr>
+                <td><strong>Certificate Standard</strong></td>
+                <td>X.509 v3</td>
+            </tr>
+            <tr>
+                <td><strong>Key Algorithm</strong></td>
+                <td>RSA 2048-bit or ECDSA P-256 (minimum)</td>
+            </tr>
+            <tr>
+                <td><strong>Signature Algorithm</strong></td>
+                <td>SHA-256 or higher</td>
+            </tr>
+            <tr>
+                <td><strong>Extended Key Usage (EKU)</strong></td>
+                <td>TLS Web Server Authentication (OID: 1.3.6.1.5.5.7.3.1)</td>
+            </tr>
+            <tr>
+                <td><strong>Validity Period</strong></td>
+                <td>1-2 years (recommended)</td>
+            </tr>
+        </table>
+
+        <h3>3.2 Certificate Usage</h3>
+        <table>
+            <tr>
+                <th>Hostname</th>
+                <th>Service</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><strong>VPN1.KeolisDowner.com.au</strong></td>
+                <td>FortiGate East (Azure East)</td>
+                <td>SSL VPN termination, IPsec IKEv2 certificate authentication</td>
+            </tr>
+            <tr>
+                <td><strong>VPN2.KeolisDowner.com.au</strong></td>
+                <td>FortiGate South East (Azure SEast)</td>
+                <td>SSL VPN termination, IPsec IKEv2 certificate authentication</td>
+            </tr>
+            <tr>
+                <td><strong>EMS1.KeolisDowner.com.au</strong></td>
+                <td>FortiClient EMS Server</td>
+                <td>FortiClient management, FortiGate-EMS connector, SSO integration</td>
+            </tr>
+        </table>
+
+        <h3>3.3 Certificate Deployment Requirements</h3>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Obtain wildcard certificate from trusted CA (DigiCert, Sectigo, GlobalSign, etc.)</div>
+            <div class="checklist-item"><span class="checkbox"></span> Verify certificate includes Server Authentication EKU</div>
+            <div class="checklist-item"><span class="checkbox"></span> Export certificate chain including intermediate CA certificates</div>
+            <div class="checklist-item"><span class="checkbox"></span> Convert to PFX/PKCS#12 format for EMS deployment</div>
+            <div class="checklist-item"><span class="checkbox"></span> Store private key securely (limit access to authorized personnel only)</div>
+        </div>
+
+        <!-- Section 4: DNS Configuration -->
+        <h2 id="dns-config">4. DNS Configuration</h2>
+
+        <div class="warning-note">
+            ⚠️ <strong>DNS Dependency:</strong> DNS records must be created BEFORE certificate deployment to allow certificate validation and service accessibility.
+        </div>
+
+        <h3>4.1 Public DNS Records (A Records)</h3>
+        <table>
+            <tr>
+                <th>Hostname</th>
+                <th>Record Type</th>
+                <th>IP Address</th>
+                <th>TTL</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><strong>VPN1.KeolisDowner.com.au</strong></td>
+                <td>A</td>
+                <td>68.218.113.249</td>
+                <td>300</td>
+                <td>FortiGate East - VPN endpoint</td>
+            </tr>
+            <tr>
+                <td><strong>VPN2.KeolisDowner.com.au</strong></td>
+                <td>A</td>
+                <td>4.200.139.87</td>
+                <td>300</td>
+                <td>FortiGate South East - VPN endpoint</td>
+            </tr>
+            <tr>
+                <td><strong>EMS1.KeolisDowner.com.au</strong></td>
+                <td>A</td>
+                <td>20.11.121.242</td>
+                <td>300</td>
+                <td>FortiClient EMS Server</td>
+            </tr>
+        </table>
+
+        <h3>4.2 DNS Provider Actions</h3>
+        <div class="location-path">📍 DNS Provider Portal &gt; Zone: keolisdowner.com.au &gt; DNS Records &gt; Add Record</div>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Create A record: VPN1 → 68.218.113.249</div>
+            <div class="checklist-item"><span class="checkbox"></span> Create A record: VPN2 → 4.200.139.87</div>
+            <div class="checklist-item"><span class="checkbox"></span> Create A record: EMS1 → 20.11.121.242</div>
+            <div class="checklist-item"><span class="checkbox"></span> Verify DNS propagation (nslookup/dig)</div>
+        </div>
+
+        <h3>4.3 DNS Verification Commands</h3>
+        <div class="code-block"># Windows (nslookup)
+nslookup VPN1.KeolisDowner.com.au
+nslookup VPN2.KeolisDowner.com.au
+nslookup EMS1.KeolisDowner.com.au
+
+# Linux/macOS (dig)
+dig VPN1.KeolisDowner.com.au +short
+dig VPN2.KeolisDowner.com.au +short
+dig EMS1.KeolisDowner.com.au +short</div>
+
+        <!-- Section 5: Prerequisites -->
+        <h2 id="prerequisites">5. Prerequisites Checklist</h2>
+
+        <div class="warning-note">
+            ⚠️ <strong>All prerequisites must be verified before implementation begins.</strong>
+        </div>
+
+        <h4>5.1 Fortigate Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Confirm both Fortigate firewalls are forwarding packets to the Azure backend</div>
+            <div class="checklist-item"><span class="checkbox"></span> Confirm firewall policies allow traffic from tunnel interfaces to Azure backend and vice versa</div>
+            <div class="checklist-item"><span class="checkbox"></span> Confirm site subnet (10.160.10.0/24) is present as named address group on both Fortigates</div>
+            <div class="checklist-item"><span class="checkbox"></span> PSK shared securely (outside of CR) - must be &gt;32 characters</div>
+        </div>
+
+        <h4>5.2 Azure Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> NSG/Azure Firewall permits Fortigate East inside IP: <strong>10.200.1.68</strong></div>
+            <div class="checklist-item"><span class="checkbox"></span> NSG/Azure Firewall permits Fortigate South East inside IP: <strong>10.201.1.68</strong></div>
+            <div class="checklist-item"><span class="checkbox"></span> KD-Prod-RouteTable accessible and editable</div>
+            <div class="checklist-item"><span class="checkbox"></span> KD-Mel-RouteTable accessible and editable</div>
+        </div>
+
+        <h4>5.3 Meraki Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Dashboard access with Organization write permissions</div>
+            <div class="checklist-item"><span class="checkbox"></span> ATE-TEST network accessible</div>
+            <div class="checklist-item"><span class="checkbox"></span> Rollback procedure reviewed</div>
+        </div>
+
+        <h4>5.4 Certificate &amp; DNS Prerequisites</h4>
+        <div class="checklist">
+            <div class="checklist-item"><span class="checkbox"></span> Wildcard certificate *.keolisdowner.com.au obtained from CA</div>
+            <div class="checklist-item"><span class="checkbox"></span> Certificate includes Server Authentication EKU verified</div>
+            <div class="checklist-item"><span class="checkbox"></span> Certificate chain (intermediate CAs) available</div>
+            <div class="checklist-item"><span class="checkbox"></span> Private key secured and accessible for deployment</div>
+            <div class="checklist-item"><span class="checkbox"></span> DNS A record created: VPN1.KeolisDowner.com.au → 68.218.113.249</div>
+            <div class="checklist-item"><span class="checkbox"></span> DNS A record created: VPN2.KeolisDowner.com.au → 4.200.139.87</div>
+            <div class="checklist-item"><span class="checkbox"></span> DNS A record created: EMS1.KeolisDowner.com.au → 20.11.121.242</div>
+            <div class="checklist-item"><span class="checkbox"></span> DNS propagation verified (nslookup/dig returns correct IPs)</div>
+        </div>
+
+        <!-- Section 6: Meraki Configuration -->
+        <h2 id="meraki-config">6. Meraki Configuration</h2>
+
+        <h3>6.1 Create Network Tag for Test Isolation</h3>
+        <div class="location-path">📍 Organization &gt; Configure &gt; Networks &gt; ATE-TEST &gt; Edit</div>
+        <table>
+            <tr>
+                <th>Action</th>
+                <th>Value</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td>Add Network Tag</td>
+                <td><span class="tag">fortigate-test</span></td>
+                <td>Restrict new IPsec peers to test network only</td>
+            </tr>
+        </table>
+
+        <h3>6.2 Add IPsec VPN Peer - Fortigate Azure East</h3>
+        <div class="location-path">📍 Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN &gt; Organization-wide settings &gt; IPsec VPN Peers &gt; + Add a peer</div>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><strong>Fortigate-Azure-East</strong></td>
+            </tr>
+            <tr>
+                <td>Public IP/Hostname</td>
+                <td><strong>68.218.113.249</strong></td>
+            </tr>
+            <tr>
+                <td>IKE Version</td>
+                <td>IKEv2</td>
+            </tr>
+            <tr>
+                <td>Encryption</td>
+                <td>AES-256</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>SHA256</td>
+            </tr>
+            <tr>
+                <td>DH Group</td>
+                <td>14 (2048-bit)</td>
+            </tr>
+            <tr>
+                <td>PFS</td>
+                <td>Enabled, Group 14</td>
+            </tr>
+            <tr>
+                <td>Phase 1 Lifetime</td>
+                <td>1800 seconds</td>
+            </tr>
+            <tr>
+                <td>Phase 2 Lifetime</td>
+                <td>3600 seconds</td>
+            </tr>
+            <tr>
+                <td>Pre-shared Key</td>
+                <td><em>Shared securely outside of CR</em></td>
+            </tr>
+            <tr>
+                <td>Private Subnets (Remote)</td>
+                <td><strong>10.200.10.0/24</strong></td>
+            </tr>
+            <tr>
+                <td>Network Tags</td>
+                <td><span class="tag">fortigate-test</span></td>
+            </tr>
+        </table>
+
+        <h3>6.3 Add IPsec VPN Peer - Fortigate Azure SouthEast</h3>
+        <div class="location-path">📍 Security &amp; SD-WAN &gt; Configure &gt; Site-to-site VPN &gt; Organization-wide settings &gt; IPsec VPN Peers &gt; + Add a peer</div>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><strong>Fortigate-Azure-SouthEast</strong></td>
+            </tr>
+            <tr>
+                <td>Public IP/Hostname</td>
+                <td><strong>4.200.139.87</strong></td>
+            </tr>
+            <tr>
+                <td>IKE Version</td>
+                <td>IKEv2</td>
+            </tr>
+            <tr>
+                <td>Encryption</td>
+                <td>AES-256</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>SHA256</td>
+            </tr>
+            <tr>
+                <td>DH Group</td>
+                <td>14 (2048-bit)</td>
+            </tr>
+            <tr>
+                <td>PFS</td>
+                <td>Enabled, Group 14</td>
+            </tr>
+            <tr>
+                <td>Phase 1 Lifetime</td>
+                <td>1800 seconds</td>
+            </tr>
+            <tr>
+                <td>Phase 2 Lifetime</td>
+                <td>3600 seconds</td>
+            </tr>
+            <tr>
+                <td>Pre-shared Key</td>
+                <td><em>Shared securely outside of CR</em></td>
+            </tr>
+            <tr>
+                <td>Private Subnets (Remote)</td>
+                <td><strong>10.201.10.0/24</strong></td>
+            </tr>
+            <tr>
+                <td>Network Tags</td>
+                <td><span class="tag">fortigate-test</span></td>
+            </tr>
+        </table>
+
+        <!-- Section 7: Fortigate Configuration -->
+        <h2 id="fortigate-config">7. Fortigate Configuration</h2>
+
+        <div class="warning-note">
+            ⚠️ <strong>Security Note:</strong> PSK must be &gt;32 characters. DH Group 14 (2048-bit) minimum required.
+        </div>
+
+        <h3>7.1 Phase 1 (IKE) Configuration</h3>
+        <p>Apply to <strong>both</strong> Fortigate East and Fortigate South East:</p>
+        <div class="code-block">config vpn ipsec phase1-interface
+    edit "ATE-TEST"
+        set interface "port1"
+        set ike-version 2
+        set keylife 1800
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set remote-gw [MERAKI-PUBLIC-IP]
+        set psksecret "[PSK &gt; 32 Characters]"
+    next
+end</div>
+
+        <h3>7.2 Phase 2 (IPsec) Configuration</h3>
+
+        <h4>Fortigate East (68.218.113.249):</h4>
+        <div class="code-block">config vpn ipsec phase2-interface
+    edit "ATE-TEST"
+        set phase1name "ATE-TEST"
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set keylifeseconds 3600
+        set src-addr-type name
+        set dst-addr-type name
+        set src-name "KD-Azure-SYD-Subnet"
+        set dst-name "ATE-TEST-Subnet"
+    next
+end</div>
+
+        <h4>Fortigate South East (4.200.139.87):</h4>
+        <div class="code-block">config vpn ipsec phase2-interface
+    edit "ATE-TEST"
+        set phase1name "ATE-TEST"
+        set proposal aes256-sha256
+        set dhgrp 14 19
+        set keylifeseconds 3600
+        set src-addr-type name
+        set dst-addr-type name
+        set src-name "KD-Azure-MEL-Subnet"
+        set dst-name "ATE-TEST-Subnet"
+    next
+end</div>
+
+        <h3>7.3 Address Objects (if not already present)</h3>
+        <div class="code-block">config firewall address
+    edit "ATE-TEST-Subnet"
+        set subnet 10.160.10.0 255.255.255.0
+        set comment "ATE-TEST pilot site subnet"
+    next
+end</div>
+
+        <h3>7.4 Firewall Policy (if not already present)</h3>
+        <div class="code-block">config firewall policy
+    edit 0
+        set name "ATE-TEST-to-Azure"
+        set srcintf "ATE-TEST"
+        set dstintf "port2"
+        set srcaddr "ATE-TEST-Subnet"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+    edit 0
+        set name "Azure-to-ATE-TEST"
+        set srcintf "port2"
+        set dstintf "ATE-TEST"
+        set srcaddr "all"
+        set dstaddr "ATE-TEST-Subnet"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+end</div>
+
+        <!-- Section 8: Azure Configuration -->
+        <h2 id="azure-config">8. Azure Configuration</h2>
+
+        <h3>8.1 Route Table Updates</h3>
+
+        <h4>Azure East - KD-Prod-RouteTable:</h4>
+        <div class="location-path">📍 Azure Portal &gt; Route Tables &gt; KD-Prod-RouteTable &gt; Routes &gt; + Add</div>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Route name</td>
+                <td>ATE-TEST-Subnet</td>
+            </tr>
+            <tr>
+                <td>Destination type</td>
+                <td>IP Addresses</td>
+            </tr>
+            <tr>
+                <td>Destination IP addresses</td>
+                <td>10.160.10.0/24</td>
+            </tr>
+            <tr>
+                <td>Next hop type</td>
+                <td>Virtual appliance</td>
+            </tr>
+            <tr>
+                <td>Next hop address</td>
+                <td><strong>10.200.1.68</strong> (Fortigate East inside)</td>
+            </tr>
+        </table>
+
+        <h4>Azure South East - KD-Mel-RouteTable:</h4>
+        <div class="location-path">📍 Azure Portal &gt; Route Tables &gt; KD-Mel-RouteTable &gt; Routes &gt; + Add</div>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Route name</td>
+                <td>ATE-TEST-Subnet</td>
+            </tr>
+            <tr>
+                <td>Destination type</td>
+                <td>IP Addresses</td>
+            </tr>
+            <tr>
+                <td>Destination IP addresses</td>
+                <td>10.160.10.0/24</td>
+            </tr>
+            <tr>
+                <td>Next hop type</td>
+                <td>Virtual appliance</td>
+            </tr>
+            <tr>
+                <td>Next hop address</td>
+                <td><strong>10.201.1.68</strong> (Fortigate South East inside)</td>
+            </tr>
+        </table>
+
+        <!-- Section 9: Implementation Steps -->
+        <h2 id="implementation">9. Implementation Steps</h2>
+
+        <div class="phase-header">Phase A: Pre-Implementation - DNS &amp; Certificate Setup</div>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>A1</td>
+                <td>Create DNS A record: VPN1.KeolisDowner.com.au → 68.218.113.249</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A2</td>
+                <td>Create DNS A record: VPN2.KeolisDowner.com.au → 4.200.139.87</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A3</td>
+                <td>Create DNS A record: EMS1.KeolisDowner.com.au → 20.11.121.242</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A4</td>
+                <td>Verify DNS propagation: <code>nslookup VPN1.KeolisDowner.com.au</code></td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A5</td>
+                <td>Verify DNS propagation: <code>nslookup VPN2.KeolisDowner.com.au</code></td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A6</td>
+                <td>Verify DNS propagation: <code>nslookup EMS1.KeolisDowner.com.au</code></td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A7</td>
+                <td>Obtain wildcard certificate *.keolisdowner.com.au from CA</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>A8</td>
+                <td>Verify certificate has Server Authentication EKU</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <div class="phase-header">Phase B: Certificate Deployment</div>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>B1</td>
+                <td>Import certificate to FortiGate East (System → Certificates → Import)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B2</td>
+                <td>Assign certificate to FortiGate East SSL VPN: <code>config vpn ssl settings / set servercert</code></td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B3</td>
+                <td>Import certificate to FortiGate South East (System → Certificates → Import)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B4</td>
+                <td>Assign certificate to FortiGate South East SSL VPN: <code>config vpn ssl settings / set servercert</code></td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B5</td>
+                <td>Convert certificate to PFX for EMS: <code>openssl pkcs12 -export</code></td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B6</td>
+                <td>Import certificate to EMS (System Settings → Server Certificate)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B7</td>
+                <td>Restart FortiClient EMS Service</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B8</td>
+                <td>Update FortiGate EMS connectors with new certificate fingerprint</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B9</td>
+                <td>Verify HTTPS access: https://VPN1.KeolisDowner.com.au (valid cert)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B10</td>
+                <td>Verify HTTPS access: https://VPN2.KeolisDowner.com.au (valid cert)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>B11</td>
+                <td>Verify HTTPS access: https://EMS1.KeolisDowner.com.au (valid cert)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <div class="phase-header">Phase C: Pre-Implementation Backup</div>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>C1</td>
+                <td>Screenshot current Meraki VPN configuration</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>C2</td>
+                <td>Document current Azure route tables</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>C3</td>
+                <td>Verify all prerequisites completed (Section 5)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <div class="phase-header">Phase D: Meraki Configuration</div>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>D1</td>
+                <td>Add tag <span class="tag">fortigate-test</span> to ATE-TEST network</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>D2</td>
+                <td>Create IPsec Peer: <strong>Fortigate-Azure-East</strong> (68.218.113.249)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>D3</td>
+                <td>Create IPsec Peer: <strong>Fortigate-Azure-SouthEast</strong> (4.200.139.87)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>D4</td>
+                <td>Verify both peers visible in Dashboard VPN status</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <div class="phase-header">Phase E: Fortigate IPsec Configuration</div>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>E1</td>
+                <td>On Fortigate East: Configure Phase 1 &amp; Phase 2 for ATE-TEST</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>E2</td>
+                <td>On Fortigate East: Confirm VPN tunnel UP</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>E3</td>
+                <td>On Fortigate South East: Configure Phase 1 &amp; Phase 2 for ATE-TEST</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>E4</td>
+                <td>On Fortigate South East: Confirm VPN tunnel UP</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <div class="phase-header">Phase F: Azure Route Table Updates</div>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>F1</td>
+                <td>In Azure East: Add route 10.160.10.0/24 → 10.200.1.68 to KD-Prod-RouteTable</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>F2</td>
+                <td><strong>TEST CHECKPOINT 1</strong> - Execute Azure East tests (Section 10.1)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>F3</td>
+                <td>In Azure South East: Add route 10.160.10.0/24 → 10.201.1.68 to KD-Mel-RouteTable</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>F4</td>
+                <td><strong>TEST CHECKPOINT 2</strong> - Execute Azure South East tests (Section 10.2)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <!-- Section 10: Test Checkpoints -->
+        <h2 id="test-checkpoints">10. Test Checkpoints</h2>
+
+        <h3>10.1 Checkpoint 1: Azure East Connectivity</h3>
+
+        <h4>From ATE-TEST Site (Client PC in 10.160.10.0/24):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Ping</td>
+                <td>10.200.10.10</td>
+                <td>Reply</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>RDP</td>
+                <td>10.200.10.122</td>
+                <td>Login prompt (confirms no asymmetric routing)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>DNS</td>
+                <td>Internal hostname</td>
+                <td>Resolves</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>VPN Stats</td>
+                <td><code>get vpn ipsec tunnel summary</code></td>
+                <td>Packets incrementing</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <h4>From Azure East (10.200.10.10 or jump host):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Ping</td>
+                <td>10.160.10.x (site client)</td>
+                <td>Reply</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>RDP/SSH</td>
+                <td>Site resource</td>
+                <td>Connection successful</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <h3>10.2 Checkpoint 2: Azure South East Connectivity</h3>
+
+        <h4>From ATE-TEST Site (Client PC in 10.160.10.0/24):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Ping</td>
+                <td>10.201.10.61</td>
+                <td>Reply</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>RDP</td>
+                <td>10.201.10.61</td>
+                <td>Login prompt (confirms no asymmetric routing)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>DNS</td>
+                <td>Internal hostname</td>
+                <td>Resolves</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>VPN Stats</td>
+                <td><code>get vpn ipsec tunnel summary</code></td>
+                <td>Packets incrementing</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <h4>From Azure South East (10.201.10.61 or jump host):</h4>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Target</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Ping</td>
+                <td>10.160.10.x (site client)</td>
+                <td>Reply</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>RDP/SSH</td>
+                <td>Site resource</td>
+                <td>Connection successful</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <h3>10.3 Isolation Verification</h3>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Method</th>
+                <th>Expected Result</th>
+                <th>Pass</th>
+            </tr>
+            <tr>
+                <td>Other networks unaffected</td>
+                <td>Check VPN status on other KD BUS networks</td>
+                <td>No Fortigate tunnels visible</td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>Network tag restriction</td>
+                <td>Verify only ATE-TEST has <span class="tag">fortigate-test</span> tag</td>
+                <td>Tag only on ATE-TEST</td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <!-- Section 11: Rollback -->
+        <h2 id="rollback">11. Rollback Procedure</h2>
+
+        <div class="danger-note">
+            🚨 <strong>Trigger:</strong> Execute rollback if tests fail and issue cannot be resolved within change window.
+        </div>
+
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Responsible</th>
+                <th>Verified</th>
+            </tr>
+            <tr>
+                <td>R1</td>
+                <td>Remove route from KD-Prod-RouteTable (Azure East)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>R2</td>
+                <td>Remove route from KD-Mel-RouteTable (Azure South East)</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>R3</td>
+                <td>On Fortigate East: Remove or disable ATE-TEST VPN</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>R4</td>
+                <td>On Fortigate South East: Remove or disable ATE-TEST VPN</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>R5</td>
+                <td>In Meraki: Delete IPsec peer Fortigate-Azure-East</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>R6</td>
+                <td>In Meraki: Delete IPsec peer Fortigate-Azure-SouthEast</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+            <tr>
+                <td>R7</td>
+                <td>Confirm ATE-TEST connectivity to Azure via existing SonicWall tunnels</td>
+                <td></td>
+                <td>☐</td>
+            </tr>
+        </table>
+
+        <div class="section-note">
+            ℹ️ <strong>Estimated rollback time:</strong> &lt; 5 minutes
+        </div>
+
+        <!-- Section 12: Approvals -->
+        <h2 id="approvals">12. Approvals</h2>
+        <div class="approval-box">
+            <table>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Signature</th>
+                    <th>Date</th>
+                </tr>
+                <tr>
+                    <td>Requestor</td>
+                    <td>Olli Ojala</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Network Engineer</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Azure Admin</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+                <tr>
+                    <td>Change Manager</td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                    <td><span class="signature-line"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 13: Production Rollout -->
+        <h2 id="production-rollout">13. Production Rollout (Post-Test Success)</h2>
+
+        <p>After successful pilot validation, production migration will follow the full transition runbook:</p>
+
+        <ol>
+            <li>Remove <span class="tag">fortigate-test</span> tag restriction from IPsec peers</li>
+            <li>Create Meraki template with both SonicWall and Fortigate VPN configurations</li>
+            <li>For each production site:
+                <ul>
+                    <li>Apply template to site</li>
+                    <li>Move Fortigate VPN from loopback to port1 WAN interface</li>
+                    <li>Confirm Fortigate tunnel UP</li>
+                    <li>Disable SonicWall tunnel</li>
+                    <li>Update Azure route tables</li>
+                    <li>Execute test checkpoints</li>
+                </ul>
+            </li>
+            <li>After all sites migrated: Update default gateway routes, decommission SonicWall</li>
+        </ol>
+
+        <div class="warning-note">
+            ⚠️ <strong>Separate Change Request required for production rollout.</strong>
+        </div>
+
+        <h3>Site Tracking (For Production CR)</h3>
+        <table>
+            <tr>
+                <th>Site</th>
+                <th>Subnet</th>
+                <th>Pilot</th>
+                <th>Scheduled</th>
+                <th>Completed</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <td>ATE-TEST</td>
+                <td>10.160.10.0/24</td>
+                <td>✅</td>
+                <td>4342297</td>
+                <td></td>
+                <td>Pilot site</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>☐</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>☐</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <h3>Contacts</h3>
+        <table>
+            <tr>
+                <th>Role</th>
+                <th>Name</th>
+                <th>Contact</th>
+            </tr>
+            <tr>
+                <td>Network Engineer</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Azure Admin</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Change Manager</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <hr style="margin-top: 40px; border: none; border-top: 1px solid #e2e8f0;">
+
+        <h3>Revision History</h3>
+        <table>
+            <tr>
+                <th>Version</th>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Changes</th>
+            </tr>
+            <tr>
+                <td>1.0</td>
+                <td>2026-01-22</td>
+                <td>Olli Ojala</td>
+                <td>Initial combined CR &amp; Runbook - Pilot test for ATE-TEST</td>
+            </tr>
+            <tr>
+                <td>1.1</td>
+                <td>2026-01-30</td>
+                <td>Olli Ojala</td>
+                <td>Added SSL Certificate requirements (Section 3), DNS configuration (Section 4), Certificate &amp; DNS prerequisites (Section 5.4), Implementation phases A &amp; B for DNS/Certificate deployment</td>
+            </tr>
+        </table>
+
+        <hr style="margin-top: 20px; border: none; border-top: 1px solid #e2e8f0;">
+        <p style="color: #718096; font-size: 0.85em; text-align: center;">
+            Generated by Maia - Meraki Network Agent | 4342297 | 2026-01-22<br>
+            Combined Change Request &amp; Implementation Runbook
+        </p>
+    </div>
+</body>
+</html>
